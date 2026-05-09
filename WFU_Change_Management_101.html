@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Change Management 101 — Wake Forest University</title>
+<style>
+:root{
+  --gold:#9E7E38;--gold-dark:#8C6D2C;--gold-light:#CEB888;--gold-pale:#F5EFE0;--gold-mid:#FDC314;
+  --black:#000000;--wfu-black:#222222;--gray:#53565A;--gray-light:#E8E8E8;--gray-pale:#F4F4F4;--white:#FFFFFF;
+  --s-bg:#EAF3DE;--s-txt:#27500A;--s-bdr:#3B6D11;
+  --w-bg:#FEF7E0;--w-txt:#7A5A00;--w-bdr:#C9960A;
+  --d-bg:#FCEBEB;--d-txt:#7A1C1C;--d-bdr:#B03030;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:#EDEBE6;color:var(--wfu-black);min-height:100vh;padding:1.5rem 1rem}
+.app{max-width:740px;margin:0 auto}
+.wfu-header{background:var(--black);border-radius:8px 8px 0 0;padding:1rem 1.5rem;display:flex;align-items:center;gap:16px}
+.wfu-logo-box{width:52px;height:52px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wfu-logo-box span{font-family:Georgia,serif;font-size:22px;font-weight:bold;color:var(--black);letter-spacing:-1px}
+.wfu-hdr-txt{border-left:2px solid var(--gold);padding-left:14px}
+.wfu-hdr-txt .inst{font-family:Arial,sans-serif;font-size:11px;color:var(--gold-light);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.wfu-hdr-txt .tool{font-family:Georgia,serif;font-size:16px;color:var(--white);font-weight:bold}
+.app-card{background:var(--white);border-radius:0 0 8px 8px;padding:1.75rem;box-shadow:0 3px 18px rgba(0,0,0,.12)}
+h2{font-family:Georgia,serif;font-size:18px;font-weight:bold;color:var(--black);margin-bottom:.4rem}
+h3{font-family:Georgia,serif;font-size:15px;font-weight:bold;color:var(--black);margin-bottom:.4rem}
+p,li{font-family:Georgia,serif;font-size:13px;color:var(--gray);line-height:1.7}
+strong{font-weight:bold;color:var(--wfu-black)}
+.screen{display:none}.screen.active{display:block}
+.progress{display:flex;align-items:center;gap:6px;margin-bottom:1.25rem}
+.pdot{width:8px;height:8px;border-radius:50%;background:var(--gray-light);transition:.2s}
+.pdot.done{background:var(--gold)}.pdot.active{background:var(--black)}
+.pline{flex:1;height:2px;background:var(--gray-light)}.pline.done{background:var(--gold)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;padding:4px 11px;border-radius:2px;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em}
+.b-gold{background:var(--gold);color:var(--white)}.b-black{background:var(--black);color:var(--gold-light)}.b-gray{background:var(--gray);color:var(--white)}
+.card{background:var(--white);border:1px solid var(--gray-light);border-radius:3px;padding:.875rem 1rem;margin-bottom:.625rem}
+.cg{border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem 1rem;margin-bottom:.5rem;background:var(--gold-pale);border-top:1px solid #DDD;border-right:1px solid #DDD;border-bottom:1px solid #DDD}
+.ck{border-left:4px solid var(--black);border-radius:0 3px 3px 0;padding:.75rem 1rem;margin-bottom:.5rem;background:#F7F7F7;border-top:1px solid #DDD;border-right:1px solid #DDD;border-bottom:1px solid #DDD}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;margin:.75rem 0}
+.type-opt{cursor:pointer;background:var(--white);border:2px solid var(--gray-light);border-radius:3px;padding:.875rem;transition:.15s;user-select:none}
+.type-opt:hover{border-color:var(--gold);background:var(--gold-pale)}
+.type-opt.selected{border:2.5px solid var(--gold);background:var(--gold-pale)}
+.t-icon{width:38px;height:38px;border-radius:3px;display:flex;align-items:center;justify-content:center;margin-bottom:.5rem;background:var(--black)}
+.t-name{font-family:Georgia,serif;font-size:13px;font-weight:bold;color:var(--black);margin-top:2px}
+.t-desc{font-size:12px;font-family:Arial,sans-serif;color:var(--gray);margin-top:3px;line-height:1.4}
+.t-ex{font-size:11px;font-family:Arial,sans-serif;color:#888;margin-top:.35rem;font-style:italic;line-height:1.4}
+.chk-wrap{display:flex;justify-content:space-between;align-items:flex-start}
+.chk{width:20px;height:20px;border-radius:2px;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chk svg{width:11px;height:11px}
+.all-opt{cursor:pointer;background:var(--white);border:2px solid var(--gray-light);border-radius:3px;padding:.875rem 1rem;margin-bottom:.625rem;display:flex;align-items:center;gap:14px;transition:.15s;user-select:none}
+.all-opt:hover{border-color:var(--gold);background:var(--gold-pale)}
+.all-opt.selected{border:2.5px solid var(--gold);background:var(--gold-pale)}
+.all-icon{width:38px;height:38px;border-radius:3px;background:var(--black);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.impact-q{margin-bottom:.75rem;background:var(--gray-pale);border-left:3px solid var(--gold);padding:.75rem 1rem;border-radius:0 3px 3px 0}
+.impact-q .qt{font-family:Georgia,serif;font-size:13px;font-weight:bold;color:var(--black);margin-bottom:.5rem}
+.radio-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.radio-opt{cursor:pointer;padding:5px 12px;border-radius:2px;font-size:12px;font-family:Arial,sans-serif;border:1px solid #CCC;background:var(--white);color:var(--gray);transition:.15s;user-select:none}
+.radio-opt:hover{border-color:var(--gold);background:var(--gold-pale)}
+.radio-opt.sl{background:var(--s-bg);border-color:var(--s-bdr);color:var(--s-txt);font-weight:bold}
+.radio-opt.sm{background:var(--w-bg);border-color:var(--w-bdr);color:var(--w-txt);font-weight:bold}
+.radio-opt.sh{background:var(--d-bg);border-color:var(--d-bdr);color:var(--d-txt);font-weight:bold}
+.ir{border-radius:3px;padding:.875rem 1rem;margin-top:.75rem;border:1px solid #CCC}
+.ih{background:var(--d-bg);border-color:var(--d-bdr)}.im{background:var(--w-bg);border-color:var(--w-bdr)}.il{background:var(--s-bg);border-color:var(--s-bdr)}
+.sh-row{display:flex;align-items:center;gap:10px;padding:.5rem 0;border-bottom:1px solid var(--gray-light)}
+.sh-row:last-child{border-bottom:none}
+.sh-av{width:32px;height:32px;border-radius:2px;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;color:var(--gold-light);font-family:Arial,sans-serif;flex-shrink:0}
+.sh-n{font-family:Georgia,serif;font-size:13px;font-weight:bold;color:var(--black)}
+.sh-r{font-size:11px;font-family:Arial,sans-serif;color:var(--gray)}
+.lv{font-size:11px;font-family:Arial,sans-serif;padding:2px 9px;border-radius:2px;font-weight:bold;margin-left:auto;white-space:nowrap}
+.lh{background:var(--d-bg);color:var(--d-txt)}.lm{background:var(--w-bg);color:var(--w-txt)}.ll{background:var(--s-bg);color:var(--s-txt)}
+.milestone{display:flex;gap:12px;margin-bottom:.5rem;position:relative}
+.milestone::before{content:'';position:absolute;left:11px;top:26px;bottom:-8px;width:2px;background:var(--gold-pale)}
+.milestone:last-child::before{display:none}
+.ms-dot{flex:0 0 23px;width:23px;height:23px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;margin-top:2px;flex-shrink:0;font-family:Arial,sans-serif}
+.dp{background:var(--black);color:var(--gold-light)}.dl{background:var(--gold);color:var(--white)}.do{background:var(--gray);color:var(--white)}
+.ms-body{flex:1;padding-bottom:.625rem}
+.ms-title{font-family:Georgia,serif;font-size:13px;font-weight:bold;color:var(--black)}
+.ms-time{font-size:11px;font-family:Arial,sans-serif;color:var(--gray);margin-top:1px}
+.pp{font-size:10px;font-family:Arial,sans-serif;padding:2px 8px;border-radius:2px;display:inline-block;margin-top:3px;font-weight:bold;text-transform:uppercase;letter-spacing:.04em}
+.pp-p{background:var(--black);color:var(--gold-light)}.pp-l{background:var(--gold);color:var(--white)}.pp-o{background:var(--gray);color:var(--white)}
+.tab-row{display:flex;gap:.375rem;overflow-x:auto;padding-bottom:.25rem;margin-bottom:.875rem;scrollbar-width:none;border-bottom:2px solid var(--gold)}
+.tab-row::-webkit-scrollbar{display:none}
+.tab-btn{flex:0 0 auto;padding:6px 14px;font-size:12px;font-family:Arial,sans-serif;font-weight:bold;cursor:pointer;border:none;color:var(--gray);background:transparent;white-space:nowrap;transition:.15s;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab-btn:hover{color:var(--gold-dark)}.tab-btn.active{color:var(--black);border-bottom:3px solid var(--gold)}
+.tc{display:none}.tc.active{display:block}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:2px;border:2px solid var(--black);background:var(--white);cursor:pointer;font-size:13px;font-family:Arial,sans-serif;font-weight:bold;color:var(--black);transition:.15s}
+.btn:hover{background:var(--black);color:var(--white)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-p{background:var(--black);color:var(--gold-light);border-color:var(--black)}
+.btn-p:hover{background:var(--gold-dark);border-color:var(--gold-dark);color:var(--white)}
+.btn-p:disabled{background:#999;border-color:#999;color:#fff}
+.btn-dl{background:var(--gold);color:var(--white);border:none;border-radius:2px;padding:10px 18px;font-size:13px;font-family:Arial,sans-serif;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.15s;text-decoration:none}
+.btn-dl:hover{background:var(--gold-dark)}.btn-row{display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap}
+.divider{border:none;border-top:1px solid var(--gold-light);margin:1rem 0}
+.nb{background:var(--gold-pale);border:1px solid var(--gold-light);border-radius:3px;padding:.75rem 1rem;margin-bottom:.75rem}
+.nb p{font-size:12px;color:var(--gold-dark)}
+.tip-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.625rem 0}
+.tip-card{background:var(--gray-pale);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:.75rem}
+.tip-card b{font-size:12px;font-family:Arial,sans-serif;font-weight:bold;color:var(--black);display:block;margin-bottom:3px}
+.tip-card span{font-size:12px;font-family:Arial,sans-serif;color:var(--gray)}
+.pj-bar{position:relative;height:10px;border-radius:2px;background:var(--gray-light);margin:.5rem 0 .25rem;overflow:visible}
+.pj-fill{height:100%;border-radius:2px;background:var(--gold)}
+.pj-mkr{position:absolute;top:-5px;width:3px;height:20px;background:var(--black);border-radius:1px}
+.ss-wrap{overflow-x:auto}
+.ss-table{width:100%;border-collapse:collapse;font-size:12px;font-family:Arial,sans-serif;margin-top:.5rem}
+.ss-table th{background:var(--black);color:var(--gold-light);font-weight:bold;padding:7px 9px;text-align:left;font-size:11px;white-space:nowrap}
+.ss-table td{padding:7px 9px;border-bottom:1px solid var(--gray-light);color:var(--wfu-black);vertical-align:top}
+.ss-table tr:nth-child(even) td{background:var(--gold-pale)}
+.ss-st{display:inline-block;padding:2px 8px;border-radius:2px;font-size:10px;font-weight:bold;font-family:Arial,sans-serif}
+.ns{background:var(--gray-light);color:var(--gray)}.ip{background:var(--w-bg);color:var(--w-txt)}.co{background:var(--s-bg);color:var(--s-txt)}.ar{background:var(--d-bg);color:var(--d-txt)}
+.wfu-footer{margin-top:.75rem;padding:.75rem 0;text-align:center;font-size:11px;font-family:Arial,sans-serif;color:var(--gray)}
+.wfu-footer a{color:var(--gold-dark);text-decoration:none}
+.motto{font-family:Georgia,serif;font-style:italic;color:var(--gold-dark);font-size:13px;margin-top:4px}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media(max-width:600px){
+  body{padding:.75rem .5rem}
+  .wfu-header{padding:.75rem 1rem;gap:10px;border-radius:6px 6px 0 0}
+  .wfu-logo-box{width:42px;height:42px;flex-shrink:0}
+  .wfu-logo-box span{font-size:18px}
+  .wfu-hdr-txt .inst{font-size:10px}
+  .wfu-hdr-txt .tool{font-size:14px}
+  .app-card{padding:1.25rem .875rem}
+  h2{font-size:16px}
+  h3{font-size:14px}
+  /* Single column type grid on mobile */
+  .type-grid{grid-template-columns:1fr}
+  /* Tip grid single column */
+  .tip-grid{grid-template-columns:1fr}
+  /* Bigger tap targets for type options */
+  .type-opt{padding:.75rem}
+  .all-opt{padding:.75rem .875rem}
+  /* Radio options wrap and grow on mobile */
+  .radio-opt{padding:8px 14px;font-size:13px;flex:1 0 auto;text-align:center}
+  /* Buttons stack full-width on mobile */
+  .btn-row{flex-direction:column}
+  .btn-row .btn,.btn-row .btn-p{width:100%;justify-content:center;padding:12px 16px;font-size:14px}
+  .btn-dl{width:100%;justify-content:center;padding:12px 16px;font-size:14px}
+  /* Tabs scroll with larger tap targets */
+  .tab-btn{padding:10px 14px;font-size:13px}
+  /* Progress dots label */
+  .progress{margin-bottom:1rem}
+  /* Stakeholder rows wrap nicely */
+  .sh-row{flex-wrap:wrap;gap:8px}
+  .sh-av{width:36px;height:36px;font-size:11px}
+  .lv{margin-left:0}
+  /* SS tables: ensure scroll hint visible */
+  .ss-wrap{-webkit-overflow-scrolling:touch;border:1px solid var(--gray-light);border-radius:3px}
+  .ss-wrap::after{content:'Scroll \2192';display:block;font-size:10px;font-family:Arial,sans-serif;color:#aaa;text-align:right;padding:4px 6px}
+  /* Milestone timeline tighter */
+  .ms-title{font-size:12px}
+  /* Header text wrap prevention */
+  .wfu-hdr-txt .tool{line-height:1.3}
+  /* Cards less padding */
+  .card,.cg,.ck{padding:.625rem .75rem}
+  .nb{padding:.625rem .75rem}
+  /* Impact question padding */
+  .impact-q{padding:.625rem .75rem}
+  /* Progress bar label */
+  .pj-bar{margin:.5rem 0 .5rem}
+}
+@media(max-width:380px){
+  .wfu-hdr-txt .tool{font-size:13px}
+  .badge{font-size:10px;padding:3px 8px}
+  h2{font-size:15px}
+  .type-opt .t-name{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="wfu-header">
+    <div class="wfu-logo-box"><span>WF</span></div>
+    <div class="wfu-hdr-txt">
+      <div class="inst">Wake Forest University</div>
+      <div class="tool">Change Management 101</div>
+    </div>
+  </div>
+  <div class="app-card">
+
+  <!-- S0 Welcome -->
+  <div class="screen active" id="s0">
+    <div class="badge b-gold">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+      Change Management Guide
+    </div>
+    <h2>Manage change with confidence</h2>
+    <p style="margin-bottom:1rem">A step-by-step guide for project managers who are not change management experts — covering impact assessment, stakeholders, plans, and ready-to-use Smartsheet templates.</p>
+    <div class="cg">
+      <div style="font-family:Georgia,serif;font-size:13px;font-weight:bold;color:var(--black);margin-bottom:4px;display:flex;align-items:center;gap:6px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        When to start
+      </div>
+      <p style="margin-bottom:.625rem">Start change management at project kick-off — not at go-live. The earlier you start, the smoother the landing.</p>
+      <div style="display:flex;justify-content:space-between;font-size:10px;font-family:Arial,sans-serif;color:#888;margin-bottom:4px"><span>Kick-off</span><span>Design</span><span>Build</span><span>Test</span><span>Go-live</span><span>Ops</span></div>
+      <div class="pj-bar"><div class="pj-fill" style="width:100%"></div><div class="pj-mkr" style="left:13%"></div></div>
+      <div style="font-size:10px;font-family:Arial,sans-serif;color:var(--black);font-weight:bold;margin-top:4px">&#8592; Start change management here (at kick-off)</div>
+    </div>
+    <div style="margin-top:.875rem;padding:.875rem 1rem;background:var(--black);border-radius:3px;display:flex;gap:12px;align-items:flex-start">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="20" height="20" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p style="color:var(--gold-light);font-size:12px"><strong style="color:var(--gold-mid)">What is change management?</strong> It is the structured approach to moving people from their current way of working to a new one — with less resistance, fewer mistakes, and faster adoption. Without it, even the best technology or process change can fail.</p>
+    </div>
+    <div class="btn-row"><button class="btn btn-p" style="width:100%;justify-content:center" onclick="go('s1')">Begin <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+    <div class="motto" style="text-align:center;margin-top:1.25rem">Pro Humanitate</div>
+  </div>
+
+  <!-- S1 Change type -->
+  <div class="screen" id="s1">
+    <div class="progress"><div class="pdot active"></div><div class="pline"></div><div class="pdot"></div><div class="pline"></div><div class="pdot"></div><div class="pline"></div><div class="pdot"></div></div>
+    <div class="badge b-gold">Step 1 of 4 — Change type</div>
+    <h2>What type of change is this?</h2>
+    <p style="margin-bottom:.875rem">Select all that apply. Read the examples to identify your change type — most real-world changes span more than one.</p>
+    <div class="type-grid">
+      <div class="type-opt" id="opt-tech" onclick="toggleType('tech')">
+        <div class="chk-wrap"><div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="20" height="20"><rect x="2" y="3" width="20" height="14" rx="1"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="chk" id="chk-tech" style="display:none"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div></div>
+        <div class="t-name">Technology</div><div class="t-desc">New system, platform, or digital tool being introduced or replaced</div><div class="t-ex">e.g. ERP rollout, new CRM, migrating to Microsoft 365, new reporting tool</div>
+      </div>
+      <div class="type-opt" id="opt-process" onclick="toggleType('process')">
+        <div class="chk-wrap"><div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg></div><div class="chk" id="chk-process" style="display:none"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div></div>
+        <div class="t-name">Process</div><div class="t-desc">New or redesigned workflows, procedures, or ways tasks are completed</div><div class="t-ex">e.g. new approval workflow, procurement change, onboarding redesign</div>
+      </div>
+      <div class="type-opt" id="opt-policy" onclick="toggleType('policy')">
+        <div class="chk-wrap"><div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="chk" id="chk-policy" style="display:none"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div></div>
+        <div class="t-name">Policy</div><div class="t-desc">New or updated rules, compliance requirements, or governance frameworks</div><div class="t-ex">e.g. data privacy policy, expense policy, GDPR compliance update</div>
+      </div>
+      <div class="type-opt" id="opt-org" onclick="toggleType('org')">
+        <div class="chk-wrap"><div class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="20" height="20"><rect x="9" y="2" width="6" height="4" rx="1"/><rect x="2" y="14" width="6" height="4" rx="1"/><rect x="16" y="14" width="6" height="4" rx="1"/><line x1="12" y1="6" x2="12" y2="10"/><line x1="12" y1="10" x2="5" y2="14"/><line x1="12" y1="10" x2="19" y2="14"/></svg></div><div class="chk" id="chk-org" style="display:none"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div></div>
+        <div class="t-name">Org design</div><div class="t-desc">Restructure, new reporting lines, team merges, or new ways of working</div><div class="t-ex">e.g. team restructure, agile transformation, merger integration</div>
+      </div>
+    </div>
+    <div class="all-opt" id="opt-all" onclick="selectAll()">
+      <div class="all-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="20" height="20"><rect x="2" y="3" width="8" height="6" rx="1"/><rect x="14" y="3" width="8" height="6" rx="1"/><rect x="2" y="15" width="8" height="6" rx="1"/><rect x="14" y="15" width="8" height="6" rx="1"/></svg></div>
+      <div style="flex:1"><div class="t-name">All of the above</div><div class="t-desc">This change covers multiple dimensions — select for a combined programme plan</div></div>
+      <div class="chk" id="chk-all" style="display:none"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="2 6 5 9 10 3"/></svg></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="go('s0')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+      <button class="btn btn-p" id="s1-next" onclick="go('s2')" style="flex:1;justify-content:center" disabled>Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+
+  <!-- S2 Impact -->
+  <div class="screen" id="s2">
+    <div class="progress"><div class="pdot done"></div><div class="pline done"></div><div class="pdot active"></div><div class="pline"></div><div class="pdot"></div><div class="pline"></div><div class="pdot"></div></div>
+    <div class="badge b-black">Step 2 of 4 — Impact assessment</div>
+    <h2>How significant is this change?</h2>
+    <p style="margin-bottom:.875rem">Answer all five questions to determine your impact level — this tells you how much change management effort to invest.</p>
+    <div id="impact-qs"></div>
+    <div id="impact-result" style="display:none">
+      <div class="divider"></div>
+      <h3 style="margin-bottom:.5rem">Your impact level</h3>
+      <div id="impact-verdict"></div>
+      <div id="effort-guidance" class="nb" style="margin-top:.625rem"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="go('s1')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+      <button class="btn btn-p" id="s2-next" onclick="buildPlan();go('s3')" style="flex:1;justify-content:center" disabled>See your plan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+
+  <!-- S3 Plan -->
+  <div class="screen" id="s3">
+    <div class="progress"><div class="pdot done"></div><div class="pline done"></div><div class="pdot done"></div><div class="pline done"></div><div class="pdot active"></div><div class="pline"></div><div class="pdot"></div></div>
+    <div class="badge b-gold" id="s3-badge">Step 3 of 4 — Your plan</div>
+    <h2 id="s3-title"></h2>
+    <div class="tab-row" id="plan-tabs"></div>
+    <div id="plan-panels"></div>
+    <div class="btn-row">
+      <button class="btn" onclick="go('s2')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+      <button class="btn btn-p" onclick="go('s4')" style="flex:1;justify-content:center">Smartsheet templates <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+    </div>
+  </div>
+
+  <!-- S4 Smartsheet -->
+  <div class="screen" id="s4">
+    <div class="progress"><div class="pdot done"></div><div class="pline done"></div><div class="pdot done"></div><div class="pline done"></div><div class="pdot done"></div><div class="pline done"></div><div class="pdot active"></div></div>
+    <div class="badge b-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/></svg> Step 4 of 4 — Smartsheet templates</div>
+    <h2>Smartsheet templates</h2>
+    <p style="margin-bottom:.875rem">Preview each template below, then download the ready-to-use Excel file. Import directly into Smartsheet.</p>
+    <div class="nb" style="display:flex;align-items:flex-start;gap:10px"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="18" height="18" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p><strong>How to use:</strong> Create one Smartsheet workspace per change project. Import the downloaded Excel file — each tab becomes a separate grid. Replace [placeholders] with your project details.</p></div>
+    <a class="btn-dl" href="Change_Management_Smartsheet_Pack.xlsx" download style="margin-bottom:1rem;display:inline-flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download Smartsheet Pack (.xlsx — 7 sheets)</a>
+    <div class="tab-row" id="ss-tabs"></div>
+    <div id="ss-panels"></div>
+    <div class="divider"></div>
+    <h3 style="margin-bottom:.5rem">Tips for non-experts</h3>
+    <div class="tip-grid">
+      <div class="tip-card"><b>Over-communicate</b><span>People fear what they don't know. Send updates even when nothing has changed.</span></div>
+      <div class="tip-card"><b>Find champions</b><span>One enthusiastic adopter per team is worth ten training sessions.</span></div>
+      <div class="tip-card"><b>Measure adoption</b><span>Track usage, not just attendance. Training does not equal change.</span></div>
+      <div class="tip-card"><b>Adapt the plan</b><span>Your plan will change. That is normal. Update it openly with the team.</span></div>
+    </div>
+    <div class="divider"></div>
+    <h3 style="margin-bottom:.5rem">Common mistakes to avoid</h3>
+    <div class="card" style="border-left:3px solid var(--d-bdr)"><p>Starting change management at go-live — it is too late. Start at kick-off.</p></div>
+    <div class="card" style="border-left:3px solid var(--d-bdr)"><p>Treating training as the only change activity.</p></div>
+    <div class="card" style="border-left:3px solid var(--d-bdr)"><p>Not involving impacted users until the solution is already built.</p></div>
+    <div class="card" style="border-left:3px solid var(--d-bdr)"><p>Assuming leadership support means frontline buy-in.</p></div>
+    <div class="btn-row">
+      <button class="btn" onclick="go('s3')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Back</button>
+      <button class="btn btn-p" onclick="restart()" style="flex:1;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.14"/></svg> Start over</button>
+    </div>
+  </div>
+
+  </div><!-- app-card -->
+  <div class="wfu-footer">
+    <div class="motto">Pro Humanitate</div>
+    <div style="margin-top:4px">Wake Forest University &mdash; <a href="https://brand.wfu.edu" target="_blank">brand.wfu.edu</a></div>
+  </div>
+</div><!-- app -->
+
+<script>
+const sel=new Set(),qAns={};
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function toggleType(t){
+  if(t==='all'){selectAll();return;}
+  document.getElementById('opt-all').classList.remove('selected');document.getElementById('chk-all').style.display='none';sel.delete('all');
+  const o=document.getElementById('opt-'+t),c=document.getElementById('chk-'+t);
+  if(sel.has(t)){sel.delete(t);o.classList.remove('selected');c.style.display='none';}else{sel.add(t);o.classList.add('selected');c.style.display='flex';}
+  document.getElementById('s1-next').disabled=sel.size===0;buildIQ();
+}
+function selectAll(){
+  sel.clear();['tech','process','policy','org'].forEach(t=>{sel.add(t);document.getElementById('opt-'+t).classList.add('selected');document.getElementById('chk-'+t).style.display='flex';});
+  sel.add('all');document.getElementById('opt-all').classList.add('selected');document.getElementById('chk-all').style.display='flex';
+  document.getElementById('s1-next').disabled=false;buildIQ();
+}
+function restart(){
+  sel.clear();Object.keys(qAns).forEach(k=>delete qAns[k]);
+  ['tech','process','policy','org','all'].forEach(t=>{const o=document.getElementById('opt-'+t),c=document.getElementById('chk-'+t);if(o)o.classList.remove('selected');if(c)c.style.display='none';});
+  document.getElementById('s1-next').disabled=true;document.getElementById('s2-next').disabled=true;
+  document.getElementById('impact-result').style.display='none';go('s0');
+}
+const QS=[
+  {id:'q1',q:'How many people does this change affect?',opts:['Under 20 people','20–200 people','200+ people or the whole organisation']},
+  {id:'q2',q:'How much does it change day-to-day work?',opts:['Minor — small adjustments only','Moderate — noticeable workflow changes','Major — fundamentally different way of working']},
+  {id:'q3',q:'Are there compliance or legal obligations?',opts:['No compliance requirements','Yes — internal governance only','Yes — external regulatory requirements']},
+  {id:'q4',q:'What happens if people do not adopt the change?',opts:['Minimal impact — easy to course-correct','Moderate — inefficiency or rework','High — legal risk, financial loss, or safety issue']},
+  {id:'q5',q:'How much experience does your organisation have with this type of change?',opts:['We have done this before','Some experience — new aspects involved','No experience — this is new territory']},
+];
+function buildIQ(){
+  document.getElementById('impact-qs').innerHTML=QS.map(q=>`
+    <div class="impact-q"><div class="qt">${q.q}</div><div class="radio-row">${q.opts.map((o,i)=>`
+      <div class="radio-opt${qAns[q.id]===i?' '+['sl','sm','sh'][i]:''}" onclick="ansQ('${q.id}',${i},this,'${['sl','sm','sh'][i]}')">${o}</div>`).join('')}</div></div>`).join('');
+}
+function ansQ(qid,val,el,cls){
+  qAns[qid]=val;el.closest('.radio-row').querySelectorAll('.radio-opt').forEach(o=>o.className='radio-opt');el.classList.add(cls);
+  if(Object.keys(qAns).length>=QS.length)calcImpact();
+  document.getElementById('s2-next').disabled=Object.keys(qAns).length<QS.length;
+}
+function calcImpact(){
+  const total=Object.values(qAns).reduce((a,b)=>a+b,0),pct=total/((QS.length-1)*2);
+  let level,cls,desc,effort;
+  if(pct>=0.6){level='High impact';cls='ih';desc='This is a significant change. Expect resistance, confusion, and a long adoption curve. You need a dedicated change management plan, a named change lead, regular communications, structured training, and intensive hypercare.';effort='Assign a dedicated change manager (or 30–50% of a senior PM). Plan 4–6 months of CM activity. Budget for workshops, training materials, and a hypercare team.';}
+  else if(pct>=0.3){level='Medium impact';cls='im';desc='This change will affect people meaningfully but is manageable with structured support. Focus on clear communications, targeted training, and a defined hypercare period.';effort='Change management can be led by the PM with HR or team-lead support. Plan 6–10 weeks of CM activity. Use the templates in this guide.';}
+  else{level='Low impact';cls='il';desc='This is a lighter-touch change. A clear communication, basic guidance, and a short support window should be sufficient. Still document it — small changes can have unexpectedly large impacts.';effort='PM can handle with part-time attention. Plan 2–4 weeks. Focus on a clear announcement, FAQ document, and one Q&A session.';}
+  document.getElementById('impact-result').style.display='block';
+  document.getElementById('impact-verdict').className='ir '+cls;
+  document.getElementById('impact-verdict').innerHTML=`<div style="font-family:Georgia,serif;font-size:14px;font-weight:bold;color:#000;margin-bottom:.4rem">${level}</div><p>${desc}</p>`;
+  document.getElementById('effort-guidance').innerHTML=`<p><strong>Recommended effort:</strong> ${effort}</p>`;
+}
+const TD={
+  tech:{label:'Technology change',
+    sh:[{r:'IT / Tech team',w:'Deploy and maintain the system',l:'High'},{r:'End users',w:'Will use the new tool daily',l:'High'},{r:'Team managers',w:'Support adoption and training time',l:'Medium'},{r:'Executive sponsor',w:'Fund and signal priority',l:'Medium'},{r:'Training team',w:'Build and deliver training materials',l:'Medium'}],
+    ms:[{n:1,l:'Kick-off & sponsor alignment',t:'Month 1',p:'p'},{n:2,l:'Stakeholder mapping & impact assessment',t:'Month 1–2',p:'p'},{n:3,l:'Change champion network formed',t:'Month 2',p:'p'},{n:4,l:'Communication plan launched',t:'Month 2–3',p:'p'},{n:5,l:'Training needs analysis complete',t:'Month 3',p:'p'},{n:6,l:'Training materials built & piloted',t:'Month 3–4',p:'p'},{n:7,l:'Go-live readiness check',t:'1 week before go-live',p:'l'},{n:8,l:'Go-live + hypercare activated',t:'Go-live + 4 weeks',p:'l'},{n:9,l:'Adoption review & issue resolution',t:'Month 2 post go-live',p:'o'},{n:10,l:'Transition to BAU operations',t:'Month 3 post go-live',p:'o'}],
+    comms:'Communicate the "why" before anything else. Use role-specific messaging — what changes for each team. Designate one Q&A channel. Announce go-live at least 6 weeks ahead.',
+    training:'Role-based training in a sandbox environment before go-live. Quick-reference guides (1 page per top 5 tasks). Manager briefings before all-staff sessions.',
+    hypercare:'4-week hypercare. Floor walkers or chat-based super-users. Daily issue log. Adoption dashboard tracking log-ins and usage. Weekly pulse communications.',
+    ops:'Define exit criteria (e.g. 80% active users, fewer than 5 critical issues/week). Hand off to IT support. Update onboarding materials.'},
+  process:{label:'Process change',
+    sh:[{r:'Process owners',w:'Design and approve the new process',l:'High'},{r:'Frontline staff',w:'Execute the process daily',l:'High'},{r:'Team managers',w:'Reinforce new ways of working',l:'High'},{r:'Quality / compliance',w:'Audit adherence to new process',l:'Medium'}],
+    ms:[{n:1,l:'Current-state (as-is) process mapped',t:'Month 1',p:'p'},{n:2,l:'Future-state process designed & approved',t:'Month 1–2',p:'p'},{n:3,l:'Gap analysis & impact assessment',t:'Month 2',p:'p'},{n:4,l:'SOPs and job aids drafted',t:'Month 2–3',p:'p'},{n:5,l:'Pilot with small group completed',t:'Month 3',p:'p'},{n:6,l:'Training delivered to all impacted staff',t:'Month 3–4',p:'p'},{n:7,l:'Go-live with new process',t:'Go-live',p:'l'},{n:8,l:'Hypercare: rapid response to issues',t:'Go-live + 3 weeks',p:'l'},{n:9,l:'Post-implementation review',t:'Month 2 post go-live',p:'o'},{n:10,l:'Process embedded in onboarding & ops',t:'Month 3 post go-live',p:'o'}],
+    comms:'Show a before-and-after view of the process. Explain what problem this solves. Run feedback sessions with frontline staff before go-live.',
+    training:'SOPs in plain language with screenshots or flow diagrams. Observation sessions to watch staff try the new process. Manager coaching sessions.',
+    hypercare:'2–3 week hypercare. Named process owner available for questions. Exception log — track every time the old process is used instead.',
+    ops:'Post-implementation review at 4–6 weeks. Archive old process documents. Reinforce new behaviours in performance reviews.'},
+  policy:{label:'Policy change',
+    sh:[{r:'Legal / compliance',w:'Author and approve the policy text',l:'High'},{r:'HR',w:'Enforce and manage employee relations',l:'High'},{r:'All staff',w:'Must understand and comply',l:'High'},{r:'Leadership',w:'Model and enforce expected behaviour',l:'Medium'}],
+    ms:[{n:1,l:'Policy drafted & legal / HR sign-off',t:'Month 1',p:'p'},{n:2,l:'Leadership briefed and aligned',t:'Month 1',p:'p'},{n:3,l:'Plain-language summary & FAQ prepared',t:'Month 1–2',p:'p'},{n:4,l:'All-staff communication issued',t:'Month 2',p:'p'},{n:5,l:'Manager briefing sessions completed',t:'Month 2',p:'p'},{n:6,l:'Training & acknowledgment completed',t:'Month 2–3',p:'p'},{n:7,l:'Policy effective date',t:'Go-live',p:'l'},{n:8,l:'Q&A channel open for queries',t:'Go-live + 2 weeks',p:'l'},{n:9,l:'Compliance audit',t:'Month 2 post go-live',p:'o'},{n:10,l:'Policy added to onboarding materials',t:'Month 3 post go-live',p:'o'}],
+    comms:'Brief managers before all-staff — they will get questions first. Issue a plain-language summary alongside the full policy. Be explicit about the effective date and any grace period.',
+    training:'Scenario-based learning works better than reading policy text. Require digital acknowledgment for compliance-critical policies. Track completion rates.',
+    hypercare:'2-week Q&A channel. Direct grey-area questions to HR for consistency. Publish answers as FAQs.',
+    ops:'Compliance audit at 6–8 weeks. Add policy training to new-starter onboarding. Set annual review reminder.'},
+  org:{label:'Org design change',
+    sh:[{r:'HR / People team',w:'Design structure and manage transitions',l:'High'},{r:'Impacted employees',w:'Role changes and new reporting lines',l:'High'},{r:'Leadership / managers',w:'Communicate and role-model the change',l:'High'},{r:'Legal / works council',w:'Consultation obligations if applicable',l:'High'}],
+    ms:[{n:1,l:'Design rationale approved by exec leadership',t:'Month 1',p:'p'},{n:2,l:'Legal & HR consultation obligations confirmed',t:'Month 1',p:'p'},{n:3,l:'Impacted employee communications planned',t:'Month 1–2',p:'p'},{n:4,l:'1:1 conversations with impacted staff',t:'Month 2',p:'p'},{n:5,l:'New org structure announced to all staff',t:'Month 2–3',p:'p'},{n:6,l:'Role clarity & team norming sessions',t:'Month 3',p:'p'},{n:7,l:'New structure goes live',t:'Go-live',p:'l'},{n:8,l:'Pulse checks & manager coaching',t:'Go-live + 4–6 weeks',p:'l'},{n:9,l:'Culture & ways-of-working assessment',t:'Month 2 post go-live',p:'o'},{n:10,l:'New ways of working fully embedded',t:'Month 3–4 post go-live',p:'o'}],
+    comms:'Never let people hear about an org change through rumour. Communicate to impacted individuals before the all-staff announcement. Allow space for emotion.',
+    training:'Team norming sessions for new teams. Manager coaching — especially for managers in new roles. Role clarity workshops to prevent confusion about ownership.',
+    hypercare:'4–6 weeks hypercare (longer than other types). Weekly pulse surveys. HR office hours for questions about contracts or roles.',
+    ops:'3-month culture and engagement review. Update org charts and directory. Check whether leaders are modelling the new ways of working.'},
+};
+const SST=[
+  {id:'master',label:'1. Master plan',desc:'Top-level tracker — one row per milestone.',cols:['#','Milestone','Type','Phase','Owner','Target date','Status'],
+    rows:[[1,'Kick-off & sponsor alignment','All','Pre go-live','PM','[Date]','Not started'],[2,'Stakeholder mapping','All','Pre go-live','Change lead','[Date]','Not started'],[3,'Communication plan approved','All','Pre go-live','Comms lead','[Date]','Not started'],[4,'Training complete','All','Pre go-live','Training lead','[Date]','Not started'],[5,'Go-live readiness check','All','Go-live','PM + Change lead','[Date]','Not started'],[6,'Go-live','All','Go-live','PM','[Date]','Not started'],[7,'Hypercare closed','All','Post go-live','Change lead','[Date]','Not started'],[8,'Post-implementation review','All','Post go-live','Change lead','[Date]','Not started'],[9,'Transition to BAU','All','Post go-live','Business owner','[Date]','Not started']]},
+  {id:'sh',label:'2. Stakeholders',desc:'Log every stakeholder with impact level and engagement approach.',cols:['Name','Team / role','Impact','Engagement approach','Key concerns','Owner','Status'],
+    rows:[['[Name]','Exec sponsor','High','Monthly review','Alignment, budget','PM','Not started'],['[Name]','Team manager A','High','Weekly briefing','Team readiness','Change lead','Not started'],['[Name]','Frontline rep','High','Focus groups','Job impact','Change lead','Not started'],['[Name]','IT lead','Medium','Bi-weekly WIP','Tech dependencies','PM','Not started'],['[Name]','HR partner','High','Bi-weekly','People risk','Change lead','Not started']]},
+  {id:'comms',label:'3. Comms',desc:'Plan and track every communication from kick-off to BAU handover.',cols:['Communication','Audience','Channel','Owner','Planned date','Status','Key message'],
+    rows:[['Project announcement','All staff','Email + intranet','Exec sponsor','[Date]','Not started','Why this change, what comes next'],['Manager briefing','All managers','Teams meeting','Change lead','[Date]','Not started','Impact by team, how to support staff'],['Go-live announcement','All users','Email + Teams','Exec sponsor','[Date]','Not started','We are live — here is where to get help'],['Hypercare bulletin','All users','Email','Change lead','[Date]','Not started','Known issues, workarounds, support'],['Post go-live survey','All impacted','Survey link','Change lead','[Date]','Not started','How is it going? What do you still need?']]},
+  {id:'training',label:'4. Training',desc:'Track training modules, audiences, and completion rates.',cols:['Module','Audience','Format','Duration','Owner','Date','# Invited','# Done','Status'],
+    rows:[['Overview — why this change','All staff','Video / email','5 min','Change lead','[Date]','','','Not started'],['Manager briefing','All managers','Live workshop','60 min','Change lead','[Date]','','','Not started'],['Role training — [Role A]','[Team A]','Sandbox workshop','2 hrs','Training lead','[Date]','','','Not started'],['Quick reference guide','All users','PDF / intranet','Self-serve','Training lead','[Date]','N/A','N/A','Not started'],['Refresher webinar','All users','Live webinar','30 min','Training lead','[Date]','','','Not started']]},
+  {id:'hypercare',label:'5. Hypercare',desc:'Log every issue and query during hypercare. Review daily.',cols:['#','Date','Issue / query','Raised by','Team','Category','Priority','Owner','Resolution','Status'],
+    rows:[[1,'[Date]','[Describe issue]','[Name]','[Team]','System bug','High','IT lead','[Action]','Not started'],[2,'[Date]','[Describe query]','[Name]','[Team]','Training gap','Medium','Change lead','[Action]','In progress'],[3,'[Date]','[Describe query]','[Name]','[Team]','Process question','Low','Process owner','[Action]','Complete']]},
+  {id:'adoption',label:'6. Adoption',desc:'Weekly adoption metrics after go-live. Target 80% by week 4.',cols:['Period','Active users','Total users','Adoption %','Issues raised','Resolved','Sentiment (1–5)','Actions'],
+    rows:[['Week 1 (go-live)','','','=B/C','','','','Hypercare team active'],['Week 2','','','=B/C','','','','Drop-in webinar'],['Week 3','','','=B/C','','','','Manager pulse check'],['Week 4','','','=B/C','','','','Review exit criteria'],['Month 2','','','=B/C','','','','Post-implementation review'],['Month 3','','','=B/C','','','','BAU transition check']]},
+  {id:'risk',label:'7. Risk log',desc:'Track risks to your CM plan. Review weekly.',cols:['#','Type','Risk / issue','Impact if occurs','Likelihood','Severity','Owner','Mitigation','Status'],
+    rows:[[1,'Risk','Stakeholders not engaged early','Low buy-in at go-live','Medium','High','Change lead','Confirm sponsor by week 2','Not started'],[2,'Risk','Training delivered too late','Users forget before using','Medium','Medium','Training lead','Complete training 2 weeks pre go-live','Not started'],[3,'Risk','No change champions','Peer resistance spreads','Low','High','Change lead','Confirm champions by month 2','Not started']]},
+];
+function buildPlan(){
+  const types=sel.has('all')?['tech','process','policy','org']:Array.from(sel).filter(t=>t!=='all');
+  const isM=types.length>1,pr=types[0];
+  document.getElementById('s3-title').textContent=isM?'Your combined change management plan':`Your ${TD[pr].label.toLowerCase()} plan`;
+  const allSH=[];const seen=new Set();types.forEach(t=>TD[t].sh.forEach(s=>{if(!seen.has(s.r)){seen.add(s.r);allSH.push(s);}}));
+  const ms=isM?[
+    {n:1,l:'Kick-off: scope all dimensions & sponsor alignment',t:'Month 1',p:'p'},
+    {n:2,l:'Stakeholder mapping across all change types',t:'Month 1',p:'p'},
+    {n:3,l:'Change impact assessment (all dimensions)',t:'Month 1–2',p:'p'},
+    {n:4,l:'Integrated communication plan launched',t:'Month 2',p:'p'},
+    {n:5,l:'Training design complete for all workstreams',t:'Month 2–3',p:'p'},
+    {n:6,l:'Pilot / UAT with representative users',t:'Month 3–4',p:'p'},
+    {n:7,l:'Go-live readiness check across all dimensions',t:'1 week before go-live',p:'l'},
+    {n:8,l:'Go-live + integrated hypercare activated',t:'Go-live + 4–6 weeks',p:'l'},
+    {n:9,l:'Post-implementation review',t:'Month 2 post go-live',p:'o'},
+    {n:10,l:'Transition to operations — all workstreams embedded',t:'Month 3–4 post go-live',p:'o'},
+  ]:TD[pr].ms;
+  const tabs=[{label:'Stakeholders',html:shH(allSH)},{label:'Milestones',html:msH(ms)},{label:'Comms',html:txtH(types,isM,'comms')},{label:'Training',html:txtH(types,isM,'training')},{label:'Hypercare',html:txtH(types,isM,'hypercare')},{label:'Transition to ops',html:txtH(types,isM,'ops')}];
+  document.getElementById('plan-tabs').innerHTML=tabs.map((t,i)=>`<button class="tab-btn${i===0?' active':''}" onclick="sw('plan',${i})">${t.label}</button>`).join('');
+  document.getElementById('plan-panels').innerHTML=tabs.map((t,i)=>`<div id="plan-p${i}" class="tc${i===0?' active':''}">${t.html}</div>`).join('');
+  buildSS();
+}
+function shH(shs){return '<h3 style="margin-bottom:.625rem">Who needs to be involved?</h3>'+shs.map(s=>`<div class="sh-row"><div class="sh-av">${s.r.split(' ').map(w=>w[0]).join('').slice(0,2)}</div><div><div class="sh-n">${s.r}</div><div class="sh-r">${s.w}</div></div><span class="lv ${s.l==='High'?'lh':s.l==='Medium'?'lm':'ll'}">${s.l}</span></div>`).join('');}
+function clk(){return '<svg viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" width="11" height="11" style="vertical-align:-1px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';}
+function msH(ms){
+  const pn=(p)=>p==='p'?'Pre go-live':p==='l'?'Go-live':'Post go-live';
+  const pc=(p)=>p==='p'?'pp-p':p==='l'?'pp-l':'pp-o';
+  const dc=(p)=>p==='p'?'dp':p==='l'?'dl':'do';
+  return '<h3 style="margin-bottom:.375rem">High-level milestones</h3>'+
+    '<div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem"><span class="pp pp-p">Pre go-live</span><span class="pp pp-l">Go-live</span><span class="pp pp-o">Post go-live</span></div>'+
+    '<div>'+ms.map(m=>`<div class="milestone"><div class="ms-dot ${dc(m.p)}">${m.n}</div><div class="ms-body"><div class="ms-title">${m.l}</div><div class="ms-time">${clk()} ${m.t}</div><span class="pp ${pc(m.p)}">${pn(m.p)}</span></div></div>`).join('')+'</div>';
+}
+function txtH(types,isM,key){
+  if(isM)return types.map(t=>`<div class="cg" style="margin-bottom:.5rem"><div style="font-family:Georgia,serif;font-size:12px;font-weight:bold;color:#000;margin-bottom:3px">${TD[t].label}</div><p style="font-size:12px">${TD[t][key]}</p></div>`).join('');
+  return `<div class="cg"><p style="font-size:13px">${TD[types[0]][key]}</p></div>`;
+}
+function buildSS(){
+  document.getElementById('ss-tabs').innerHTML=SST.map((t,i)=>`<button class="tab-btn${i===0?' active':''}" onclick="sw('ss',${i})">${t.label}</button>`).join('');
+  document.getElementById('ss-panels').innerHTML=SST.map((t,i)=>`<div id="ss-p${i}" class="tc${i===0?' active':''}">${renderSS(t)}</div>`).join('');
+}
+const STC={'Not started':'ns','In progress':'ip','Complete':'co','At risk':'ar'};
+const ILC={'High':'lh','Medium':'lm','Low':'ll'};
+function renderSS(tpl){
+  return `<p style="font-size:12px;font-family:Arial,sans-serif;color:var(--gray);margin-bottom:.5rem">${tpl.desc}</p>
+  <div class="ss-wrap"><table class="ss-table"><thead><tr>${tpl.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+  <tbody>${tpl.rows.map(row=>`<tr>${row.map((cell,ci)=>{
+    const h=tpl.cols[ci],s=String(cell);
+    if(h==='Status'&&STC[s])return`<td><span class="ss-st ${STC[s]}">${s}</span></td>`;
+    if((h==='Impact'||h==='Priority'||h==='Likelihood'||h==='Severity')&&ILC[s])return`<td><span class="lv ${ILC[s]}" style="font-size:11px;padding:2px 8px;border-radius:2px;font-weight:bold;font-family:Arial,sans-serif">${s}</span></td>`;
+    if(h==='Phase'){const pc=s.includes('Pre')?'pp-p':s.includes('Post')?'pp-o':'pp-l';return`<td><span class="pp ${pc}">${s}</span></td>`;}
+    return`<td style="white-space:${s.length>25?'normal':'nowrap'}">${s}</td>`;
+  }).join('')}</tr>`).join('')}</tbody></table></div>
+  <p style="font-size:11px;font-family:Arial,sans-serif;color:#aaa;margin-top:.5rem">Replace [placeholders] with your project details. Download the full formatted pack above.</p>`;
+}
+function sw(p,idx){
+  document.querySelectorAll(`#${p}-tabs .tab-btn`).forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll(`[id^="${p}-p"]`).forEach((t,i)=>t.classList.toggle('active',i===idx));
+}
+buildIQ();
+</script>
+</body>
+</html>

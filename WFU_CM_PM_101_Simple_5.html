@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CM and PM 101 - Wake Forest University</title>
+<style>
+:root{--gold:#9E7E38;--gold-d:#8C6D2C;--gold-l:#CEB888;--gold-p:#F5EFE0;--black:#000;--wblk:#222;--gray:#53565A;--glt:#E8E8E8;--gpale:#F4F4F4;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:#EDEBE6;color:var(--wblk);min-height:100vh;padding:1.25rem .75rem}
+.app{max-width:720px;margin:0 auto}
+.hdr{background:var(--black);border-radius:8px 8px 0 0;padding:.75rem 1rem;display:flex;align-items:center;gap:12px}
+.wf{width:42px;height:42px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wf span{font-family:Georgia,serif;font-size:18px;font-weight:bold;color:var(--black)}
+.hd{border-left:2px solid var(--gold);padding-left:10px}
+.hd .i{font-family:Arial,sans-serif;font-size:10px;color:var(--gold-l);letter-spacing:.07em;text-transform:uppercase}
+.hd .t{font-family:Georgia,serif;font-size:14px;color:var(--white);font-weight:bold}
+.crd{background:var(--white);border-radius:0 0 8px 8px;padding:1.25rem 1rem;box-shadow:0 3px 14px rgba(0,0,0,.1)}
+h2{font-size:16px;font-weight:bold;color:var(--black);margin-bottom:.3rem}
+p{font-size:13px;color:var(--gray);line-height:1.6}
+.badge{display:inline-flex;align-items:center;gap:4px;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;padding:3px 9px;border-radius:2px;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em}
+.bg{background:var(--gold);color:var(--white)}
+.tl{position:relative;padding-left:28px;margin:.75rem 0}
+.tl::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--gold-p)}
+.ms{position:relative;margin-bottom:.5rem;cursor:pointer;padding:.6rem .75rem;border-radius:4px;border:1.5px solid var(--glt);background:var(--white);transition:.15s}
+.ms:hover{border-color:var(--gold);background:var(--gold-p)}
+.ms.active{border:2px solid var(--gold);background:var(--gold-p)}
+.ms .dot{position:absolute;left:-22px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:9px;font-weight:bold;z-index:1}
+.dot-pm{background:var(--black);color:var(--gold-l)}
+.dot-cm{background:var(--gold);color:var(--white)}
+.ms .ms-head{display:flex;align-items:center;gap:6px;margin-bottom:2px;flex-wrap:wrap}
+.ms .ms-title{font-family:Georgia,serif;font-size:12.5px;font-weight:bold;color:var(--black)}
+.ms .ms-type{font-family:Arial,sans-serif;font-size:8px;font-weight:bold;padding:2px 6px;border-radius:2px}
+.tp{background:var(--black);color:var(--gold-l)}.tc{background:var(--gold-p);color:var(--gold-d);border:1px solid var(--gold)}
+.ms .ms-timing{font-family:Arial,sans-serif;font-size:10px;color:var(--gray)}
+.ms .ms-why{font-size:12px;color:var(--gray);margin-top:4px;line-height:1.5;display:none}
+.ms.active .ms-why{display:block}
+.panel{display:none;margin-top:.75rem;border:1px solid var(--glt);border-radius:6px;overflow:hidden}
+.panel.open{display:block}
+.panel-hdr{background:var(--black);padding:.7rem .9rem}
+.panel-hdr .ph-num{font-family:Arial,sans-serif;font-size:10px;color:var(--gold);font-weight:bold}
+.panel-hdr .ph-t{font-family:Georgia,serif;font-size:14px;color:var(--white);font-weight:bold}
+.panel-body{padding:.75rem .9rem}
+.sec-t{font-family:Arial,sans-serif;font-size:9px;font-weight:bold;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-d);margin-bottom:.4rem;margin-top:.7rem}
+.sec-t:first-child{margin-top:0}
+.step{margin-bottom:.6rem;padding:.55rem .65rem;background:var(--gpale);border-left:3px solid var(--gold);border-radius:0 3px 3px 0}
+.step-head{display:flex;gap:6px;align-items:baseline;margin-bottom:3px}
+.step-n{font-family:Arial,sans-serif;font-size:10px;font-weight:bold;color:var(--gold-d);min-width:14px}
+.step-t{font-size:12px;color:var(--wblk);line-height:1.5}
+.step-assets{margin-top:4px;display:flex;flex-wrap:wrap;gap:4px}
+.asset-tag{display:inline-flex;align-items:center;gap:3px;font-family:Arial,sans-serif;font-size:10px;font-weight:600;padding:3px 7px;border-radius:3px;text-decoration:none;transition:.12s}
+.asset-tmpl{background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4}
+.asset-tmpl:hover{background:#B5D4F4}
+.asset-howto{background:#E1F5EE;color:#085041;border:1px solid #9FE1CB}
+.asset-howto:hover{background:#9FE1CB}
+.asset-tool{background:var(--gold-p);color:var(--gold-d);border:1px solid var(--gold-l)}
+.asset-tool:hover{background:var(--gold-l)}
+.asset-icon{font-size:11px}
+.out-item{font-size:12px;color:var(--gray);padding:.2rem 0;padding-left:.8rem;position:relative;line-height:1.5}
+.out-item::before{content:'\2022';position:absolute;left:0;color:var(--gold)}
+.tip-box{background:var(--gold-p);border:1px solid var(--gold-l);border-radius:3px;padding:.5rem .7rem;margin-top:.5rem}
+.tip-box p{font-size:11px;color:var(--gold-d)}
+.phase-bar{background:var(--black);color:var(--gold-l);font-family:Arial,sans-serif;font-size:10px;font-weight:bold;padding:5px 10px;border-radius:3px;margin-top:.75rem;margin-bottom:.35rem;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
+.phase-bar .ph-timing{color:var(--gold);font-weight:normal;margin-left:auto;font-size:9px}
+.legend{display:flex;gap:.75rem;margin:.5rem 0;flex-wrap:wrap;align-items:center}
+.leg-item{display:flex;align-items:center;gap:4px;font-family:Arial,sans-serif;font-size:10px;color:var(--gray)}
+.leg-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:bold}
+.cb{border-left:4px solid var(--gold);border-radius:0 4px 4px 0;padding:.6rem .8rem;margin-bottom:.5rem;background:var(--gold-p)}
+.cb p{font-size:12px;color:var(--gold-d)}
+.nb{background:var(--gpale);border-radius:4px;padding:.6rem .8rem;margin-bottom:.5rem}
+.nb p{font-size:12px}
+.motto{font-family:Georgia,serif;font-style:italic;color:var(--gold-d);font-size:12px;text-align:center;margin-top:.75rem}
+.footer{margin-top:.5rem;text-align:center;font-size:10px;font-family:Arial,sans-serif;color:var(--gray)}
+@media(max-width:580px){
+  body{padding:.75rem .4rem}
+  .crd{padding:1rem .75rem}
+  .tl{padding-left:24px}
+  .ms .dot{left:-18px;width:18px;height:18px;font-size:8px}
+  h2{font-size:15px}
+  .asset-tag{font-size:9px;padding:2px 5px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="hdr">
+  <div class="wf"><span>WF</span></div>
+  <div class="hd"><div class="i">Wake Forest University</div><div class="t">CM and PM 101</div></div>
+</div>
+<div class="crd" id="main">
+
+<div id="s0">
+  <div class="badge bg">Project and change management guide</div>
+  <h2>How to run a project and manage change</h2>
+  <p style="margin:.5rem 0 .75rem">Click any milestone to see what it means, why it matters, exactly what to do, and which templates and tools to use. Each step includes links to downloadable templates and how-to resources.</p>
+
+  <div style="background:#E6F1FB;border:1px solid #B5D4F4;border-radius:4px;padding:.6rem .8rem;margin-bottom:.75rem">
+    <p style="font-size:12px;color:#0C447C"><strong style="color:#185FA5">Google Drive setup:</strong> Upload the template files to a shared Google Drive folder. They will auto-convert to Google Docs and Google Sheets. Then replace YOUR_FOLDER_ID in the browser URL with your actual folder ID to make all template links work. <a href="https://support.google.com/drive/answer/2494822" target="_blank" style="color:#185FA5">How to share a Google Drive folder</a></p>
+  </div>
+
+  <div class="cb">
+    <p><strong style="color:var(--black)">Two tracks, one timeline.</strong> Project management (PM) milestones deliver the solution. Change management (CM) milestones prepare the people. Both run in parallel from day one.</p>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--black);color:var(--gold-l)">P</div> Project milestone</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--gold);color:var(--white)">C</div> Change management milestone</div>
+  </div>
+
+  <div id="timeline-container"></div>
+  <div id="detail-panel" class="panel"></div>
+</div>
+
+</div>
+<div class="footer"><div class="motto">Pro Humanitate</div></div>
+</div>
+
+<script>
+// Asset tag helper
+function tmpl(label, url) {
+  return { type: 'tmpl', label, url };
+}
+function howto(label, url) {
+  return { type: 'howto', label, url };
+}
+function tool(label, url) {
+  return { type: 'tool', label, url };
+}
+
+const PHASES = [
+  {
+    name: '0. Planning',
+    timing: 'Weeks 1 to 4',
+    milestones: [
+      { id:1, type:'pm', title:'Define scope and write project charter',
+        timing:'Week 1 to 2',
+        why:'Without a clear scope, the project grows in every direction. The charter is a one-page agreement on what you are doing, why, and who is responsible.',
+        steps:[
+          { text:'Write a one-page project charter covering: what is the problem, what is the goal, what is in scope, and what is out of scope.',
+            assets:[
+              tmpl('Project Charter Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Project+Charter+Template'),
+              howto('How to write a project charter', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Get your project sponsor (the senior leader who owns this) to review and sign the charter. No sign-off means no authority to proceed.',
+            assets:[
+              howto('What does a project sponsor do?', 'https://www.pmi.org/learning/library/importance-of-project-sponsorship-9914'),
+            ]},
+          { text:'List the key systems, teams, and processes that will be affected. Even a rough list helps prevent surprises later.',
+            assets:[
+              tmpl('Scope Statement Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Scope+Statement+Template'),
+            ]},
+        ],
+        outputs:['Signed project charter','Scope statement','High-level list of impacted areas'],
+        tip:'The charter does not need to be perfect. It needs to be agreed. You will refine it as you learn more.'
+      },
+      { id:2, type:'pm', title:'Define the project team and roles',
+        timing:'Week 1 to 2',
+        why:'If nobody knows who is doing what, nothing gets done. Define the core team, their roles, and how decisions get made.',
+        steps:[
+          { text:'List every person on the project team with their name, role, and what they are responsible for.',
+            assets:[
+              tmpl('Team Roster Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Team+Roster+RACI'),
+              tmpl('RACI Matrix Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=RACI+Template'),
+            ]},
+          { text:'Decide who makes decisions, who needs to be consulted, and who just needs to be informed. Use a RACI chart for this.',
+            assets:[
+              howto('How to build a RACI chart', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Set up a recurring weekly team meeting. This is the heartbeat of the project.',
+            assets:[
+              tmpl('Meeting Agenda Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Meeting+Agenda+Template'),
+              tool('Schedule in Google Calendar', 'https://support.google.com/calendar/answer/72143'),
+            ]},
+        ],
+        outputs:['Team roster with roles','RACI chart','Weekly meeting scheduled'],
+        tip:'Keep the core team small (5 to 8 people). Involve others as subject matter experts when needed.'
+      },
+      { id:3, type:'cm', title:'Identify your stakeholders',
+        timing:'Week 2 to 4',
+        why:'Stakeholders are the people affected by the change. If you do not know who they are, you cannot communicate with them, train them, or manage their concerns.',
+        steps:[
+          { text:'List every person or group who will be affected by this project. Include the people whose daily work will change, not just the people doing the project work.',
+            assets:[
+              tmpl('Stakeholder Register Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Stakeholder+Register+Template'),
+              howto('How to identify stakeholders', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'For each stakeholder, note: how significantly are they affected (high, medium, low)? What are they likely to worry about?',
+            assets:[
+              tmpl('Stakeholder Impact Assessment Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Stakeholder+Impact+Assessment'),
+            ]},
+          { text:'Identify 1 to 2 "champions" in each affected area. These are enthusiastic people who can influence their peers.',
+            assets:[
+              howto('How to build a change champion network', 'https://www.prosci.com/blog/change-champion-network'),
+            ]},
+        ],
+        outputs:['Stakeholder list with impact levels','Key concerns documented','Champions identified'],
+        tip:'Talk to people directly. Do not guess what they think. A 15-minute conversation is worth more than a week of assumptions.'
+      },
+      { id:4, type:'pm', title:'Create the project plan and timeline',
+        timing:'Week 2 to 4',
+        why:'The plan turns the scope into a sequence of tasks with dates, owners, and dependencies. Without it, no one knows what is happening when.',
+        steps:[
+          { text:'Break the work into phases (like this guide) and list the major milestones in each phase.',
+            assets:[
+              tmpl('Project Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Project+Plan+Template'),
+              tmpl('Gantt Chart Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Project+Plan+Template'),
+              tool('Smartsheet Getting Started Guide', 'https://support.google.com/a/users/answer/9282959'),
+            ]},
+          { text:'Assign an owner and a target date to every milestone. "The team" is not an owner. A named person is.',
+            assets:[
+              howto('How to assign task ownership', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Identify dependencies: what has to finish before something else can start? Mark those in your plan.',
+            assets:[
+              howto('Understanding task dependencies', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Share the plan with the full team and get their input before finalising dates.',
+            assets:[
+              tool('How to share a Smartsheet', 'https://support.google.com/drive/answer/2494822'),
+            ]},
+        ],
+        outputs:['Project plan with milestones, owners, and dates','Dependencies mapped','Plan shared and agreed with the team'],
+        tip:'Use a Smartsheet or shared tracker that everyone can see. Plans that live in your inbox do not get followed.'
+      },
+      { id:5, type:'pm', title:'Schedule and deliver the project kick-off',
+        timing:'Week 3 to 4',
+        why:'The kick-off signals to the organisation that this project is real, resourced, and underway. It sets expectations and creates accountability.',
+        steps:[
+          { text:'Prepare a 30-minute kick-off presentation covering: why this project, what is in scope, who is on the team, key dates, and how people will be kept informed.',
+            assets:[
+              tmpl('Kick-off Presentation Template (Google Slides)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Kickoff+Presentation+Template'),
+              howto('How to run a great project kick-off', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Invite the project team, key stakeholders, and the sponsor. The sponsor should open the meeting because their visible support matters.',
+            assets:[
+              tmpl('Kick-off Meeting Invite Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Meeting+Invite+Template'),
+            ]},
+          { text:'After the kick-off, send a summary email with the plan, team contacts, and where to ask questions.',
+            assets:[
+              tmpl('Post-Meeting Summary Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Meeting+Summary+Template'),
+            ]},
+        ],
+        outputs:['Kick-off meeting delivered','Summary email sent','Q&A channel established'],
+        tip:'The kick-off is not just informational. It is the moment people decide whether to take this project seriously. Make it count.'
+      },
+      { id:6, type:'cm', title:'Set up governance and communications',
+        timing:'Week 3 to 4',
+        why:'Without a regular communication rhythm, people fill the silence with rumour and anxiety. Governance ensures decisions are made and tracked.',
+        steps:[
+          { text:'Create a decision log. This is a simple list of every decision made, who made it, and the date. You will need this later.',
+            assets:[
+              tmpl('Decision Log Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Decision+Log+Template'),
+              howto('Why you need a decision log', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Set up a regular cadence: weekly team meetings, bi-weekly sponsor updates, and monthly stakeholder communications.',
+            assets:[
+              tmpl('Status Report Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Status+Report+Template'),
+              tool('Google Calendar: Schedule meetings', 'https://support.google.com/calendar/answer/72143'),
+            ]},
+          { text:'Draft a communication plan: who needs to hear what, when, and through which channel (email, meeting, Google Chat, newsletter).',
+            assets:[
+              tmpl('Communication Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Plan+Template'),
+              howto('How to write a communication plan', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Send the first sponsor-level communication to stakeholders within the first month, even if it is just "the project has started and here is what to expect."',
+            assets:[
+              tmpl('Sponsor Email Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Template'),
+            ]},
+        ],
+        outputs:['Decision log created','Meeting cadence set','Communication plan drafted','First stakeholder communication sent'],
+        tip:'The most common CM mistake is going silent. Even a "no news" update is better than nothing.'
+      },
+    ]
+  },
+  {
+    name: '1. Discovery',
+    timing: 'Weeks 4 to 8',
+    milestones: [
+      { id:7, type:'pm', title:'Map the current state (as-is)',
+        timing:'Week 4 to 6',
+        why:'You cannot design a better process without understanding the current one. What is documented and what actually happens are often very different.',
+        steps:[
+          { text:'Interview the people who do the work today, not just managers. Frontline staff know the real process, workarounds, and pain points.',
+            assets:[
+              tmpl('Stakeholder Interview Guide (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Stakeholder+Interview+Guide'),
+              howto('How to run a discovery interview', 'https://www.nngroup.com/articles/stakeholder-interviews/'),
+            ]},
+          { text:'Document the current end-to-end process: what happens, in what order, using which systems, and who does each step.',
+            assets:[
+              tmpl('Process Map Template (Google Drawings / Lucidchart)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Process+Map+Template'),
+              tool('Lucidchart free process mapping', 'https://www.lucidchart.com/pages/process-mapping'),
+              tool('Miro process mapping', 'https://miro.com/process-map/'),
+            ]},
+          { text:'Note every workaround, exception, and "we have always done it this way." These are clues to where the design needs to be better.',
+            assets:[
+              tmpl('Pain Point Tracker (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Issue+Tracker'),
+            ]},
+        ],
+        outputs:['Current-state process map','Pain point list','List of systems and data flows involved'],
+        tip:'Map what people actually do, not what the policy manual says they should do. The gap between those two things is where the real problems live.'
+      },
+      { id:8, type:'pm', title:'Identify impacted processes, users, and systems',
+        timing:'Week 4 to 8',
+        why:'This is the detailed version of your scope. It tells you exactly which business processes, which user groups, and which systems are affected so nothing gets missed during design.',
+        steps:[
+          { text:'For each process area, list: the business process name, the system it runs in, who uses it, and what will change.',
+            assets:[
+              tmpl('Impact Matrix Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Impact+Assessment+Matrix'),
+            ]},
+          { text:'Identify all integration points. Where does data flow between systems? These are high-risk areas.',
+            assets:[
+              tmpl('Data Flow Diagram Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Data+Flow+Template'),
+              howto('How to document system integrations', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Document any compliance, security, or policy implications that the design must account for.',
+            assets:[
+              tmpl('Requirements Tracker (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Requirements+Tracker'),
+            ]},
+        ],
+        outputs:['Impact matrix (process x system x user group)','Integration and data flow map','Compliance and security requirements list'],
+        tip:'If you miss an impacted process here, it will surface as a surprise at go-live. Be thorough.'
+      },
+      { id:9, type:'cm', title:'Conduct stakeholder and impact assessment',
+        timing:'Week 6 to 8',
+        why:'Now that you understand what is changing (from discovery), you can assess how significantly each stakeholder group is affected. This shapes your training, communications, and support plan.',
+        steps:[
+          { text:'For each stakeholder group, answer: how much does their daily work change? (Minor adjustment, noticeable change, or fundamentally different way of working?)',
+            assets:[
+              tmpl('Change Impact Assessment Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Change+Impact+Assessment'),
+              howto('How to assess change impact', 'https://www.prosci.com/blog/change-impact-assessment'),
+            ]},
+          { text:'Identify the top 3 concerns for each group, then validate them by talking to real people in that group.',
+            assets:[
+              tmpl('Stakeholder Interview Questions', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Stakeholder+Interview+Guide'),
+            ]},
+          { text:'Score each group as high, medium, or low impact. High impact groups need the most CM attention.',
+            assets:[
+              howto('Impact scoring guide', 'https://www.prosci.com/methodology/impact-assessment'),
+            ]},
+          { text:'Share the assessment with the sponsor. They need to understand the people risk, not just the technical risk.',
+            assets:[
+              tmpl('One-Page Impact Summary Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Executive+Summary+Template'),
+            ]},
+        ],
+        outputs:['Impact assessment by stakeholder group','Validated concerns per group','One-page summary for the sponsor'],
+        tip:'Impact assessment is not a one-time activity. Revisit it after design is complete because the picture changes as you learn more.'
+      },
+    ]
+  },
+  {
+    name: '2. Design',
+    timing: 'Weeks 6 to 12',
+    milestones: [
+      { id:10, type:'pm', title:'Design the future state',
+        timing:'Week 6 to 10',
+        why:'The future-state design defines how things will work after the change. It must balance what leadership wants, what is technically possible, and what frontline users can realistically adopt.',
+        steps:[
+          { text:'Hold design workshops with a mix of process owners, technical leads, and frontline users.',
+            assets:[
+              tmpl('Workshop Agenda Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Workshop+Agenda+Template'),
+              howto('How to facilitate a design workshop', 'https://www.nngroup.com/articles/discovery-in-agile/'),
+              tool('Miro workshop boards', 'https://miro.com/templates/workshop/'),
+            ]},
+          { text:'Design the end-to-end future process: new workflows, system configurations, approval paths, and data flows.',
+            assets:[
+              tmpl('Future State Process Map Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Process+Map+Template'),
+              tmpl('Workflow Design Template (Google Drawings)', 'https://www.lucidchart.com/pages/templates/workflow-diagram'),
+            ]},
+          { text:'Document every decision made during design and why. You will be asked to justify these later.',
+            assets:[
+              tmpl('Decision Log Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Decision+Log+Template'),
+            ]},
+          { text:'Include exception handling: what happens when the standard process does not apply? This is where most designs fail.',
+            assets:[
+              howto('Designing for edge cases', 'https://www.nngroup.com/articles/error-prevention/'),
+            ]},
+          { text:'Get formal sign-off from the process owners and the sponsor before moving to build.',
+            assets:[
+              tmpl('Design Sign-off Form (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Design+Signoff+Form'),
+            ]},
+        ],
+        outputs:['Future-state process design (signed off)','Configuration requirements for each system','Decision log entries for all design choices','Exception handling documented'],
+        tip:'Involve the people who will use the new process in the design sessions. Designs built without their input almost always fail in practice.'
+      },
+      { id:11, type:'pm', title:'Define governance, policies, and RACI',
+        timing:'Week 8 to 10',
+        why:'New processes need new rules. Who can approve what? What are the new policies? Who owns the process after the project ends? Answer these during design, not after go-live.',
+        steps:[
+          { text:'Define the governance process: who makes decisions about this process after the project is over?',
+            assets:[
+              tmpl('Governance Framework Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Governance+Framework'),
+              howto('What is project governance?', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Update or create any policies that need to change as a result of the new design.',
+            assets:[
+              tmpl('Policy Document Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Policy+Template'),
+            ]},
+          { text:'Create or update the RACI for the new process: who is Responsible, Accountable, Consulted, and Informed for each step.',
+            assets:[
+              tmpl('RACI Matrix Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=RACI+Template'),
+              howto('RACI explained in 5 minutes', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+        ],
+        outputs:['Governance model documented','Updated policies drafted','RACI for the new process'],
+        tip:'Governance that is not documented does not exist. Write it down, even if it is simple.'
+      },
+      { id:12, type:'cm', title:'Launch the communication plan',
+        timing:'Week 8 to 12',
+        why:'People need to know what is coming and why before they are asked to change. If the first time someone hears about the project is when they are told to attend training, you have already lost them.',
+        steps:[
+          { text:'Send the first broad communication from the sponsor: what is this project, why is it happening, who is affected, and what is the timeline. Keep it simple.',
+            assets:[
+              tmpl('Change Announcement Email Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Template'),
+              howto('How to write a change announcement', 'https://www.prosci.com/blog/5-key-change-management-communication-messages'),
+            ]},
+          { text:'Brief all managers before any all-staff communication goes out. They will get questions and need to be ready.',
+            assets:[
+              tmpl('Manager Briefing Pack Template (Google Slides)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=CM+Plan+on+a+Page+Template'),
+            ]},
+          { text:'Create a glossary of terms if the project introduces new language (for example, "position management" vs "job management").',
+            assets:[
+              tmpl('Glossary Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Glossary+Template'),
+              howto('Why a glossary matters for change', 'https://www.prosci.com/blog/change-management-communication'),
+            ]},
+          { text:'Open a Q&A channel where anyone can ask questions and commit to responding within 48 hours.',
+            assets:[
+              tool('Create a Google Chat space', 'https://support.google.com/chat/answer/7653861'),
+            ]},
+        ],
+        outputs:['Sponsor communication sent','Manager briefing delivered','Glossary of terms published','Q&A channel active'],
+        tip:'Lead with the "why." If people do not understand the reason for the change, they will not engage with the "what" or "how."'
+      },
+    ]
+  },
+  {
+    name: '3. Build and configure',
+    timing: 'Weeks 10 to 18',
+    milestones: [
+      { id:13, type:'pm', title:'Build system configuration and process changes',
+        timing:'Week 10 to 16',
+        why:'This is where the design becomes real. System configurations are built, integrations are developed, and process changes are implemented in the tools.',
+        steps:[
+          { text:'Configure the system changes in a test environment (never directly in production).',
+            assets:[
+              howto('Workday: Using sandbox environments', 'https://community.workday.com/articles/sandbox-environments'),
+              howto('Smartsheet: Working in test environments', 'https://community.workday.com/articles/sandbox-environments'),
+            ]},
+          { text:'Build or update any integrations between systems. These are the highest-risk technical items.',
+            assets:[
+              tmpl('Integration Spec Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Integration+Spec+Template'),
+            ]},
+          { text:'Create or update all documentation: SOPs, job aids, quick reference guides, and policy documents.',
+            assets:[
+              tmpl('SOP Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=SOP+Template'),
+              tmpl('Job Aid Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Job+Aid+Template'),
+              tmpl('Quick Reference Guide Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Quick+Reference+Guide+Template'),
+            ]},
+          { text:'Run internal technical reviews at regular checkpoints. Do not wait until the end to check quality.',
+            assets:[
+              tmpl('Technical Review Checklist (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Technical+Review+Checklist'),
+            ]},
+        ],
+        outputs:['System configuration complete in test environment','Integrations built and unit tested','All documentation drafted','Technical review checkpoints passed'],
+        tip:'Document as you build. Waiting until the end to write documentation means it never gets done properly.'
+      },
+      { id:14, type:'cm', title:'Develop training materials and plan',
+        timing:'Week 12 to 16',
+        why:'People cannot adopt what they do not understand. Training must be role-specific, task-focused, and delivered close enough to go-live that people remember it.',
+        steps:[
+          { text:'Audit all existing job aids, training videos, and toolkits that will be affected by this change. The list is usually longer than expected.',
+            assets:[
+              tmpl('Training Content Audit Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Training+Plan+Template'),
+            ]},
+          { text:'Develop new or revised training materials: job aids (one page per task), updated videos, and manager toolkits.',
+            assets:[
+              tmpl('Job Aid Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Job+Aid+Template'),
+              tool('Loom: Record training videos', 'https://www.loom.com/'),
+              tool('Canva: Design job aids', 'https://www.canva.com/templates/?query=job+aid'),
+            ]},
+          { text:'Design the training plan: who needs what training, in what format, and when. Different roles need different training.',
+            assets:[
+              tmpl('Training Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Training+Plan+Template'),
+              tmpl('Training Schedule Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Training+Schedule'),
+            ]},
+          { text:'Plan drop-in listening sessions and Q&A forums. People need space to ask questions informally, not just in formal training.',
+            assets:[
+              tmpl('Listening Session Agenda Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Workshop+Agenda+Template'),
+              howto('How to run a listening session', 'https://www.prosci.com/blog/feedback-loops-change-management'),
+            ]},
+        ],
+        outputs:['Training content audit complete','New or revised job aids and videos','Training schedule by role','Listening session schedule'],
+        tip:'A one-page quick reference guide for "how do I do my top 5 tasks" will be used more than any recorded training session.'
+      },
+    ]
+  },
+  {
+    name: '4. Test and validate',
+    timing: 'Weeks 16 to 22',
+    milestones: [
+      { id:15, type:'pm', title:'Test with real users (UAT)',
+        timing:'Week 16 to 20',
+        why:'User acceptance testing is where real users try the new system and process under realistic conditions. It is your last chance to find problems before they affect everyone.',
+        steps:[
+          { text:'Recruit testers from actual user groups. Include sceptics, not just enthusiasts.',
+            assets:[
+              tmpl('UAT Tester Recruitment Email Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=UAT+Test+Plan'),
+            ]},
+          { text:'Write test scenarios based on real daily tasks, not system features. Ask testers to complete the tasks they will do at go-live.',
+            assets:[
+              tmpl('UAT Test Script Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=UAT+Test+Scripts'),
+              howto('How to write effective UAT test cases', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Log every issue found, assign a severity (critical, high, medium, low), and track resolution.',
+            assets:[
+              tmpl('Issue / Bug Tracker Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Issue+Tracker'),
+            ]},
+          { text:'Get formal sign-off from process owners and functional leaders that UAT is complete and the solution is ready.',
+            assets:[
+              tmpl('UAT Sign-off Form Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Design+Signoff+Form'),
+            ]},
+        ],
+        outputs:['UAT complete with formal sign-off','All critical and high issues resolved','Test results documented','Remaining medium/low issues tracked'],
+        tip:'Watch people use the system. Do not just ask them if it works. Where they hesitate, get confused, or ask for help is where you need better training or design.'
+      },
+      { id:16, type:'cm', title:'Deliver training and track completion',
+        timing:'Week 18 to 22',
+        why:'Training must be completed before go-live, not after. Track completion by role. If a group is below 80% completion one week before go-live, escalate immediately.',
+        steps:[
+          { text:'Deliver role-based training sessions using the materials developed in the build phase.',
+            assets:[
+              tmpl('Training Delivery Checklist', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Training+Delivery+Checklist'),
+              tool('Google Meet: Host training sessions', 'https://support.google.com/meet/answer/9302870'),
+              tool('Google Meet: Host webinars', 'https://zoom.us/webinar'),
+            ]},
+          { text:'Track completion rates weekly. Who has completed, who has not, and what is the completion percentage by team?',
+            assets:[
+              tmpl('Training Tracker Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Training+Tracker'),
+            ]},
+          { text:'Deliver a separate manager training session. Managers need to know the new process well enough to support their teams on day one.',
+            assets:[
+              tmpl('Manager Training Guide Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=CM+Plan+on+a+Page+Template'),
+            ]},
+          { text:'Publish all quick reference guides and job aids to the intranet at least 2 weeks before go-live.',
+            assets:[
+              howto('How to organise training resources on an intranet', 'https://www.nngroup.com/articles/intranet-information-architecture/'),
+            ]},
+          { text:'Run a final round of drop-in Q&A sessions the week before go-live.',
+            assets:[
+              tmpl('Q&A Session Agenda Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Workshop+Agenda+Template'),
+            ]},
+        ],
+        outputs:['Training delivered to all impacted users','Completion tracked at 80%+ for all groups','Manager training completed','All materials published','Pre-go-live Q&A sessions held'],
+        tip:'Training attendance does not equal adoption. The goal is not that they attended. It is that they can do their job on day one.'
+      },
+    ]
+  },
+  {
+    name: '5. Go-live and hypercare',
+    timing: 'Weeks 22 to 28',
+    milestones: [
+      { id:17, type:'pm', title:'Go-live readiness check and launch',
+        timing:'Week 22',
+        why:'The readiness check is your final decision point. Is the system ready, are the people ready, and are the support plans in place? Going live without this check means launching blind.',
+        steps:[
+          { text:'Run through a readiness checklist: system configuration migrated to production, security updated, data clean, training above 80%, communications sent, hypercare team briefed.',
+            assets:[
+              tmpl('Go-Live Readiness Checklist (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Go+Live+Readiness+Checklist'),
+              howto('How to run a go/no-go meeting', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Go+NoGo+Decision+Template'),
+            ]},
+          { text:'Review all open issues. Any unresolved critical or high issues should delay go-live.',
+            assets:[
+              tmpl('Issue Tracker (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Issue+Tracker'),
+            ]},
+          { text:'Present a go or no-go recommendation to the sponsor with supporting data. Be honest. A short delay is less costly than a failed launch.',
+            assets:[
+              tmpl('Go/No-Go Decision Template (Google Slides)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Go+NoGo+Decision+Template'),
+            ]},
+          { text:'If approved: execute the migration to production, send the go-live announcement, and activate support.',
+            assets:[
+              tmpl('Go-Live Announcement Email Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Template'),
+              tmpl('Cutover Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Cutover+Plan'),
+            ]},
+        ],
+        outputs:['Readiness checklist complete','Go/no-go recommendation presented','Sponsor decision documented','Production migration executed (if approved)','Go-live announcement sent'],
+        tip:'If the readiness data says "not ready," say so. The sponsor needs honest advice, not optimism.'
+      },
+      { id:18, type:'cm', title:'Hypercare support active',
+        timing:'Week 22 to 28',
+        why:'Issues always spike in the first weeks after go-live. Hypercare is the structured support system that catches problems early, resolves them fast, and prevents small issues from becoming big ones.',
+        steps:[
+          { text:'Open a hypercare issue log on go-live day. Every question, issue, and complaint gets a row. Nothing handled only in email.',
+            assets:[
+              tmpl('Hypercare Issue Log Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Issue+Tracker'),
+              howto('How to run hypercare support', 'https://www.prosci.com/blog/hypercare-change-management'),
+            ]},
+          { text:'Run a daily 15-minute stand-up during the first 2 weeks: review all open issues, assign owners, escalate anything urgent.',
+            assets:[
+              tmpl('Daily Stand-up Agenda (1 page)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Daily+Standup+Agenda'),
+            ]},
+          { text:'Send a daily summary to all managers: what the top issues are, what has been resolved, and where to direct questions.',
+            assets:[
+              tmpl('Hypercare Daily Summary Email Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Template'),
+            ]},
+          { text:'Track adoption metrics weekly: who is using the new process or system, who is not, and why.',
+            assets:[
+              tmpl('Adoption Tracker Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Training+Tracker'),
+              howto('How to measure adoption', 'https://www.prosci.com/blog/measuring-change-adoption'),
+            ]},
+          { text:'Run multi-channel outreach: newsletters, drop-in sessions, and direct support to the most affected groups.',
+            assets:[
+              tmpl('Hypercare Communication Plan Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Plan+Template'),
+            ]},
+        ],
+        outputs:['Hypercare issue log maintained daily','Daily stand-ups running','Manager summaries sent','Adoption metrics tracked weekly','Communication plan active'],
+        tip:'Do not close hypercare on a fixed date. Close it when the data says you can: adoption above 80%, zero open critical issues, and stable sentiment.'
+      },
+    ]
+  },
+  {
+    name: '6. Sustain and close',
+    timing: 'Weeks 28 to 34+',
+    milestones: [
+      { id:19, type:'pm', title:'Post-implementation review and project closure',
+        timing:'Week 28 to 30',
+        why:'The post-implementation review captures what worked, what did not, and what the organisation should do differently next time. Without it, the same mistakes get repeated on every project.',
+        steps:[
+          { text:'Survey impacted users: are they satisfied? Are they confident? What would they change?',
+            assets:[
+              tmpl('Post-Implementation Survey Template (Google Form)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Post+Implementation+Survey'),
+              tool('Google Forms: Create a survey', 'https://support.google.com/docs/answer/6281888'),
+            ]},
+          { text:'Hold a 90-minute retrospective with the project team: what went well, what was difficult, what would you do differently?',
+            assets:[
+              tmpl('Retrospective Template (Miro)', 'https://miro.com/templates/retrospective/'),
+              howto('How to run a project retrospective', 'https://support.google.com/docs/answer/7068618'),
+            ]},
+          { text:'Write a one-page PIR report: adoption rate, satisfaction score, top 3 wins, top 3 improvements, and 5 recommendations for future projects.',
+            assets:[
+              tmpl('PIR Report Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=PIR+Report+Template'),
+              tmpl('Lessons Learned Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Lessons+Learned'),
+            ]},
+          { text:'Present the PIR to the sponsor and leadership. Do not let the report sit in a folder.',
+            assets:[
+              tmpl('PIR Presentation Template (Google Slides)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=PIR+Report+Template'),
+            ]},
+          { text:'Formally close the project: archive all documentation, recognise the team, and confirm the handover to operations.',
+            assets:[
+              tmpl('Project Closure Checklist (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Project+Closure+Checklist'),
+            ]},
+        ],
+        outputs:['User survey completed','Lessons-learned report','PIR presented to leadership','Project formally closed','Documentation archived'],
+        tip:'The PIR is a gift to the next project manager. Write the report you wish you had been given.'
+      },
+      { id:20, type:'cm', title:'Embed the change and transition to business as usual',
+        timing:'Week 28 to 34',
+        why:'Without a structured handover, support falls through the cracks, new starters get trained on the old way, and adoption quietly regresses. This milestone protects the investment already made.',
+        steps:[
+          { text:'Update all new-starter onboarding materials before the project closes. This is the most commonly missed step.',
+            assets:[
+              tmpl('Onboarding Checklist Template (Google Sheet)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Onboarding+Update+Checklist'),
+              howto('How to update onboarding for a change', 'https://www.prosci.com/blog/sustaining-change-after-go-live'),
+            ]},
+          { text:'Hand off ongoing support to the relevant team (IT, HR, operations) with a briefing session and FAQ document.',
+            assets:[
+              tmpl('Support Handover Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Support+Handover+Template'),
+              tmpl('FAQ Document Template (Google Doc)', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=FAQ+Template'),
+            ]},
+          { text:'Send a final all-staff communication: the project is closing, here is who to contact, here is where to find support.',
+            assets:[
+              tmpl('Project Close Communication Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Communications+Template'),
+            ]},
+          { text:'Confirm that the governance model is active. Who owns this process going forward? Are they set up to succeed?',
+            assets:[
+              tmpl('Governance Handover Checklist', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Governance+Framework'),
+            ]},
+          { text:'Set a calendar reminder for a 6-month health check. Revisit adoption metrics and interview 5 users to catch any regression early.',
+            assets:[
+              tool('Set a Google Calendar reminder', 'https://support.google.com/calendar/answer/37242'),
+              tmpl('Health Check Survey Template', 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID?q=Post+Implementation+Survey'),
+            ]},
+        ],
+        outputs:['Onboarding materials updated','Support handover completed','Final communication sent','Governance confirmed','6-month health check scheduled'],
+        tip:'The change is not done when the project closes. It is done when people cannot remember the old way of doing things.'
+      },
+    ]
+  },
+];
+
+let activeId = null;
+
+function render() {
+  const container = document.getElementById('timeline-container');
+  let html = '';
+  PHASES.forEach(phase => {
+    html += '<div class="phase-bar">' + phase.name + '<span class="ph-timing">' + phase.timing + '</span></div>';
+    html += '<div class="tl">';
+    phase.milestones.forEach(m => {
+      const isActive = activeId === m.id;
+      const dotClass = m.type === 'pm' ? 'dot-pm' : 'dot-cm';
+      const typeLabel = m.type === 'pm' ? 'P' : 'C';
+      const typePill = m.type === 'pm' ? 'tp' : 'tc';
+      const typeText = m.type === 'pm' ? 'PROJECT' : 'CHANGE MGMT';
+      html += '<div class="ms' + (isActive ? ' active' : '') + '" onclick="toggle(' + m.id + ')">' +
+        '<div class="dot ' + dotClass + '">' + typeLabel + '</div>' +
+        '<div class="ms-head"><span class="ms-title">' + m.title + '</span><span class="ms-type ' + typePill + '">' + typeText + '</span></div>' +
+        '<div class="ms-timing">' + m.timing + '</div>' +
+        '<div class="ms-why">' + m.why + '</div></div>';
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+  renderPanel();
+}
+
+function toggle(id) {
+  activeId = activeId === id ? null : id;
+  render();
+  if (activeId) {
+    var el = document.getElementById('detail-panel');
+    setTimeout(function(){ el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+  }
+}
+
+function findMilestone(id) {
+  for (var p = 0; p < PHASES.length; p++) {
+    for (var m = 0; m < PHASES[p].milestones.length; m++) {
+      if (PHASES[p].milestones[m].id === id) return PHASES[p].milestones[m];
+    }
+  }
+  return null;
+}
+
+function renderAsset(a) {
+  var cls = a.type === 'tmpl' ? 'asset-tmpl' : a.type === 'howto' ? 'asset-howto' : 'asset-tool';
+  var icon = a.type === 'tmpl' ? '\u{1F4CB}' : a.type === 'howto' ? '\u{1F4D6}' : '\u{1F527}';
+  var prefix = a.type === 'tmpl' ? '\uD83D\uDCC4 ' : a.type === 'howto' ? '\uD83D\uDCD6 ' : '\uD83D\uDD27 ';
+  return '<a class="asset-tag ' + cls + '" href="' + a.url + '" target="_blank" rel="noopener">' +
+    '<span class="asset-icon">' + icon + '</span>' + prefix + a.label + '</a>';
+}
+
+function renderPanel() {
+  var panel = document.getElementById('detail-panel');
+  if (!activeId) { panel.classList.remove('open'); return; }
+  var m = findMilestone(activeId);
+  if (!m) { panel.classList.remove('open'); return; }
+  panel.classList.add('open');
+
+  var typeText = m.type === 'pm' ? 'Project milestone' : 'Change management milestone';
+  var stepsHtml = '';
+  for (var i = 0; i < m.steps.length; i++) {
+    var s = m.steps[i];
+    var assetsHtml = '';
+    if (s.assets && s.assets.length > 0) {
+      assetsHtml = '<div class="step-assets">';
+      for (var j = 0; j < s.assets.length; j++) {
+        assetsHtml += renderAsset(s.assets[j]);
+      }
+      assetsHtml += '</div>';
+    }
+    stepsHtml += '<div class="step"><div class="step-head"><div class="step-n">' + (i+1) + '.</div><div class="step-t">' + s.text + '</div></div>' + assetsHtml + '</div>';
+  }
+
+  var outsHtml = '';
+  for (var k = 0; k < m.outputs.length; k++) {
+    outsHtml += '<div class="out-item">' + m.outputs[k] + '</div>';
+  }
+
+  var tipHtml = m.tip ? '<div class="tip-box"><p><strong style="color:var(--black)">Tip:</strong> ' + m.tip + '</p></div>' : '';
+
+  panel.innerHTML =
+    '<div class="panel-hdr"><div>' +
+      '<div class="ph-num">' + typeText + ' | ' + m.timing + '</div>' +
+      '<div class="ph-t">' + m.title + '</div></div></div>' +
+    '<div class="panel-body">' +
+      '<div class="sec-t">Why this matters</div>' +
+      '<div class="nb"><p>' + m.why + '</p></div>' +
+      '<div class="sec-t">What to do (step by step with templates and tools)</div>' +
+      stepsHtml +
+      '<div class="sec-t">What you should have when this is done</div>' +
+      outsHtml +
+      tipHtml +
+    '</div>';
+}
+
+render();
+</script>
+</body>
+</html>

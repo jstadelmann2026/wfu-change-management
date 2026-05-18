@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Google Drive Setup Guide - WFU CM and PM Templates</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:#EDEBE6;color:#222;padding:1.5rem 1rem}
+.app{max-width:680px;margin:0 auto;background:#fff;border-radius:8px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+h1{font-size:20px;color:#000;margin-bottom:.3rem}
+h2{font-size:15px;color:#9E7E38;margin-top:1.25rem;margin-bottom:.4rem}
+p{font-size:13px;color:#53565A;line-height:1.65;margin-bottom:.5rem}
+.badge{display:inline-block;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;padding:3px 9px;border-radius:2px;background:#9E7E38;color:#fff;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.75rem}
+.step{display:flex;gap:10px;margin-bottom:.6rem;padding:.5rem .6rem;background:#F4F4F4;border-left:3px solid #9E7E38;border-radius:0 4px 4px 0}
+.step-n{font-family:Arial,sans-serif;font-size:11px;font-weight:bold;color:#8C6D2C;min-width:16px}
+.step-t{font-size:12.5px;line-height:1.55}
+.note{background:#F5EFE0;border:1px solid #CEB888;border-radius:4px;padding:.5rem .7rem;margin:.5rem 0}
+.note p{font-size:12px;color:#8C6D2C}
+.file-list{font-family:Arial,sans-serif;font-size:11px;color:#53565A;line-height:1.8;margin:.4rem 0;padding-left:1rem}
+.file-list li{margin-bottom:2px}
+.file-list .cat{font-weight:bold;color:#000;margin-top:.4rem;display:block}
+.motto{font-family:Georgia,serif;font-style:italic;color:#8C6D2C;font-size:12px;text-align:center;margin-top:1.25rem}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="badge">Setup guide</div>
+  <h1>How to set up WFU templates in Google Drive</h1>
+  <p>All 41 templates are provided as .xlsx and .docx files. When uploaded to Google Drive, they automatically convert to native Google Sheets and Google Docs.</p>
+
+  <h2>Step 1: Create the folder</h2>
+  <div class="step"><div class="step-n">1.</div><div class="step-t">Go to <a href="https://drive.google.com" target="_blank">drive.google.com</a> and sign in with your WFU Google account.</div></div>
+  <div class="step"><div class="step-n">2.</div><div class="step-t">Click <strong>New > Folder</strong> and name it <strong>WFU CM and PM Templates</strong>.</div></div>
+  <div class="step"><div class="step-n">3.</div><div class="step-t">Open the folder. Copy the <strong>folder ID</strong> from the URL bar. It is the long string after <code>/folders/</code>. Example: <code>drive.google.com/drive/folders/<strong>1AbCdEfGhIjKlMnOpQrStUvWxYz</strong></code></div></div>
+
+  <h2>Step 2: Upload the template files</h2>
+  <div class="step"><div class="step-n">4.</div><div class="step-t">Inside the folder, click <strong>New > File upload</strong> and select all 41 template files.</div></div>
+  <div class="step"><div class="step-n">5.</div><div class="step-t">After uploading, right-click each file and choose <strong>Open with > Google Sheets</strong> (for .xlsx) or <strong>Open with > Google Docs</strong> (for .docx). This creates a native Google version.</div></div>
+
+  <div class="note">
+    <p><strong>Bulk convert tip:</strong> To auto-convert all files on upload, go to Google Drive Settings (gear icon) > check <strong>"Convert uploads to Google Docs editor format"</strong>. Then re-upload.</p>
+  </div>
+
+  <h2>Step 3: Share the folder</h2>
+  <div class="step"><div class="step-n">6.</div><div class="step-t">Right-click the folder > <strong>Share</strong>. Set access to "Anyone at Wake Forest University with the link" and permission to <strong>Viewer</strong>.</div></div>
+  <div class="step"><div class="step-n">7.</div><div class="step-t">For templates people need to fill in, have them click <strong>File > Make a copy</strong> so they get their own editable version. The original stays clean.</div></div>
+
+  <h2>Step 4: Connect to the HTML tool</h2>
+  <div class="step"><div class="step-n">8.</div><div class="step-t">Open the HTML tool file (WFU_CM_PM_101_Simple.html) in a text editor.</div></div>
+  <div class="step"><div class="step-n">9.</div><div class="step-t">Find and replace <code>YOUR_FOLDER_ID</code> with your actual folder ID from Step 3. There are 75 occurrences.</div></div>
+  <div class="step"><div class="step-n">10.</div><div class="step-t">Save the file and upload to your GitHub repository. All template links in the tool will now open your Google Drive folder.</div></div>
+
+  <div class="note">
+    <p><strong>Even better:</strong> For each template, you can get the direct Google Docs/Sheets link (click <strong>Share > Copy link</strong>) and replace the folder link with the direct link. This opens the specific template instead of the folder.</p>
+  </div>
+
+  <h2>Template inventory (41 files)</h2>
+
+  <ul class="file-list">
+    <li class="cat">Google Sheets (21 templates)</li>
+    <li>Project_Plan_Template.xlsx > Google Sheet</li>
+    <li>Stakeholder_Register_Template.xlsx > Google Sheet</li>
+    <li>Stakeholder_Impact_Assessment.xlsx > Google Sheet</li>
+    <li>Communications_Plan_Template.xlsx > Google Sheet</li>
+    <li>RACI_Template.xlsx > Google Sheet</li>
+    <li>Team_Roster_RACI.xlsx > Google Sheet</li>
+    <li>Decision_Log_Template.xlsx > Google Sheet</li>
+    <li>Training_Plan_Template.xlsx > Google Sheet</li>
+    <li>Training_Tracker.xlsx > Google Sheet</li>
+    <li>Training_Content_Audit.xlsx > Google Sheet</li>
+    <li>Issue_Tracker.xlsx > Google Sheet</li>
+    <li>UAT_Test_Plan.xlsx > Google Sheet</li>
+    <li>Go_Live_Readiness_Checklist.xlsx > Google Sheet</li>
+    <li>Impact_Assessment_Matrix.xlsx > Google Sheet</li>
+    <li>Cutover_Plan.xlsx > Google Sheet</li>
+    <li>Requirements_Tracker.xlsx > Google Sheet</li>
+    <li>Lessons_Learned.xlsx > Google Sheet</li>
+    <li>Project_Closure_Checklist.xlsx > Google Sheet</li>
+    <li>Governance_Framework.xlsx > Google Sheet</li>
+    <li>Onboarding_Update_Checklist.xlsx > Google Sheet</li>
+    <li>Technical_Review_Checklist.xlsx > Google Sheet</li>
+
+    <li class="cat">Google Docs (20 templates)</li>
+    <li>Project_Charter_Template.docx > Google Doc</li>
+    <li>Communications_Template.docx > Google Doc</li>
+    <li>Meeting_Agenda_Template.docx > Google Doc</li>
+    <li>Meeting_Summary_Template.docx > Google Doc</li>
+    <li>Stakeholder_Interview_Guide.docx > Google Doc</li>
+    <li>Job_Aid_Template.docx > Google Doc</li>
+    <li>SOP_Template.docx > Google Doc</li>
+    <li>Quick_Reference_Guide_Template.docx > Google Doc</li>
+    <li>FAQ_Template.docx > Google Doc</li>
+    <li>Glossary_Template.docx > Google Doc</li>
+    <li>Executive_Summary_Template.docx > Google Doc</li>
+    <li>Support_Handover_Template.docx > Google Doc</li>
+    <li>Scope_Statement_Template.docx > Google Doc</li>
+    <li>Design_Signoff_Form.docx > Google Doc</li>
+    <li>Daily_Standup_Agenda.docx > Google Doc</li>
+    <li>Meeting_Invite_Template.docx > Google Doc</li>
+    <li>Workshop_Agenda_Template.docx > Google Doc</li>
+    <li>Policy_Template.docx > Google Doc</li>
+    <li>Post_Implementation_Survey.docx > Google Doc (build in Google Forms)</li>
+    <li>Integration_Spec_Template.docx > Google Doc</li>
+  </ul>
+
+  <div class="motto">Pro Humanitate</div>
+</div>
+</body>
+</html>

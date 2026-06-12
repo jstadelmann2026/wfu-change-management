@@ -1,788 +1,825 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CM and PM 101 - Wake Forest University</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project &amp; Change Management Toolkits — Wake Forest University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#9E7E38;--gold-d:#8C6D2C;--gold-l:#CEB888;--gold-p:#F5EFE0;--black:#000;--wblk:#222;--gray:#53565A;--glt:#E8E8E8;--gpale:#F4F4F4;--white:#fff}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Georgia,serif;background:#EDEBE6;color:var(--wblk);min-height:100vh;padding:1.25rem .75rem}
-.app{max-width:720px;margin:0 auto}
-.hdr{background:var(--black);border-radius:8px 8px 0 0;padding:.75rem 1rem;display:flex;align-items:center;gap:12px}
-.wf{width:42px;height:42px;background:var(--gold);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.wf span{font-family:Georgia,serif;font-size:18px;font-weight:bold;color:var(--black)}
-.hd{border-left:2px solid var(--gold);padding-left:10px}
-.hd .i{font-family:Arial,sans-serif;font-size:10px;color:var(--gold-l);letter-spacing:.07em;text-transform:uppercase}
-.hd .t{font-family:Georgia,serif;font-size:14px;color:var(--white);font-weight:bold}
-.crd{background:var(--white);border-radius:0 0 8px 8px;padding:1.25rem 1rem;box-shadow:0 3px 14px rgba(0,0,0,.1)}
-h2{font-size:16px;font-weight:bold;color:var(--black);margin-bottom:.3rem}
-p{font-size:13px;color:var(--gray);line-height:1.6}
-.badge{display:inline-flex;align-items:center;gap:4px;font-family:Arial,sans-serif;font-size:10px;font-weight:bold;padding:3px 9px;border-radius:2px;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em}
-.bg{background:var(--gold);color:var(--white)}
-.tl{position:relative;padding-left:28px;margin:.75rem 0}
-.tl::before{content:'';position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--gold-p)}
-.ms{position:relative;margin-bottom:.5rem;cursor:pointer;padding:.6rem .75rem;border-radius:4px;border:1.5px solid var(--glt);background:var(--white);transition:.15s}
-.ms:hover{border-color:var(--gold);background:var(--gold-p)}
-.ms.active{border:2px solid var(--gold);background:var(--gold-p)}
-.ms .dot{position:absolute;left:-22px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:9px;font-weight:bold;z-index:1}
-.dot-pm{background:var(--black);color:var(--gold-l)}
-.dot-cm{background:var(--gold);color:var(--white)}
-.ms .ms-head{display:flex;align-items:center;gap:6px;margin-bottom:2px;flex-wrap:wrap}
-.ms .ms-title{font-family:Georgia,serif;font-size:12.5px;font-weight:bold;color:var(--black)}
-.ms .ms-type{font-family:Arial,sans-serif;font-size:8px;font-weight:bold;padding:2px 6px;border-radius:2px}
-.tp{background:var(--black);color:var(--gold-l)}.tc{background:var(--gold-p);color:var(--gold-d);border:1px solid var(--gold)}
-.ms .ms-timing{font-family:Arial,sans-serif;font-size:10px;color:var(--gray)}
-.ms .ms-why{font-size:12px;color:var(--gray);margin-top:4px;line-height:1.5;display:none}
-.ms.active .ms-why{display:block}
-.panel{display:none;margin-top:.75rem;border:1px solid var(--glt);border-radius:6px;overflow:hidden}
-.panel.open{display:block}
-.panel-hdr{background:var(--black);padding:.7rem .9rem}
-.panel-hdr .ph-num{font-family:Arial,sans-serif;font-size:10px;color:var(--gold);font-weight:bold}
-.panel-hdr .ph-t{font-family:Georgia,serif;font-size:14px;color:var(--white);font-weight:bold}
-.panel-body{padding:.75rem .9rem}
-.sec-t{font-family:Arial,sans-serif;font-size:9px;font-weight:bold;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-d);margin-bottom:.4rem;margin-top:.7rem}
-.sec-t:first-child{margin-top:0}
-.step{margin-bottom:.6rem;padding:.55rem .65rem;background:var(--gpale);border-left:3px solid var(--gold);border-radius:0 3px 3px 0}
-.step-head{display:flex;gap:6px;align-items:baseline;margin-bottom:3px}
-.step-n{font-family:Arial,sans-serif;font-size:10px;font-weight:bold;color:var(--gold-d);min-width:14px}
-.step-t{font-size:12px;color:var(--wblk);line-height:1.5}
-.step-assets{margin-top:4px;display:flex;flex-wrap:wrap;gap:4px}
-.asset-tag{display:inline-flex;align-items:center;gap:3px;font-family:Arial,sans-serif;font-size:10px;font-weight:600;padding:3px 7px;border-radius:3px;text-decoration:none;transition:.12s}
-.asset-tmpl{background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4}
-.asset-tmpl:hover{background:#B5D4F4}
-.asset-howto{background:#E1F5EE;color:#085041;border:1px solid #9FE1CB}
-.asset-howto:hover{background:#9FE1CB}
-.asset-tool{background:var(--gold-p);color:var(--gold-d);border:1px solid var(--gold-l)}
-.asset-tool:hover{background:var(--gold-l)}
-.asset-icon{font-size:11px}
-.out-item{font-size:12px;color:var(--gray);padding:.2rem 0;padding-left:.8rem;position:relative;line-height:1.5}
-.out-item::before{content:'\2022';position:absolute;left:0;color:var(--gold)}
-.tip-box{background:var(--gold-p);border:1px solid var(--gold-l);border-radius:3px;padding:.5rem .7rem;margin-top:.5rem}
-.tip-box p{font-size:11px;color:var(--gold-d)}
-.phase-bar{background:var(--black);color:var(--gold-l);font-family:Arial,sans-serif;font-size:10px;font-weight:bold;padding:5px 10px;border-radius:3px;margin-top:.75rem;margin-bottom:.35rem;letter-spacing:.05em;display:flex;align-items:center;gap:6px}
-.phase-bar .ph-timing{color:var(--gold);font-weight:normal;margin-left:auto;font-size:9px}
-.legend{display:flex;gap:.75rem;margin:.5rem 0;flex-wrap:wrap;align-items:center}
-.leg-item{display:flex;align-items:center;gap:4px;font-family:Arial,sans-serif;font-size:10px;color:var(--gray)}
-.leg-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:bold}
-.cb{border-left:4px solid var(--gold);border-radius:0 4px 4px 0;padding:.6rem .8rem;margin-bottom:.5rem;background:var(--gold-p)}
-.cb p{font-size:12px;color:var(--gold-d)}
-.nb{background:var(--gpale);border-radius:4px;padding:.6rem .8rem;margin-bottom:.5rem}
-.nb p{font-size:12px}
-.motto{font-family:Georgia,serif;font-style:italic;color:var(--gold-d);font-size:12px;text-align:center;margin-top:.75rem}
-.footer{margin-top:.5rem;text-align:center;font-size:10px;font-family:Arial,sans-serif;color:var(--gray)}
-@media(max-width:580px){
-  body{padding:.75rem .4rem}
-  .crd{padding:1rem .75rem}
-  .tl{padding-left:24px}
-  .ms .dot{left:-18px;width:18px;height:18px;font-size:8px}
-  h2{font-size:15px}
-  .asset-tag{font-size:9px;padding:2px 5px}
-}
+  :root{
+    --ink:#1A1A1A; --ink-soft:#403D38; --gold:#9E7E38; --gold-bright:#C2A24E;
+    --gold-tint:#F4EFE2; --paper:#FFFFFF; --panel:#F6F4EF; --line:#E4DFD4;
+    --muted:#807A6E; --good:#3F7A4F; --warn:#B5803A; --stop:#A3472F;
+    --display:'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --body:'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --shadow:0 1px 2px rgba(26,26,26,.05), 0 8px 24px rgba(26,26,26,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1.12;margin:0;letter-spacing:-.01em}
+  p{margin:0 0 .8rem}
+  .wrap{display:grid;grid-template-columns:288px 1fr;min-height:100vh}
+
+  aside{background:var(--ink);color:#EDE9DF;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:28px 22px;overflow-y:auto}
+  .brand-eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-bright);font-weight:600}
+  .brand-name{font-family:var(--display);font-size:21px;font-weight:800;margin-top:6px;color:#fff;line-height:1.15}
+  .brand-sub{font-size:12.5px;color:#A9A395;margin-top:8px;line-height:1.4}
+  nav{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+  .nav-label{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#8C8676;margin:18px 0 8px}
+  .nav-item{display:flex;gap:12px;align-items:baseline;width:100%;text-align:left;background:none;border:0;color:#D7D2C6;font-family:var(--body);font-size:14px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .15s,color .15s}
+  .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+  .nav-item.active{background:var(--gold);color:#1A1A1A;font-weight:600}
+  .nav-item .num{font-family:var(--display);font-size:13px;color:var(--gold-bright);min-width:18px}
+  .nav-item.active .num{color:#1A1A1A}
+  .aside-foot{margin-top:auto;padding-top:22px;font-size:11.5px;color:#8C8676;border-top:1px solid rgba(255,255,255,.08)}
+
+  main{padding:0;max-width:980px}
+  .section{display:none;padding:54px 60px 80px;animation:fade .4s ease}
+  .section.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:14px}
+  .h-xl{font-size:clamp(32px,4vw,46px);letter-spacing:-.025em}
+  .lead{font-size:18px;color:var(--ink-soft);max-width:60ch;margin-top:16px}
+  .sub-note{font-size:15px;color:var(--muted);max-width:60ch;margin-top:10px}
+  .section h2{font-size:30px;margin:0}
+  .section h3{font-size:20px;margin:30px 0 10px}
+  .section p{color:var(--ink-soft);max-width:68ch}
+  .divider{height:1px;background:var(--line);margin:30px 0}
+
+  /* ---- simple intro choice ---- */
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px;max-width:760px}
+  @media(max-width:680px){.choices{grid-template-columns:1fr}}
+  .choice{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:22px 22px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .05s;font-family:var(--body)}
+  .choice:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+  .choice:active{transform:scale(.995)}
+  .choice .ct{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink)}
+  .choice .cd{font-size:14px;color:var(--muted)}
+  .choice.primary{background:var(--ink);border-color:var(--ink)}
+  .choice.primary .ct{color:#fff}
+  .choice.primary .cd{color:#B7B1A4}
+  .choice.primary:hover{border-color:var(--gold)}
+
+  /* ---- Berkeley-style section directory ---- */
+  .mapgrid{grid-template-columns:repeat(3,1fr);max-width:1060px;margin-top:18px}
+  @media(max-width:980px){.mapgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:660px){.mapgrid{grid-template-columns:1fr}}
+  .mapgrid .choice{gap:7px;padding:20px 20px}
+  .mapgrid .choice .cnum{font-family:var(--display);font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.14em}
+  .mapgrid .choice .ct{font-size:17.5px;display:flex;align-items:center;gap:8px}
+  .mapgrid .choice .ct::after{content:"\2192";color:var(--gold);font-size:16px;opacity:0;transform:translateX(-4px);transition:opacity .15s,transform .15s;margin-left:auto}
+  .mapgrid .choice:hover .ct::after{opacity:1;transform:translateX(0)}
+  .mapgrid .choice .cd{font-size:13.5px;line-height:1.45}
+  .map-lead{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:42px 0 4px}
+
+  .quick-links{margin-top:18px;max-width:760px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  .quick-links button{background:none;border:0;color:var(--gold);font-weight:700;cursor:pointer;font-size:14px;padding:4px 2px;font-family:var(--body)}
+  .quick-links button:hover{text-decoration:underline}
+
+  .gloss-home{margin-top:24px;max-width:760px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:4px 20px}
+  .gloss-home summary{cursor:pointer;font-weight:600;color:var(--ink);padding:14px 0;list-style:none;font-size:15px}
+  .gloss-home summary::-webkit-details-marker{display:none}
+  .gloss-home summary::before{content:"+";color:var(--gold);font-weight:700;margin-right:9px}
+  .gloss-home[open] summary::before{content:"\2013"}
+  .gloss-home dl{padding:0 0 14px;margin:0;columns:2;column-gap:36px}
+  .gloss-home dt{break-inside:avoid}
+  @media(max-width:680px){.gloss-home dl{columns:1}}
+
+  /* ---- mini question flow ---- */
+  .wizard{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px;box-shadow:var(--shadow);max-width:760px;display:none}
+  .wizard.show{display:block}
+  .qcount{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .step-q{font-family:var(--display);font-size:25px;font-weight:800;margin:8px 0 18px}
+  .opts{display:grid;gap:10px}
+  .opt{display:flex;align-items:center;gap:13px;text-align:left;width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:15px 17px;font-family:var(--body);font-size:15.5px;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,transform .05s}
+  .opt:hover{border-color:var(--gold)}
+  .opt:active{transform:scale(.995)}
+  .opt.sel{border-color:var(--gold);background:var(--gold-tint)}
+  .opt .tick{width:20px;height:20px;border-radius:50%;border:2px solid #C8C2B4;flex:none;display:grid;place-items:center}
+  .opt.sel .tick{border-color:var(--gold);background:var(--gold)}
+  .opt.sel .tick::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+  .wiz-controls{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+  .btn{font-family:var(--body);font-weight:600;font-size:14.5px;border-radius:9px;padding:11px 22px;cursor:pointer;border:1.5px solid transparent;transition:background .15s,border-color .15s,opacity .15s}
+  .btn-primary{background:var(--gold);color:#1A1A1A;border-color:var(--gold)}
+  .btn-primary:hover{background:var(--gold-bright);border-color:var(--gold-bright)}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+  .btn-ghost{background:none;color:var(--ink-soft);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--ink-soft)}
+  .btn-text{background:none;border:0;color:var(--gold);font-weight:600;cursor:pointer;font-size:13.5px;padding:6px}
+  .detail-link{margin-top:16px;font-size:13.5px;color:var(--muted)}
+  .detail-link button{background:none;border:0;color:var(--gold);font-weight:600;cursor:pointer;font-size:13.5px;padding:0}
+
+  /* ---- result ---- */
+  .result{margin-top:28px;display:none;max-width:820px}
+  .result.show{display:block;animation:fade .45s ease}
+  .verdict{border-radius:14px;padding:24px 28px;color:#fff;box-shadow:var(--shadow)}
+  .verdict.low{background:linear-gradient(135deg,#3F7A4F,#2F5E3C)}
+  .verdict.medium{background:linear-gradient(135deg,#B5803A,#8A5E27)}
+  .verdict.high{background:linear-gradient(135deg,#1A1A1A,#3A3024)}
+  .verdict .tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;font-weight:600}
+  .verdict .lvl{font-family:var(--display);font-size:30px;font-weight:800;margin:5px 0 4px}
+  .verdict .aside{font-size:13px;opacity:.8}
+  .nudge{display:flex;gap:12px;align-items:flex-start;background:#F4E2DC;border:1px solid #E6C8BD;border-radius:12px;padding:16px 18px;margin-top:18px}
+  .nudge .nd{font-size:14.5px;color:#7A3525}
+  .nudge strong{color:#5E2114}
+  .firststeps{margin-top:24px}
+  .firststeps h3{font-size:19px;margin-bottom:10px}
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0}
+  ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line);font-size:15.5px;color:var(--ink-soft)}
+  ol.steps li:last-child{border-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#1A1A1A;font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:14px}
+  .kit{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .kit h3{font-size:16px;margin-bottom:8px}
+  ul.kitlist{list-style:none;margin:0;padding:0}
+  ul.kitlist li{padding:8px 0 8px 24px;position:relative;font-size:14.5px;color:var(--ink-soft);border-bottom:1px solid var(--line)}
+  ul.kitlist li:last-child{border-bottom:0}
+  ul.kitlist li::before{content:"";position:absolute;left:4px;top:15px;width:8px;height:8px;border-radius:2px;background:var(--gold)}
+  ul.kitlist li span{color:var(--muted);font-size:13px}
+  .result-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+
+  /* ---- content blocks ---- */
+  .tier{border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:20px 24px;margin:14px 0;background:var(--panel)}
+  .tier h4{font-size:18px}
+  .tier .meta{font-size:13px;color:var(--muted);margin:4px 0 10px;font-weight:500}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+  ul.clean{list-style:none;padding:0;margin:.4rem 0}
+  ul.clean li{padding:6px 0 6px 24px;position:relative;color:var(--ink-soft);font-size:14.5px}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+  table.t{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  table.t th{background:var(--ink);color:#fff;text-align:left;padding:11px 14px;font-weight:600}
+  table.t td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top}
+  table.t tr:nth-child(even) td{background:var(--panel)}
+  .pill{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 10px;border-radius:20px;background:var(--gold-tint);color:var(--gold)}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  a.card{display:block;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+  a.card:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+  .card .open{color:var(--gold);font-weight:700;font-size:12.5px}
+  .tlink{color:var(--gold);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(158,126,56,.35)}
+  .tlink:hover{border-bottom-color:var(--gold)}
+  .card h4{font-size:16px;margin-bottom:6px}
+  .phaseflow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:18px}
+  @media(max-width:860px){.phaseflow{grid-template-columns:repeat(2,1fr)}}
+  .phase{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 12px;text-align:center}
+  .phase .n{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#1A1A1A;font-family:var(--display);font-weight:700;display:grid;place-items:center;margin:0 auto 8px;font-size:13px}
+  .phase .pn{font-weight:600;font-size:14px;margin-bottom:3px;color:var(--ink)}
+  .phase .pd{font-size:11.5px;color:var(--muted);line-height:1.35}
+  .prompt{border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;background:var(--paper)}
+  .prompt .ptop{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:8px}
+  .prompt h4{font-size:16px}
+  .prompt .ptag{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+  .prompt pre{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--ink-soft);white-space:pre-wrap;line-height:1.5}
+  .copy{font-family:var(--body);font-size:12.5px;font-weight:600;color:var(--ink);background:var(--gold-tint);border:1px solid var(--line);border-radius:7px;padding:7px 13px;cursor:pointer;white-space:nowrap}
+  .copy:hover{background:var(--gold)}
+  .copy.copied{background:var(--good);color:#fff;border-color:var(--good)}
+  .glossary dt{font-weight:600;color:var(--ink);margin-top:12px;font-size:14.5px}
+  .glossary dd{margin:2px 0 0;color:var(--ink-soft);font-size:14px}
+
+  .topbar-m{display:none}
+  @media(max-width:880px){
+    .wrap{grid-template-columns:1fr}
+    aside{position:relative;height:auto;flex-direction:column}
+    .section{padding:36px 22px 70px}
+    nav{display:none}
+    nav.open{display:flex}
+    .topbar-m{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+    .menu-btn{background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:8px 12px;font-family:var(--body);font-size:13px;cursor:pointer}
+  }
+  :focus-visible{outline:3px solid var(--gold-bright);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
+
+  .wiz-prompt{font-size:18px;font-weight:700;color:var(--ink);margin:6px 0 14px;max-width:60ch}
+  .shortcuts-label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:30px 0 12px}
+  .choices.compact{gap:12px}
+  .choices.compact .choice{padding:14px 16px}
+  .choices.compact .choice .ct{font-size:15px}
+  .choices.compact .choice .cd{font-size:12.5px}
+  #wizard:not(.show){display:none}
 </style>
 </head>
 <body>
-<div class="app">
-<div class="hdr">
-  <div class="wf"><span>WF</span></div>
-  <div class="hd"><div class="i">Wake Forest University</div><div class="t">CM and PM 101</div></div>
-</div>
-<div class="crd" id="main">
+<div class="wrap">
 
-<div id="s0">
-  <div class="badge bg">Project and change management guide</div>
-  <h2>How to run a project and manage change</h2>
-  <p style="margin:.5rem 0 .75rem">Click any milestone to see what it means, why it matters, exactly what to do, and which templates and tools to use. Each step includes links to downloadable templates and how-to resources.</p>
+  <aside>
+    <div class="brand-eyebrow">Wake Forest University</div>
+    <div class="brand-name">Project &amp; Change<br>Management Toolkits</div>
+    <div class="brand-sub">A practical guide to leading projects and change at Wake Forest, sized to fit whatever you are taking on.</div>
+    <div class="topbar-m"><span class="brand-sub" style="margin:0">Menu</span><button class="menu-btn" id="menuBtn">Sections</button></div>
+    <nav id="nav">
+      <div class="nav-label">Begin</div>
+      <button class="nav-item active" data-sec="start"><span class="num">1</span><span>Start here</span></button>
+      <button class="nav-item" data-sec="sizing"><span class="num">2</span><span>Size up your project</span></button>
+      <div class="nav-label">Set up for success</div>
+      <button class="nav-item" data-sec="governance"><span class="num">3</span><span>Governance &amp; approvals</span></button>
+      <button class="nav-item" data-sec="roles"><span class="num">4</span><span>Roles &amp; responsibilities</span></button>
+      <button class="nav-item" data-sec="planning"><span class="num">5</span><span>The project lifecycle</span></button>
+      <button class="nav-item" data-sec="change"><span class="num">6</span><span>Leading change</span></button>
+      <div class="nav-label">Do the work</div>
+      <button class="nav-item" data-sec="templates"><span class="num">7</span><span>Templates &amp; tools</span></button>
+      <button class="nav-item" data-sec="prompts"><span class="num">8</span><span>AI prompt library</span></button>
+      <button class="nav-item" data-sec="advanced"><span class="num">9</span><span>Advanced toolkit</span></button>
+    </nav>
+    <div class="aside-foot">No prior project management experience needed. Everything here is written for first timers.</div>
+  </aside>
 
-  <div style="background:#E6F1FB;border:1px solid #B5D4F4;border-radius:4px;padding:.6rem .8rem;margin-bottom:.75rem">
-    <p style="font-size:12px;color:#0C447C"><strong style="color:#185FA5">Google Drive setup:</strong> Upload the template files to a shared Google Drive folder. They will auto-convert to Google Docs and Google Sheets. Then replace 1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV in the browser URL with your actual folder ID to make all template links work. <a href="https://support.google.com/drive/answer/2494822" target="_blank" style="color:#185FA5">How to share a Google Drive folder</a></p>
-  </div>
+  <main>
 
-  <div class="cb">
-    <p><strong style="color:var(--black)">Two tracks, one timeline.</strong> Project management (PM) milestones deliver the solution. Change management (CM) milestones prepare the people. Both run in parallel from day one.</p>
-  </div>
+    <!-- ===== 1. START ===== -->
+    <section class="section show" id="start">
+      <div id="intro">
+        <div class="eyebrow">Wake Forest University &middot; Pro Humanitate</div>
+        <h1 class="h-xl">Project and Change Management Toolkit</h1>
+        <p class="lead">These tools help all Wake Forest staff define and run projects, whatever their size. They are grounded in established project and change management practice and provided as editable Google Workspace templates, so you can adapt them to your own work. Use them on technical and non-technical projects, with or without prior experience.</p>
+      </div>
 
-  <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:var(--black);color:var(--gold-l)">P</div> Project milestone</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--gold);color:var(--white)">C</div> Change management milestone</div>
-  </div>
+      <div class="map-lead" style="margin-top:40px">Explore the toolkit</div>
+      <div class="choices mapgrid" id="choices">
+        <button class="choice" data-go="sizing"><span class="cnum">01</span><span class="ct">Size up your project</span><span class="cd">Match the planning, governance, and rigor to the size and complexity of the work.</span></button>
+        <button class="choice" data-go="governance"><span class="cnum">02</span><span class="ct">Governance and approvals</span><span class="cd">Who gives the go ahead, who you report to, and how often.</span></button>
+        <button class="choice" data-go="roles"><span class="cnum">03</span><span class="ct">Roles and responsibilities</span><span class="cd">Who does what, from sponsor and project lead to stakeholders.</span></button>
+        <button class="choice" data-go="planning"><span class="cnum">04</span><span class="ct">The project lifecycle</span><span class="cd">The stages every project moves through, from kickoff to close.</span></button>
+        <button class="choice" data-go="change"><span class="cnum">05</span><span class="ct">Leading change</span><span class="cd">Help people get ready, willing, and able for what is changing.</span></button>
+        <button class="choice" data-go="templates"><span class="cnum">06</span><span class="ct">Templates and tools</span><span class="cd">Ready to use documents you can fill in, in editable Google Workspace formats.</span></button>
+        <button class="choice" data-go="prompts"><span class="cnum">07</span><span class="ct">AI prompt library</span><span class="cd">Prompts to draft plans, communications, and updates with AI.</span></button>
+        <button class="choice" data-go="advanced"><span class="cnum">08</span><span class="ct">Advanced toolkit</span><span class="cd">Deeper templates and reference material for experienced leads.</span></button>
+      </div>
 
-  <div id="timeline-container"></div>
-  <div id="detail-panel" class="panel"></div>
-</div>
+      <div class="eyebrow" style="margin-top:50px;margin-bottom:10px">Start here</div>
+      <h3 class="wiz-prompt">New to running a project, or not sure where to begin? Answer three quick questions and we will tailor your first steps, the help to line up, and your starter templates.</h3>
+      <div class="wizard show" id="wizard">
+        <div class="qcount" id="qcount"></div>
+        <div class="step-q" id="stepQ"></div>
+        <div class="opts" id="opts"></div>
+        <div class="wiz-controls">
+          <button class="btn btn-ghost" id="backBtn">Back</button>
+          <button class="btn btn-primary" id="nextBtn" disabled>Next</button>
+        </div>
+        <div class="detail-link" id="detailLink" style="display:none"></div>
+      </div>
 
-</div>
-<div class="footer"><div class="motto">Pro Humanitate</div></div>
+      <div class="result" id="result"></div>
+
+
+      <details class="gloss-home">
+        <summary>New to these words? Open the plain-English glossary</summary>
+        <dl class="glossary">
+          <dt>Project lead</dt><dd>You, most likely. The person running the project day to day.</dd>
+          <dt>Sponsor</dt><dd>The senior person who backs your project, finds the money, and clears roadblocks. Your go-to when you are stuck.</dd>
+          <dt>Stakeholder</dt><dd>Anyone affected by the project or who cares how it turns out.</dd>
+          <dt>Scope</dt><dd>What the project will and will not cover. Writing it down keeps the project from quietly growing.</dd>
+          <dt>Charter</dt><dd>A one page document that says what you are doing, why, and who is involved. It gets the project the go ahead.</dd>
+          <dt>Milestone</dt><dd>A meaningful checkpoint, like "design approved" or "go live."</dd>
+          <dt>Steering group</dt><dd>A small group of leaders who approve the big decisions.</dd>
+          <dt>RACI</dt><dd>A simple chart of who does each task: who is Responsible, Accountable, Consulted, and Informed.</dd>
+          <dt>RAID log</dt><dd>A running list of Risks, Assumptions, Issues, and Dependencies. A fancy name for "things to keep an eye on."</dd>
+          <dt>ADKAR</dt><dd>The five stages people go through to accept a change: Awareness, Desire, Knowledge, Ability, Reinforcement.</dd>
+          <dt>PMO</dt><dd>Project Management Office. The central team that sets the standards and can support bigger projects.</dd>
+          <dt>Stage gate</dt><dd>A checkpoint between stages where someone confirms it is OK to keep going.</dd>
+        </dl>
+      </details>
+
+    </section>
+
+    <!-- ===== 2. SIZING ===== -->
+    <section class="section" id="sizing">
+      <div class="eyebrow">Step 2</div>
+      <h2>Size up your project</h2>
+      <p class="lead">Experienced teams right-size their approach: they match the level of planning, governance, and rigor to the size and complexity of the work. We group projects into three tiers, so you apply just enough structure and never more than the job needs. Knowing your tier also gives everyone a common language for the work.</p>
+
+      <div class="tier">
+        <h4>Tier 1 · Small <span class="pill">light touch</span></h4>
+        <div class="meta">Well suited to a first-time lead, a coordinator, or anyone new to running projects</div>
+        <div class="grid2">
+          <div><strong>This sounds like you if</strong>
+            <ul class="clean"><li>It mostly involves you and your close team</li><li>Fewer than about 25 people are affected</li><li>Only your manager is watching</li><li>Nothing major is being rebuilt</li></ul></div>
+          <div><strong>What you need</strong>
+            <ul class="clean"><li>A short list of who is involved</li><li>A simple project plan</li><li>A quick weekly update</li><li>A closeout checklist at the end</li></ul></div>
+        </div>
+      </div>
+      <div class="tier">
+        <h4>Tier 2 · Medium <span class="pill">standard</span></h4>
+        <div class="meta">Best run by someone with a project or two behind them, or with a mentor alongside</div>
+        <div class="grid2">
+          <div><strong>This sounds like you if</strong>
+            <ul class="clean"><li>A few teams or departments are involved</li><li>Roughly 25 to 500 people are affected</li><li>A director or senior leader is watching</li><li>Some ways of working will change</li></ul></div>
+          <div><strong>What you need</strong>
+            <ul class="clean"><li>A full project plan and charter</li><li>A plan for keeping people informed</li><li>A risk list</li><li>A simple group that approves decisions</li></ul></div>
+        </div>
+      </div>
+      <div class="tier">
+        <h4>Tier 3 · Large <span class="pill">major project</span></h4>
+        <div class="meta">Standard practice is to lead or co-lead with an experienced project manager or the project office</div>
+        <div class="grid2">
+          <div><strong>This sounds like you if</strong>
+            <ul class="clean"><li>It reaches across the whole organization</li><li>500 or more people are affected</li><li>Top leadership is watching</li><li>Technology, process, and people all change</li></ul></div>
+          <div><strong>What you need</strong>
+            <ul class="clean"><li>A senior sponsor and a steering group</li><li>Experienced project and change support</li><li>A clear plan with checkpoints</li><li>A way to track the benefits afterward</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. GOVERNANCE ===== -->
+    <section class="section" id="governance">
+      <div class="eyebrow">Step 3</div>
+      <h2>Governance: who decides and approves</h2>
+      <p class="lead">Governance is simply who gives the go-ahead, who you report to, and how often. The larger the project, the more formal it becomes. Match it to your tier.</p>
+      <table class="t">
+        <thead><tr><th>If your project is</th><th>You need</th><th>You report to</th><th>How often</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Small</strong></td><td>One person who backs it, plus a simple update</td><td>Your manager</td><td>Monthly, or when something changes</td></tr>
+          <tr><td><strong>Medium</strong></td><td>A backer plus a small group that approves decisions</td><td>A director or senior leader</td><td>Every two to four weeks</td></tr>
+          <tr><td><strong>Large</strong></td><td>A senior steering group and formal checkpoints</td><td>Top leadership</td><td>Monthly with leadership, weekly with the team</td></tr>
+        </tbody>
+      </table>
+      <h3>Plain words for common roles</h3>
+      <div class="grid2">
+        <div class="card"><h4>Sponsor</h4><p style="margin:0">The senior person who backs the project, secures the money, and clears roadblocks.</p></div>
+        <div class="card"><h4>Steering group</h4><p style="margin:0">A small group of leaders who approve big decisions and keep the project on track.</p></div>
+        <div class="card"><h4>Project lead</h4><p style="margin:0">You, most likely. The person running the project day to day.</p></div>
+        <div class="card"><h4>Checkpoint</h4><p style="margin:0">A moment between stages where someone confirms it is OK to keep going.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 4. ROLES ===== -->
+    <section class="section" id="roles">
+      <div class="eyebrow">Step 4</div>
+      <h2>Roles and responsibilities</h2>
+      <p class="lead">These jobs show up on almost every project. On a small one, the same person often wears several hats. That is fine, just make sure each job is covered.</p>
+      <table class="t">
+        <thead><tr><th>Job</th><th>What they look after</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sponsor</strong></td><td>Backs the project, finds the money, removes blockers</td></tr>
+          <tr><td><strong>Project lead</strong></td><td>Runs the project day to day, tracks progress, keeps people updated</td></tr>
+          <tr><td><strong>Steering group</strong></td><td>Approves big decisions and changes</td></tr>
+          <tr><td><strong>Business owner</strong></td><td>The person who will live with the result and cares it works</td></tr>
+          <tr><td><strong>Change lead</strong></td><td>Helps people get ready for and accept the change</td></tr>
+          <tr><td><strong>Experts</strong></td><td>People who know the detail and help figure out how things should work</td></tr>
+        </tbody>
+      </table>
+      <h3>A simple way to share out the work</h3>
+      <p>For each task, decide who actually does it, who signs off on it (just one person), who you should ask for input, and who simply needs to be kept in the loop. Project managers call this a RACI chart, but you do not need the jargon to use the idea.</p>
+    </section>
+
+    <!-- ===== 5. PLANNING ===== -->
+    <section class="section" id="planning">
+      <div class="eyebrow">Step 5</div>
+      <h2>The project lifecycle</h2>
+      <p class="lead">Almost every project, large or small, moves through these seven stages in order. You will not need every one on a small project, but it helps to see the whole path.</p>
+      <div class="phaseflow">
+        <div class="phase"><div class="n">1</div><div class="pn">Get the go ahead</div><div class="pd">Agree what you are doing and why, and get it approved.</div></div>
+        <div class="phase"><div class="n">2</div><div class="pn">Plan it</div><div class="pd">Line up the team and make a simple plan.</div></div>
+        <div class="phase"><div class="n">3</div><div class="pn">Look into it</div><div class="pd">Understand how things work today.</div></div>
+        <div class="phase"><div class="n">4</div><div class="pn">Design it</div><div class="pd">Decide how things should work instead.</div></div>
+        <div class="phase"><div class="n">5</div><div class="pn">Build it</div><div class="pd">Make it and test it on a small scale first.</div></div>
+        <div class="phase"><div class="n">6</div><div class="pn">Launch it</div><div class="pd">Go live, and help people through the switch.</div></div>
+        <div class="phase"><div class="n">7</div><div class="pn">Check it worked</div><div class="pd">See if it delivered, and note what to do better.</div></div>
+      </div>
+      <h3>What to do first, every time</h3>
+      <ul class="clean">
+        <li>Write down what you are doing and why, on one page. Get someone senior to agree to it.</li>
+        <li>List who is involved and who is affected.</li>
+        <li>Set a regular check-in so progress and problems surface early.</li>
+        <li>Use the templates in section 7 for each step. The questions in section 1 tell you which ones you need.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 6. CHANGE ===== -->
+    <section class="section" id="change">
+      <div class="eyebrow">Step 6</div>
+      <h2>Leading the change</h2>
+      <p class="lead">Delivering something new is only half the job. The other half is helping people adopt it, which professionals call change management. A simple way to think about it: people move through five stages.</p>
+      <table class="t">
+        <thead><tr><th>Stage</th><th>What it means</th><th>What helps</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Aware</strong></td><td>They know a change is coming and why</td><td>Clear, early messages about the why</td></tr>
+          <tr><td><strong>2. Willing</strong></td><td>They want to take part</td><td>Showing what is in it for them</td></tr>
+          <tr><td><strong>3. Know how</strong></td><td>They understand what to do</td><td>Training and clear instructions</td></tr>
+          <tr><td><strong>4. Able</strong></td><td>They can actually do it</td><td>Practice, coaching, and support</td></tr>
+          <tr><td><strong>5. Sticks</strong></td><td>The new way becomes normal</td><td>Encouragement and follow up</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px"><em>Project managers call this model ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement). The plain words above are the same thing.</em></p>
+    </section>
+
+    <!-- ===== 7. TEMPLATES ===== -->
+    <section class="section" id="templates">
+      <div class="eyebrow">Step 7</div>
+      <h2>Templates &amp; tools</h2>
+      <p class="lead">Ready to use documents, grouped by the step they belong to. Open one, fill in the blanks, and you are done.</p>
+      <div class="grid2" id="templateGrid"></div>
+      <p style="margin-top:20px"><em>Each template links to its file in the shared WFU CM and PM Templates library in Google Drive.</em></p>
+    </section>
+
+    <!-- ===== 8. PROMPTS ===== -->
+    <section class="section" id="prompts">
+      <div class="eyebrow">Step 8 · A favorite</div>
+      <h2>AI prompt library</h2>
+      <p class="lead">Copy one of these into an AI assistant and fill in the parts in brackets. It turns a blank page into a first draft in seconds.</p>
+      <div id="promptList"></div>
+    </section>
+
+    <!-- ===== 9. ADVANCED ===== -->
+    <section class="section" id="advanced">
+      <div class="eyebrow">Step 9 · Advanced toolkit</div>
+      <h2>The advanced toolkit</h2>
+      <p class="lead">For seasoned leads running medium and large projects. This is the deeper, click-through edition: classify the work, pick a governance model, walk the milestones, and pull the full template suite for every phase.</p>
+
+      <h3>Classify the work, then run its playbook</h3>
+      <p>Most initiatives are one dominant type. Your type sets the baseline deliverables and governance.</p>
+      <div class="grid2">
+        <div class="tier" style="margin:8px 0"><h4>Technical / system</h4><div class="meta">New or changed app, integration, platform, or infrastructure</div>Heavier discovery, a formal design, and a careful, tested cutover. Architecture review and a change advisory board approve the build and release.</div>
+        <div class="tier" style="margin:8px 0"><h4>Policy</h4><div class="meta">A new or revised rule people must follow</div>Legal and risk review is a mandatory gate, and attestation and rollout matter as much as the wording.</div>
+        <div class="tier" style="margin:8px 0"><h4>Process</h4><div class="meta">A redesigned set of steps, hand-offs, and controls</div>Map the current state, design the future state, and pilot before you scale. SOPs and training carry the change.</div>
+        <div class="tier" style="margin:8px 0"><h4>Org / team structure</h4><div class="meta">A change to structure, reporting lines, or where work sits</div>Confidential stakeholder work, legal or works-council consultation, and careful sequencing of announcements.</div>
+      </div>
+
+      <h3>Governance model selector</h3>
+      <table class="t">
+        <thead><tr><th>If the work is</th><th>Use</th><th>Who decides</th></tr></thead>
+        <tbody>
+          <tr><td>Small, personal, or a quick task</td><td><strong>Light</strong></td><td>Do it well and lightly, do not drown it in governance</td></tr>
+          <tr><td>Several teams or a shared process</td><td><strong>Medium</strong></td><td>A small steering group, one lead per affected team</td></tr>
+          <tr><td>Enterprise-wide or multi-division</td><td><strong>Full</strong></td><td>Executive sponsor, steering committee, PMO oversight, stage gates</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Full template suite, by phase</h3>
+      <div class="grid2" id="advTemplateGrid"></div>
+
+      <h3>Change management (ADKAR) kit</h3>
+      <p>Run the people track in parallel: case for change and communications (Awareness), sponsor roadmap and stakeholder impact assessment (Desire), training plan and content audit (Knowledge), training tracker and job aids (Ability), and adoption survey and lessons learned (Reinforcement).</p>
+
+      <h3>Glossary and acronyms</h3>
+      <dl class="glossary">
+        <dt>Charter</dt><dd>The one document that authorizes a project and names its purpose, scope, sponsor, and budget.</dd>
+        <dt>Sponsor</dt><dd>The senior person who backs the project and owns its success.</dd>
+        <dt>RAID log</dt><dd>A running list of Risks, Assumptions, Issues, and Dependencies.</dd>
+        <dt>RACI</dt><dd>Responsible, Accountable, Consulted, Informed. A chart of who does what on each task.</dd>
+        <dt>ADKAR</dt><dd>Awareness, Desire, Knowledge, Ability, Reinforcement. A model for guiding people through change.</dd>
+        <dt>OCM</dt><dd>Organizational Change Management. The discipline of preparing and supporting people through a change.</dd>
+        <dt>UAT</dt><dd>User Acceptance Testing. Checking the build does what users actually need before go live.</dd>
+        <dt>PMO</dt><dd>Project Management Office. The central team that sets project standards and supports big efforts.</dd>
+        <dt>Stage gate</dt><dd>A checkpoint between stages where someone approves the project to continue.</dd>
+      </dl>
+    </section>
+
+  </main>
 </div>
 
 <script>
-// Asset tag helper
-function tmpl(label, url) {
-  return { type: 'tmpl', label, url };
-}
-function howto(label, url) {
-  return { type: 'howto', label, url };
-}
-function tool(label, url) {
-  return { type: 'tool', label, url };
-}
+(function(){
+  "use strict";
 
-const PHASES = [
-  {
-    name: '0. Planning',
-    timing: 'Weeks 1 to 4',
-    milestones: [
-      { id:1, type:'pm', title:'Define scope and write project charter',
-        timing:'Week 1 to 2',
-        why:'Without a clear scope, the project grows in every direction. The charter is a one-page agreement on what you are doing, why, and who is responsible.',
-        steps:[
-          { text:'Write a one-page project charter covering: what is the problem, what is the goal, what is in scope, and what is out of scope.',
-            assets:[
-              tmpl('Project Charter Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Project+Charter+Template'),
-              howto('How to write a project charter', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Get your project sponsor (the senior leader who owns this) to review and sign the charter. No sign-off means no authority to proceed.',
-            assets:[
-              howto('What does a project sponsor do?', 'https://www.pmi.org/learning/library/importance-of-project-sponsorship-9914'),
-            ]},
-          { text:'List the key systems, teams, and processes that will be affected. Even a rough list helps prevent surprises later.',
-            assets:[
-              tmpl('Scope Statement Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Scope+Statement+Template'),
-            ]},
-        ],
-        outputs:['Signed project charter','Scope statement','High-level list of impacted areas'],
-        tip:'The charter does not need to be perfect. It needs to be agreed. You will refine it as you learn more.'
-      },
-      { id:2, type:'pm', title:'Define the project team and roles',
-        timing:'Week 1 to 2',
-        why:'If nobody knows who is doing what, nothing gets done. Define the core team, their roles, and how decisions get made.',
-        steps:[
-          { text:'List every person on the project team with their name, role, and what they are responsible for.',
-            assets:[
-              tmpl('Team Roster Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Team+Roster+RACI'),
-              tmpl('RACI Matrix Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=RACI+Template'),
-            ]},
-          { text:'Decide who makes decisions, who needs to be consulted, and who just needs to be informed. Use a RACI chart for this.',
-            assets:[
-              howto('How to build a RACI chart', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Set up a recurring weekly team meeting. This is the heartbeat of the project.',
-            assets:[
-              tmpl('Meeting Agenda Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Meeting+Agenda+Template'),
-              tool('Schedule in Google Calendar', 'https://support.google.com/calendar/answer/72143'),
-            ]},
-        ],
-        outputs:['Team roster with roles','RACI chart','Weekly meeting scheduled'],
-        tip:'Keep the core team small (5 to 8 people). Involve others as subject matter experts when needed.'
-      },
-      { id:3, type:'cm', title:'Identify your stakeholders',
-        timing:'Week 2 to 4',
-        why:'Stakeholders are the people affected by the change. If you do not know who they are, you cannot communicate with them, train them, or manage their concerns.',
-        steps:[
-          { text:'List every person or group who will be affected by this project. Include the people whose daily work will change, not just the people doing the project work.',
-            assets:[
-              tmpl('Stakeholder Register Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Stakeholder+Register+Template'),
-              howto('How to identify stakeholders', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'For each stakeholder, note: how significantly are they affected (high, medium, low)? What are they likely to worry about?',
-            assets:[
-              tmpl('Stakeholder Impact Assessment Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Stakeholder+Impact+Assessment'),
-            ]},
-          { text:'Identify 1 to 2 "champions" in each affected area. These are enthusiastic people who can influence their peers.',
-            assets:[
-              howto('How to build a change champion network', 'https://www.prosci.com/blog/change-champion-network'),
-            ]},
-        ],
-        outputs:['Stakeholder list with impact levels','Key concerns documented','Champions identified'],
-        tip:'Talk to people directly. Do not guess what they think. A 15-minute conversation is worth more than a week of assumptions.'
-      },
-      { id:4, type:'pm', title:'Create the project plan and timeline',
-        timing:'Week 2 to 4',
-        why:'The plan turns the scope into a sequence of tasks with dates, owners, and dependencies. Without it, no one knows what is happening when.',
-        steps:[
-          { text:'Break the work into phases (like this guide) and list the major milestones in each phase.',
-            assets:[
-              tmpl('Project Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Project+Plan+Template'),
-              tmpl('Gantt Chart Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Project+Plan+Template'),
-              tool('Smartsheet Getting Started Guide', 'https://support.google.com/a/users/answer/9282959'),
-            ]},
-          { text:'Assign an owner and a target date to every milestone. "The team" is not an owner. A named person is.',
-            assets:[
-              howto('How to assign task ownership', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Identify dependencies: what has to finish before something else can start? Mark those in your plan.',
-            assets:[
-              howto('Understanding task dependencies', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Share the plan with the full team and get their input before finalising dates.',
-            assets:[
-              tool('How to share a Smartsheet', 'https://support.google.com/drive/answer/2494822'),
-            ]},
-        ],
-        outputs:['Project plan with milestones, owners, and dates','Dependencies mapped','Plan shared and agreed with the team'],
-        tip:'Use a Smartsheet or shared tracker that everyone can see. Plans that live in your inbox do not get followed.'
-      },
-      { id:5, type:'pm', title:'Schedule and deliver the project kick-off',
-        timing:'Week 3 to 4',
-        why:'The kick-off signals to the organisation that this project is real, resourced, and underway. It sets expectations and creates accountability.',
-        steps:[
-          { text:'Prepare a 30-minute kick-off presentation covering: why this project, what is in scope, who is on the team, key dates, and how people will be kept informed.',
-            assets:[
-              tmpl('Kick-off Presentation Template (Google Slides)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Kickoff+Presentation+Template'),
-              howto('How to run a great project kick-off', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Invite the project team, key stakeholders, and the sponsor. The sponsor should open the meeting because their visible support matters.',
-            assets:[
-              tmpl('Kick-off Meeting Invite Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Meeting+Invite+Template'),
-            ]},
-          { text:'After the kick-off, send a summary email with the plan, team contacts, and where to ask questions.',
-            assets:[
-              tmpl('Post-Meeting Summary Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Meeting+Summary+Template'),
-            ]},
-        ],
-        outputs:['Kick-off meeting delivered','Summary email sent','Q&A channel established'],
-        tip:'The kick-off is not just informational. It is the moment people decide whether to take this project seriously. Make it count.'
-      },
-      { id:6, type:'cm', title:'Set up governance and communications',
-        timing:'Week 3 to 4',
-        why:'Without a regular communication rhythm, people fill the silence with rumour and anxiety. Governance ensures decisions are made and tracked.',
-        steps:[
-          { text:'Create a decision log. This is a simple list of every decision made, who made it, and the date. You will need this later.',
-            assets:[
-              tmpl('Decision Log Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Decision+Log+Template'),
-              howto('Why you need a decision log', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Set up a regular cadence: weekly team meetings, bi-weekly sponsor updates, and monthly stakeholder communications.',
-            assets:[
-              tmpl('Status Report Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Status+Report+Template'),
-              tool('Google Calendar: Schedule meetings', 'https://support.google.com/calendar/answer/72143'),
-            ]},
-          { text:'Draft a communication plan: who needs to hear what, when, and through which channel (email, meeting, Google Chat, newsletter).',
-            assets:[
-              tmpl('Communication Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Plan+Template'),
-              howto('How to write a communication plan', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Send the first sponsor-level communication to stakeholders within the first month, even if it is just "the project has started and here is what to expect."',
-            assets:[
-              tmpl('Sponsor Email Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Template'),
-            ]},
-        ],
-        outputs:['Decision log created','Meeting cadence set','Communication plan drafted','First stakeholder communication sent'],
-        tip:'The most common CM mistake is going silent. Even a "no news" update is better than nothing.'
-      },
-    ]
-  },
-  {
-    name: '1. Discovery',
-    timing: 'Weeks 4 to 8',
-    milestones: [
-      { id:7, type:'pm', title:'Map the current state (as-is)',
-        timing:'Week 4 to 6',
-        why:'You cannot design a better process without understanding the current one. What is documented and what actually happens are often very different.',
-        steps:[
-          { text:'Interview the people who do the work today, not just managers. Frontline staff know the real process, workarounds, and pain points.',
-            assets:[
-              tmpl('Stakeholder Interview Guide (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Stakeholder+Interview+Guide'),
-              howto('How to run a discovery interview', 'https://www.nngroup.com/articles/stakeholder-interviews/'),
-            ]},
-          { text:'Document the current end-to-end process: what happens, in what order, using which systems, and who does each step.',
-            assets:[
-              tmpl('Process Map Template (Google Drawings / Lucidchart)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Process+Map+Template'),
-              tool('Lucidchart free process mapping', 'https://www.lucidchart.com/pages/process-mapping'),
-              tool('Miro process mapping', 'https://miro.com/process-map/'),
-            ]},
-          { text:'Note every workaround, exception, and "we have always done it this way." These are clues to where the design needs to be better.',
-            assets:[
-              tmpl('Pain Point Tracker (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Issue+Tracker'),
-            ]},
-        ],
-        outputs:['Current-state process map','Pain point list','List of systems and data flows involved'],
-        tip:'Map what people actually do, not what the policy manual says they should do. The gap between those two things is where the real problems live.'
-      },
-      { id:8, type:'pm', title:'Identify impacted processes, users, and systems',
-        timing:'Week 4 to 8',
-        why:'This is the detailed version of your scope. It tells you exactly which business processes, which user groups, and which systems are affected so nothing gets missed during design.',
-        steps:[
-          { text:'For each process area, list: the business process name, the system it runs in, who uses it, and what will change.',
-            assets:[
-              tmpl('Impact Matrix Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Impact+Assessment+Matrix'),
-            ]},
-          { text:'Identify all integration points. Where does data flow between systems? These are high-risk areas.',
-            assets:[
-              tmpl('Data Flow Diagram Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Data+Flow+Template'),
-              howto('How to document system integrations', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Document any compliance, security, or policy implications that the design must account for.',
-            assets:[
-              tmpl('Requirements Tracker (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Requirements+Tracker'),
-            ]},
-        ],
-        outputs:['Impact matrix (process x system x user group)','Integration and data flow map','Compliance and security requirements list'],
-        tip:'If you miss an impacted process here, it will surface as a surprise at go-live. Be thorough.'
-      },
-      { id:9, type:'cm', title:'Conduct stakeholder and impact assessment',
-        timing:'Week 6 to 8',
-        why:'Now that you understand what is changing (from discovery), you can assess how significantly each stakeholder group is affected. This shapes your training, communications, and support plan.',
-        steps:[
-          { text:'For each stakeholder group, answer: how much does their daily work change? (Minor adjustment, noticeable change, or fundamentally different way of working?)',
-            assets:[
-              tmpl('Change Impact Assessment Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Change+Impact+Assessment'),
-              howto('How to assess change impact', 'https://www.prosci.com/blog/change-impact-assessment'),
-            ]},
-          { text:'Identify the top 3 concerns for each group, then validate them by talking to real people in that group.',
-            assets:[
-              tmpl('Stakeholder Interview Questions', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Stakeholder+Interview+Guide'),
-            ]},
-          { text:'Score each group as high, medium, or low impact. High impact groups need the most CM attention.',
-            assets:[
-              howto('Impact scoring guide', 'https://www.prosci.com/methodology/impact-assessment'),
-            ]},
-          { text:'Share the assessment with the sponsor. They need to understand the people risk, not just the technical risk.',
-            assets:[
-              tmpl('One-Page Impact Summary Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Executive+Summary+Template'),
-            ]},
-        ],
-        outputs:['Impact assessment by stakeholder group','Validated concerns per group','One-page summary for the sponsor'],
-        tip:'Impact assessment is not a one-time activity. Revisit it after design is complete because the picture changes as you learn more.'
-      },
-    ]
-  },
-  {
-    name: '2. Design',
-    timing: 'Weeks 6 to 12',
-    milestones: [
-      { id:10, type:'pm', title:'Design the future state',
-        timing:'Week 6 to 10',
-        why:'The future-state design defines how things will work after the change. It must balance what leadership wants, what is technically possible, and what frontline users can realistically adopt.',
-        steps:[
-          { text:'Hold design workshops with a mix of process owners, technical leads, and frontline users.',
-            assets:[
-              tmpl('Workshop Agenda Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Workshop+Agenda+Template'),
-              howto('How to facilitate a design workshop', 'https://www.nngroup.com/articles/discovery-in-agile/'),
-              tool('Miro workshop boards', 'https://miro.com/templates/workshop/'),
-            ]},
-          { text:'Design the end-to-end future process: new workflows, system configurations, approval paths, and data flows.',
-            assets:[
-              tmpl('Future State Process Map Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Process+Map+Template'),
-              tmpl('Workflow Design Template (Google Drawings)', 'https://www.lucidchart.com/pages/templates/workflow-diagram'),
-            ]},
-          { text:'Document every decision made during design and why. You will be asked to justify these later.',
-            assets:[
-              tmpl('Decision Log Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Decision+Log+Template'),
-            ]},
-          { text:'Include exception handling: what happens when the standard process does not apply? This is where most designs fail.',
-            assets:[
-              howto('Designing for edge cases', 'https://www.nngroup.com/articles/error-prevention/'),
-            ]},
-          { text:'Get formal sign-off from the process owners and the sponsor before moving to build.',
-            assets:[
-              tmpl('Design Sign-off Form (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Design+Signoff+Form'),
-            ]},
-        ],
-        outputs:['Future-state process design (signed off)','Configuration requirements for each system','Decision log entries for all design choices','Exception handling documented'],
-        tip:'Involve the people who will use the new process in the design sessions. Designs built without their input almost always fail in practice.'
-      },
-      { id:11, type:'pm', title:'Define governance, policies, and RACI',
-        timing:'Week 8 to 10',
-        why:'New processes need new rules. Who can approve what? What are the new policies? Who owns the process after the project ends? Answer these during design, not after go-live.',
-        steps:[
-          { text:'Define the governance process: who makes decisions about this process after the project is over?',
-            assets:[
-              tmpl('Governance Framework Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Governance+Framework'),
-              howto('What is project governance?', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Update or create any policies that need to change as a result of the new design.',
-            assets:[
-              tmpl('Policy Document Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Policy+Template'),
-            ]},
-          { text:'Create or update the RACI for the new process: who is Responsible, Accountable, Consulted, and Informed for each step.',
-            assets:[
-              tmpl('RACI Matrix Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=RACI+Template'),
-              howto('RACI explained in 5 minutes', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-        ],
-        outputs:['Governance model documented','Updated policies drafted','RACI for the new process'],
-        tip:'Governance that is not documented does not exist. Write it down, even if it is simple.'
-      },
-      { id:12, type:'cm', title:'Launch the communication plan',
-        timing:'Week 8 to 12',
-        why:'People need to know what is coming and why before they are asked to change. If the first time someone hears about the project is when they are told to attend training, you have already lost them.',
-        steps:[
-          { text:'Send the first broad communication from the sponsor: what is this project, why is it happening, who is affected, and what is the timeline. Keep it simple.',
-            assets:[
-              tmpl('Change Announcement Email Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Template'),
-              howto('How to write a change announcement', 'https://www.prosci.com/blog/5-key-change-management-communication-messages'),
-            ]},
-          { text:'Brief all managers before any all-staff communication goes out. They will get questions and need to be ready.',
-            assets:[
-              tmpl('Manager Briefing Pack Template (Google Slides)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=CM+Plan+on+a+Page+Template'),
-            ]},
-          { text:'Create a glossary of terms if the project introduces new language (for example, "position management" vs "job management").',
-            assets:[
-              tmpl('Glossary Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Glossary+Template'),
-              howto('Why a glossary matters for change', 'https://www.prosci.com/blog/change-management-communication'),
-            ]},
-          { text:'Open a Q&A channel where anyone can ask questions and commit to responding within 48 hours.',
-            assets:[
-              tool('Create a Google Chat space', 'https://support.google.com/chat/answer/7653861'),
-            ]},
-        ],
-        outputs:['Sponsor communication sent','Manager briefing delivered','Glossary of terms published','Q&A channel active'],
-        tip:'Lead with the "why." If people do not understand the reason for the change, they will not engage with the "what" or "how."'
-      },
-    ]
-  },
-  {
-    name: '3. Build and configure',
-    timing: 'Weeks 10 to 18',
-    milestones: [
-      { id:13, type:'pm', title:'Build system configuration and process changes',
-        timing:'Week 10 to 16',
-        why:'This is where the design becomes real. System configurations are built, integrations are developed, and process changes are implemented in the tools.',
-        steps:[
-          { text:'Configure the system changes in a test environment (never directly in production).',
-            assets:[
-              howto('Workday: Using sandbox environments', 'https://community.workday.com/articles/sandbox-environments'),
-              howto('Smartsheet: Working in test environments', 'https://community.workday.com/articles/sandbox-environments'),
-            ]},
-          { text:'Build or update any integrations between systems. These are the highest-risk technical items.',
-            assets:[
-              tmpl('Integration Spec Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Integration+Spec+Template'),
-            ]},
-          { text:'Create or update all documentation: SOPs, job aids, quick reference guides, and policy documents.',
-            assets:[
-              tmpl('SOP Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=SOP+Template'),
-              tmpl('Job Aid Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Job+Aid+Template'),
-              tmpl('Quick Reference Guide Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Quick+Reference+Guide+Template'),
-            ]},
-          { text:'Run internal technical reviews at regular checkpoints. Do not wait until the end to check quality.',
-            assets:[
-              tmpl('Technical Review Checklist (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Technical+Review+Checklist'),
-            ]},
-        ],
-        outputs:['System configuration complete in test environment','Integrations built and unit tested','All documentation drafted','Technical review checkpoints passed'],
-        tip:'Document as you build. Waiting until the end to write documentation means it never gets done properly.'
-      },
-      { id:14, type:'cm', title:'Develop training materials and plan',
-        timing:'Week 12 to 16',
-        why:'People cannot adopt what they do not understand. Training must be role-specific, task-focused, and delivered close enough to go-live that people remember it.',
-        steps:[
-          { text:'Audit all existing job aids, training videos, and toolkits that will be affected by this change. The list is usually longer than expected.',
-            assets:[
-              tmpl('Training Content Audit Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Training+Plan+Template'),
-            ]},
-          { text:'Develop new or revised training materials: job aids (one page per task), updated videos, and manager toolkits.',
-            assets:[
-              tmpl('Job Aid Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Job+Aid+Template'),
-              tool('Loom: Record training videos', 'https://www.loom.com/'),
-              tool('Canva: Design job aids', 'https://www.canva.com/templates/?query=job+aid'),
-            ]},
-          { text:'Design the training plan: who needs what training, in what format, and when. Different roles need different training.',
-            assets:[
-              tmpl('Training Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Training+Plan+Template'),
-              tmpl('Training Schedule Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Training+Schedule'),
-            ]},
-          { text:'Plan drop-in listening sessions and Q&A forums. People need space to ask questions informally, not just in formal training.',
-            assets:[
-              tmpl('Listening Session Agenda Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Workshop+Agenda+Template'),
-              howto('How to run a listening session', 'https://www.prosci.com/blog/feedback-loops-change-management'),
-            ]},
-        ],
-        outputs:['Training content audit complete','New or revised job aids and videos','Training schedule by role','Listening session schedule'],
-        tip:'A one-page quick reference guide for "how do I do my top 5 tasks" will be used more than any recorded training session.'
-      },
-    ]
-  },
-  {
-    name: '4. Test and validate',
-    timing: 'Weeks 16 to 22',
-    milestones: [
-      { id:15, type:'pm', title:'Test with real users (UAT)',
-        timing:'Week 16 to 20',
-        why:'User acceptance testing is where real users try the new system and process under realistic conditions. It is your last chance to find problems before they affect everyone.',
-        steps:[
-          { text:'Recruit testers from actual user groups. Include sceptics, not just enthusiasts.',
-            assets:[
-              tmpl('UAT Tester Recruitment Email Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=UAT+Test+Plan'),
-            ]},
-          { text:'Write test scenarios based on real daily tasks, not system features. Ask testers to complete the tasks they will do at go-live.',
-            assets:[
-              tmpl('UAT Test Script Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=UAT+Test+Scripts'),
-              howto('How to write effective UAT test cases', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Log every issue found, assign a severity (critical, high, medium, low), and track resolution.',
-            assets:[
-              tmpl('Issue / Bug Tracker Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Issue+Tracker'),
-            ]},
-          { text:'Get formal sign-off from process owners and functional leaders that UAT is complete and the solution is ready.',
-            assets:[
-              tmpl('UAT Sign-off Form Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Design+Signoff+Form'),
-            ]},
-        ],
-        outputs:['UAT complete with formal sign-off','All critical and high issues resolved','Test results documented','Remaining medium/low issues tracked'],
-        tip:'Watch people use the system. Do not just ask them if it works. Where they hesitate, get confused, or ask for help is where you need better training or design.'
-      },
-      { id:16, type:'cm', title:'Deliver training and track completion',
-        timing:'Week 18 to 22',
-        why:'Training must be completed before go-live, not after. Track completion by role. If a group is below 80% completion one week before go-live, escalate immediately.',
-        steps:[
-          { text:'Deliver role-based training sessions using the materials developed in the build phase.',
-            assets:[
-              tmpl('Training Delivery Checklist', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Training+Delivery+Checklist'),
-              tool('Google Meet: Host training sessions', 'https://support.google.com/meet/answer/9302870'),
-              tool('Google Meet: Host webinars', 'https://zoom.us/webinar'),
-            ]},
-          { text:'Track completion rates weekly. Who has completed, who has not, and what is the completion percentage by team?',
-            assets:[
-              tmpl('Training Tracker Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Training+Tracker'),
-            ]},
-          { text:'Deliver a separate manager training session. Managers need to know the new process well enough to support their teams on day one.',
-            assets:[
-              tmpl('Manager Training Guide Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=CM+Plan+on+a+Page+Template'),
-            ]},
-          { text:'Publish all quick reference guides and job aids to the intranet at least 2 weeks before go-live.',
-            assets:[
-              howto('How to organise training resources on an intranet', 'https://www.nngroup.com/articles/intranet-information-architecture/'),
-            ]},
-          { text:'Run a final round of drop-in Q&A sessions the week before go-live.',
-            assets:[
-              tmpl('Q&A Session Agenda Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Workshop+Agenda+Template'),
-            ]},
-        ],
-        outputs:['Training delivered to all impacted users','Completion tracked at 80%+ for all groups','Manager training completed','All materials published','Pre-go-live Q&A sessions held'],
-        tip:'Training attendance does not equal adoption. The goal is not that they attended. It is that they can do their job on day one.'
-      },
-    ]
-  },
-  {
-    name: '5. Go-live and hypercare',
-    timing: 'Weeks 22 to 28',
-    milestones: [
-      { id:17, type:'pm', title:'Go-live readiness check and launch',
-        timing:'Week 22',
-        why:'The readiness check is your final decision point. Is the system ready, are the people ready, and are the support plans in place? Going live without this check means launching blind.',
-        steps:[
-          { text:'Run through a readiness checklist: system configuration migrated to production, security updated, data clean, training above 80%, communications sent, hypercare team briefed.',
-            assets:[
-              tmpl('Go-Live Readiness Checklist (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Go+Live+Readiness+Checklist'),
-              howto('How to run a go/no-go meeting', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Go+NoGo+Decision+Template'),
-            ]},
-          { text:'Review all open issues. Any unresolved critical or high issues should delay go-live.',
-            assets:[
-              tmpl('Issue Tracker (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Issue+Tracker'),
-            ]},
-          { text:'Present a go or no-go recommendation to the sponsor with supporting data. Be honest. A short delay is less costly than a failed launch.',
-            assets:[
-              tmpl('Go/No-Go Decision Template (Google Slides)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Go+NoGo+Decision+Template'),
-            ]},
-          { text:'If approved: execute the migration to production, send the go-live announcement, and activate support.',
-            assets:[
-              tmpl('Go-Live Announcement Email Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Template'),
-              tmpl('Cutover Plan Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Cutover+Plan'),
-            ]},
-        ],
-        outputs:['Readiness checklist complete','Go/no-go recommendation presented','Sponsor decision documented','Production migration executed (if approved)','Go-live announcement sent'],
-        tip:'If the readiness data says "not ready," say so. The sponsor needs honest advice, not optimism.'
-      },
-      { id:18, type:'cm', title:'Hypercare support active',
-        timing:'Week 22 to 28',
-        why:'Issues always spike in the first weeks after go-live. Hypercare is the structured support system that catches problems early, resolves them fast, and prevents small issues from becoming big ones.',
-        steps:[
-          { text:'Open a hypercare issue log on go-live day. Every question, issue, and complaint gets a row. Nothing handled only in email.',
-            assets:[
-              tmpl('Hypercare Issue Log Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Issue+Tracker'),
-              howto('How to run hypercare support', 'https://www.prosci.com/blog/hypercare-change-management'),
-            ]},
-          { text:'Run a daily 15-minute stand-up during the first 2 weeks: review all open issues, assign owners, escalate anything urgent.',
-            assets:[
-              tmpl('Daily Stand-up Agenda (1 page)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Daily+Standup+Agenda'),
-            ]},
-          { text:'Send a daily summary to all managers: what the top issues are, what has been resolved, and where to direct questions.',
-            assets:[
-              tmpl('Hypercare Daily Summary Email Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Template'),
-            ]},
-          { text:'Track adoption metrics weekly: who is using the new process or system, who is not, and why.',
-            assets:[
-              tmpl('Adoption Tracker Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Training+Tracker'),
-              howto('How to measure adoption', 'https://www.prosci.com/blog/measuring-change-adoption'),
-            ]},
-          { text:'Run multi-channel outreach: newsletters, drop-in sessions, and direct support to the most affected groups.',
-            assets:[
-              tmpl('Hypercare Communication Plan Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Plan+Template'),
-            ]},
-        ],
-        outputs:['Hypercare issue log maintained daily','Daily stand-ups running','Manager summaries sent','Adoption metrics tracked weekly','Communication plan active'],
-        tip:'Do not close hypercare on a fixed date. Close it when the data says you can: adoption above 80%, zero open critical issues, and stable sentiment.'
-      },
-    ]
-  },
-  {
-    name: '6. Sustain and close',
-    timing: 'Weeks 28 to 34+',
-    milestones: [
-      { id:19, type:'pm', title:'Post-implementation review and project closure',
-        timing:'Week 28 to 30',
-        why:'The post-implementation review captures what worked, what did not, and what the organisation should do differently next time. Without it, the same mistakes get repeated on every project.',
-        steps:[
-          { text:'Survey impacted users: are they satisfied? Are they confident? What would they change?',
-            assets:[
-              tmpl('Post-Implementation Survey Template (Google Form)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Post+Implementation+Survey'),
-              tool('Google Forms: Create a survey', 'https://support.google.com/docs/answer/6281888'),
-            ]},
-          { text:'Hold a 90-minute retrospective with the project team: what went well, what was difficult, what would you do differently?',
-            assets:[
-              tmpl('Retrospective Template (Miro)', 'https://miro.com/templates/retrospective/'),
-              howto('How to run a project retrospective', 'https://support.google.com/docs/answer/7068618'),
-            ]},
-          { text:'Write a one-page PIR report: adoption rate, satisfaction score, top 3 wins, top 3 improvements, and 5 recommendations for future projects.',
-            assets:[
-              tmpl('PIR Report Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=PIR+Report+Template'),
-              tmpl('Lessons Learned Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Lessons+Learned'),
-            ]},
-          { text:'Present the PIR to the sponsor and leadership. Do not let the report sit in a folder.',
-            assets:[
-              tmpl('PIR Presentation Template (Google Slides)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=PIR+Report+Template'),
-            ]},
-          { text:'Formally close the project: archive all documentation, recognise the team, and confirm the handover to operations.',
-            assets:[
-              tmpl('Project Closure Checklist (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Project+Closure+Checklist'),
-            ]},
-        ],
-        outputs:['User survey completed','Lessons-learned report','PIR presented to leadership','Project formally closed','Documentation archived'],
-        tip:'The PIR is a gift to the next project manager. Write the report you wish you had been given.'
-      },
-      { id:20, type:'cm', title:'Embed the change and transition to business as usual',
-        timing:'Week 28 to 34',
-        why:'Without a structured handover, support falls through the cracks, new starters get trained on the old way, and adoption quietly regresses. This milestone protects the investment already made.',
-        steps:[
-          { text:'Update all new-starter onboarding materials before the project closes. This is the most commonly missed step.',
-            assets:[
-              tmpl('Onboarding Checklist Template (Google Sheet)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Onboarding+Update+Checklist'),
-              howto('How to update onboarding for a change', 'https://www.prosci.com/blog/sustaining-change-after-go-live'),
-            ]},
-          { text:'Hand off ongoing support to the relevant team (IT, HR, operations) with a briefing session and FAQ document.',
-            assets:[
-              tmpl('Support Handover Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Support+Handover+Template'),
-              tmpl('FAQ Document Template (Google Doc)', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=FAQ+Template'),
-            ]},
-          { text:'Send a final all-staff communication: the project is closing, here is who to contact, here is where to find support.',
-            assets:[
-              tmpl('Project Close Communication Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Communications+Template'),
-            ]},
-          { text:'Confirm that the governance model is active. Who owns this process going forward? Are they set up to succeed?',
-            assets:[
-              tmpl('Governance Handover Checklist', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Governance+Framework'),
-            ]},
-          { text:'Set a calendar reminder for a 6-month health check. Revisit adoption metrics and interview 5 users to catch any regression early.',
-            assets:[
-              tool('Set a Google Calendar reminder', 'https://support.google.com/calendar/answer/37242'),
-              tmpl('Health Check Survey Template', 'https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV?q=Post+Implementation+Survey'),
-            ]},
-        ],
-        outputs:['Onboarding materials updated','Support handover completed','Final communication sent','Governance confirmed','6-month health check scheduled'],
-        tip:'The change is not done when the project closes. It is done when people cannot remember the old way of doing things.'
-      },
-    ]
-  },
-];
+  /* =====================================================================
+     TEMPLATE LINKS — wired to the WFU CM and PM Templates library in Drive.
+     Each template opens its exact Google Doc; anything unmatched falls back
+     to the main library folder. Update IDs here if files move.
+     ===================================================================== */
+  const MAIN_FOLDER='https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV';
+  const OPEN='https://drive.google.com/open?id=';
+  const TEMPLATE_FOLDER_URL=MAIN_FOLDER;
+  const RAW_FILES={
+    Project_Charter_Template:'1ZePKy7NVeVV1nDmZOXhNJtdWgJwJj95DnsH9IeO4Vpc',
+    Action_Decision_Log:'1Drx3HZk_f2q0LB48PyIOlUcnqm9QCNh-oF2_LkkFlqY',
+    Design_Session_Template:'1RmWMEeXUG7D6vEw1sCgQsah2HRzPSxdsYMI9WpegDnA',
+    Stakeholder_Register_Tool:'1KZdlDVs3gBzObaoC0NqxMda4A1GMda6rCJCaOaoVbqE',
+    Kickoff_Template:'1cqxWyW29KAs3UWAXipXDDEiB6H2arbXoaR0TtMhmLo8',
+    Data_Elements_Tracker:'1rf2YjAnyEajj-55ILSbCjBq6bYtt4gUFGiIfk9S6yaY',
+    Communications_Log:'1MxYeJ7KHzDolNWhHuFyMnG2VrUFJo3hUJ5TNMY7qXGc',
+    Sponsor_Review_Template:'1_Yaimr3BTOh96NgN0eRP9Udp59MgwDGByT1MIkX-c-0',
+    Pre_Design_Voice_of_User_Template:'1cq_MPiJkDDxUACDLuPn6QwGy8yuasaRqxZ7L9jp1sk4',
+    Stakeholder_All_Hands_Template:'153B4J16gvuPMo6aLql1zEALBbalfFrHyNhEiPCcJuyM',
+    Stakeholder_Register_Template:'1e8HVHnW1GKnb8o4keIiTWvsqg4g_1tJTFMQaCGLSOCI',
+    Workshop_Agenda_Template:'11cxHl1nAR9ue0HyaGDf7XN4gGCwQW3isNlon19q5MWE',
+    UAT_Test_Plan:'1wUNDGFlVaXoLteVokE5PxfYiMfXzuBgIHGFKayknIVM',
+    Technical_Review_Checklist:'1t72zTL0goUqKqjG7b4AG4Hi1aF6JrGBVDbMKDduo0dk',
+    Training_Content_Audit:'1EGYcoRlkXE18cgkB7tnkooK98cNZ925nQ9-8XDbyUl4',
+    Training_Tracker:'16U6qFp0WSvzDrqFSUU7JMCSryINjYU4rwF2FUUqeCFY',
+    Stakeholder_Interview_Guide:'1l1Drb1vSzITdBB9ZnaGA9MZJ9x3q-VrK6Bv4UZzBpxI',
+    Team_Roster_RACI:'19jg-OzNFh6r4t2u1lVJvboh8k_Jp6dDn0XBJEeQDypA',
+    Training_Plan_Template:'1jvrUpwqPZAgF2r7lv4ywDhh0bTEz_T5pBosII5SF0FQ',
+    Support_Handover_Template:'1AW1UqWK1zPjKOxDVvgEi4iN9EOM4q-lzBap4NGHOUso',
+    RACI_Template:'1o-Eo2ECSw0syMhW15uhGhviEhCnWz9ItM16QwEf7V44',
+    Stakeholder_Impact_Assessment:'1xjOcMlXxHkROCDXZHERghvSWn7l8VZsXUbuGc4a0s94',
+    Project_Closure_Checklist:'15w0tuMLs7YXnAncCCOEDo3FBViqEDNSTDTQs4paKHcw',
+    Quick_Reference_Guide_Template:'16NmhSi9Uu67z5sevpSGVxVldGELVlx1OM6kpTK4Voc8',
+    Post_Implementation_Survey:'1hfdRiLt1n5LBNM6su66NKUS0TR-1KXyDCLlIqkxr4WE',
+    Meeting_Summary_Template:'18mvwHXNU-g6Key4OA2ZlKYEoWApenE9nCLnkqoJ5wFA',
+    RAID_Log_Template:'1ojzkkdpdo4G4pMxfQIG71UVEkrkKoSJjIVpEJwUFgkk',
+    /* Who_Is_Involved_List and Status_Update_Template: paste their Drive IDs here after uploading the two new beginner templates; until then they open the main library folder. */
+    /* Status_Update_Template: paste its Drive ID here after uploading Status_Update_Template.pptx; until then Status update opens the main library folder. */
+    SOP_Template:'1z8UKMnijzpYzA-CC1iSRSAir4lJw2J68Ug9GsMbEia4',
+    Onboarding_Update_Checklist:'17x-DJCjWsF31YgB5EYGMq5iYxjz0HNfwADMA3fwTvAE',
+    Requirements_Tracker:'192XVQTlVu9SdqbmEdcBaiVJPIa1hxI-BKf8DkcqOC9Q',
+    Scope_Statement_Template:'1qJaPIDIA0uraSuLAJt5rgXWyt8jKg3aCZFeKIvhqpUs',
+    Meeting_Invite_Template:'1NY70OzVAKYHrLaBuEXHzEcfaJ-rF6zrjwV0tGZc5YqM',
+    Meeting_Agenda_Template:'1zf0WZ5jQ3kr2VSh9C2edOyQkAIEWP0wMVhS7pWqgV1Y',
+    Policy_Template:'1Li9JQNaK94023EzHHD9W6MPnKKYY5eIFM0qLSPxfxpk',
+    Project_Plan_Template:'1EUBqEHm1OSZfWNxzgQ68qQ1jyAPrQu2Qd993GBMhohw',
+    Lessons_Learned:'1Ecus1tFBEAZngcN_LVazQ30GlYECOUaIbWEtlYh5oMA',
+    Design_Signoff_Form:'1mcuU3BGDrYXVTjvKHS4Li0qFTwCxObfT9eh5n7GcSVc',
+    Glossary_Template:'17z4-LG0RviBFYocHLTETpbS9TsyzIE4X3RiF9rDPxmU',
+    Go_Live_Readiness_Checklist:'17OJe5Usimrq2O8iel38f2dP6WfqpHxx1-yPMx67rXQ8',
+    Issue_Tracker:'1efwz8Q2mdpyIL0HW0MdKffV0MazKCV_2DUF4p2QMrNw',
+    Cutover_Plan:'1MM46GjIhVj7cV7gdeXl952-MtZMy8kmTHnPRnrCnoBM',
+    Communications_Plan_Template:'1ir1fDrwaaqt8l2iH4jZSB8AOxShlbXTR_VyM_Hp3jgY',
+    Job_Aid_Template:'1pc3JlG5sDs6Eqasnsu08Dwl4gXrPz0UoZvXcYyvGDps',
+    FAQ_Template:'1WXvg4Bsc_7V_0Yjj-L4dswgGzNaPRh85E3M2Fw29m_o',
+    Communications_Template:'1Xhhj61Yriw2rci-nMTtl5OqGJhzGjWck45GJ7-0ssfU',
+    Daily_Standup_Agenda:'1vYT_MjwowiO4y3P_5qvH5vV8iWf9QOQngRlr8GcS-m4',
+    Decision_Log_Template:'12ytKNstq0o8_j1DHjbo2qP5jRlSmAtxvRaPo_YKmUng',
+    Impact_Assessment_Matrix:'1rvj2Kgx-sD1Fqaz5A_x0pr8TgMVD4D1Ikz7Rjhm-vqk',
+    Governance_Framework:'1jLvMfG1hTtargCjYpWK3aO_RBINc8M-4fNmV4hTuEew',
+    Executive_Summary_Template:'1YFnckV0DzziKrUqILAPrj5SDN3TBT9crD9kyJl_JBOU',
+    Integration_Spec_Template:'1CS6FHXWgZ_kA-iMCNKb4iomm0QGqVYA2bX-OXgjj6LA',
+  };
+  const norm=(s)=>(s||'').toLowerCase().replace(/&amp;/g,'').replace(/[^a-z0-9]/g,'');
+  const FILES={}; Object.keys(RAW_FILES).forEach(k=>{ FILES[norm(k)]=RAW_FILES[k]; });
+  // friendly names used across the toolkit -> the real file to open
+  const ALIAS={
+    'simple checklist':'Project_Closure_Checklist','closeout checklist':'Project_Closure_Checklist','one page plan':'Project_Plan_Template','status update':'Status_Update_Template',
+    'status template':'Status_Update_Template','list of who is affected':'Stakeholder_Register_Template',
+    'project charter':'Project_Charter_Template','full plan and charter':'Project_Charter_Template','simple project plan':'Project_Plan_Template',
+    'risk list':'Issue_Tracker','raid log':'RAID_Log_Template','risk and issue tracking':'Issue_Tracker','stakeholder map':'Stakeholder_Register_Template',
+    'who is involved':'Stakeholder_Register_Template','who is involved list':'Who_Is_Involved_List','project plan':'Project_Plan_Template','raci':'RACI_Template','governance framework':'Governance_Framework','change impact assessment':'Impact_Assessment_Matrix','training plan':'Training_Plan_Template',
+    'communication plan':'Communications_Plan_Template','communications plan':'Communications_Plan_Template','messages for people':'Communications_Plan_Template',
+    'simple approval group':'Governance_Framework','steering group set up':'Governance_Framework','change plan':'Impact_Assessment_Matrix',
+    'benefits tracking':'Post_Implementation_Survey','who does what':'Team_Roster_RACI','a simple decision and approval log':'Action_Decision_Log',
+    'a test or pilot plan':'UAT_Test_Plan','go live checklist':'Go_Live_Readiness_Checklist','backup plan':'Cutover_Plan',
+    'results check':'Post_Implementation_Survey','lessons learned notes':'Lessons_Learned','project charter':'Project_Charter_Template',
+    'sponsor review':'Sponsor_Review_Template','scope statement':'Scope_Statement_Template','executive summary':'Executive_Summary_Template',
+    'kickoff':'Kickoff_Template','stakeholder all-hands':'Stakeholder_All_Hands_Template','project plan':'Project_Plan_Template',
+    'raci':'RACI_Template','action &amp; decision log':'Action_Decision_Log','action & decision log':'Action_Decision_Log',
+    'voice of the user':'Pre_Design_Voice_of_User_Template','requirements tracker':'Requirements_Tracker','stakeholder interview guide':'Stakeholder_Interview_Guide',
+    'impact assessment':'Stakeholder_Impact_Assessment','impact assessment matrix':'Impact_Assessment_Matrix','design session':'Design_Session_Template',
+    'design signoff form':'Design_Signoff_Form','integration spec':'Integration_Spec_Template','policy template':'Policy_Template',
+    'uat test plan':'UAT_Test_Plan','technical review checklist':'Technical_Review_Checklist','sop template':'SOP_Template',
+    'cutover plan':'Cutover_Plan','go-live readiness checklist':'Go_Live_Readiness_Checklist','project closure checklist':'Project_Closure_Checklist',
+    'lessons learned':'Lessons_Learned','post-implementation survey':'Post_Implementation_Survey','training plan':'Training_Plan_Template',
+    'training tracker':'Training_Tracker','job aid':'Job_Aid_Template','quick reference':'Quick_Reference_Guide_Template',
+  };
+  function fileFor(label){
+    const key=(label||'').toLowerCase().trim();
+    if(ALIAS[key]) return RAW_FILES[ALIAS[key]];
+    const n=norm(label); if(FILES[n]) return FILES[n];
+    return null;
+  }
+  const URLMAP={
+    'simple project plan':'https://app.smartsheet.com/sheets/JcGCg7975PfXrPVX2mjc7H4ppMHGmHf24XcgVcC1?view=grid'
+  };
+  function urlFor(label){ const key=(label||'').toLowerCase().trim(); if(URLMAP[key]) return URLMAP[key]; const id=fileFor(label); return id?(OPEN+id):MAIN_FOLDER; }
+  const tlink=(label)=> '<a class="tlink" href="'+urlFor(label)+'" target="_blank" rel="noopener">'+label+'</a>';
+  // turn a comma-separated list of template names into individual links
+  const linkList=(str)=> str.split(',').map(s=>s.trim()).filter(Boolean).map(s=>tlink(s)).join(', ');
 
-let activeId = null;
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = Array.from(document.querySelectorAll('.section'));
+  function show(secId){
+    sections.forEach(s=>s.classList.toggle('show', s.id===secId));
+    navItems.forEach(n=>n.classList.toggle('active', n.dataset.sec===secId));
+    window.scrollTo({top:0});
+    document.getElementById('nav').classList.remove('open');
+  }
+  navItems.forEach(n=>n.addEventListener('click',()=>show(n.dataset.sec)));
+  const menuBtn=document.getElementById('menuBtn');
+  if(menuBtn) menuBtn.addEventListener('click',()=>document.getElementById('nav').classList.toggle('open'));
 
-function render() {
-  const container = document.getElementById('timeline-container');
-  let html = '';
-  PHASES.forEach(phase => {
-    html += '<div class="phase-bar">' + phase.name + '<span class="ph-timing">' + phase.timing + '</span></div>';
-    html += '<div class="tl">';
-    phase.milestones.forEach(m => {
-      const isActive = activeId === m.id;
-      const dotClass = m.type === 'pm' ? 'dot-pm' : 'dot-cm';
-      const typeLabel = m.type === 'pm' ? 'P' : 'C';
-      const typePill = m.type === 'pm' ? 'tp' : 'tc';
-      const typeText = m.type === 'pm' ? 'PROJECT' : 'CHANGE MGMT';
-      html += '<div class="ms' + (isActive ? ' active' : '') + '" onclick="toggle(' + m.id + ')">' +
-        '<div class="dot ' + dotClass + '">' + typeLabel + '</div>' +
-        '<div class="ms-head"><span class="ms-title">' + m.title + '</span><span class="ms-type ' + typePill + '">' + typeText + '</span></div>' +
-        '<div class="ms-timing">' + m.timing + '</div>' +
-        '<div class="ms-why">' + m.why + '</div></div>';
+  /* ---- question sets: both paths run sizing ---- */
+  const simpleSteps = [
+    { key:'who', q:'How big is the project?',
+      options:[
+        {v:'solo', t:'Small. Mainly me and my close team'},
+        {v:'teams', t:'Medium. A few teams or departments'},
+        {v:'org', t:'Big. Lots of people across the university'},
+      ]},
+    { key:'eyes', q:'Who needs to know about it?',
+      options:[
+        {v:'manager', t:'Just my manager'},
+        {v:'leader', t:'A director or senior leader'},
+        {v:'top', t:'Top university leadership'},
+      ]},
+    { key:'exp', q:'Have you led a project like this before?',
+      options:[
+        {v:'beginner', t:'No, this is my first'},
+        {v:'intermediate', t:'A little'},
+        {v:'advanced', t:'Yes, I do this regularly'},
+      ]},
+  ];
+
+  const state = { idx:0, answers:{} };
+  const stepsFor = ()=> simpleSteps;
+
+  const choices = document.getElementById('choices');
+  const wizard = document.getElementById('wizard');
+  const result = document.getElementById('result');
+  const qcount = document.getElementById('qcount');
+  const stepQ = document.getElementById('stepQ');
+  const optsEl = document.getElementById('opts');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const detailLink = document.getElementById('detailLink');
+  if(detailLink) detailLink.style.display='none';
+
+  choices.querySelectorAll('.choice').forEach(c=>{
+    c.addEventListener('click',()=>{
+      if(c.dataset.go){ show(c.dataset.go); return; }
+      startWizard();
     });
-    html += '</div>';
   });
-  container.innerHTML = html;
-  renderPanel();
-}
 
-function toggle(id) {
-  activeId = activeId === id ? null : id;
-  render();
-  if (activeId) {
-    var el = document.getElementById('detail-panel');
-    setTimeout(function(){ el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
-  }
-}
-
-function findMilestone(id) {
-  for (var p = 0; p < PHASES.length; p++) {
-    for (var m = 0; m < PHASES[p].milestones.length; m++) {
-      if (PHASES[p].milestones[m].id === id) return PHASES[p].milestones[m];
-    }
-  }
-  return null;
-}
-
-function renderAsset(a) {
-  var cls = a.type === 'tmpl' ? 'asset-tmpl' : a.type === 'howto' ? 'asset-howto' : 'asset-tool';
-  var icon = a.type === 'tmpl' ? '\u{1F4CB}' : a.type === 'howto' ? '\u{1F4D6}' : '\u{1F527}';
-  var prefix = a.type === 'tmpl' ? '\uD83D\uDCC4 ' : a.type === 'howto' ? '\uD83D\uDCD6 ' : '\uD83D\uDD27 ';
-  return '<a class="asset-tag ' + cls + '" href="' + a.url + '" target="_blank" rel="noopener">' +
-    '<span class="asset-icon">' + icon + '</span>' + prefix + a.label + '</a>';
-}
-
-function renderPanel() {
-  var panel = document.getElementById('detail-panel');
-  if (!activeId) { panel.classList.remove('open'); return; }
-  var m = findMilestone(activeId);
-  if (!m) { panel.classList.remove('open'); return; }
-  panel.classList.add('open');
-
-  var typeText = m.type === 'pm' ? 'Project milestone' : 'Change management milestone';
-  var stepsHtml = '';
-  for (var i = 0; i < m.steps.length; i++) {
-    var s = m.steps[i];
-    var assetsHtml = '';
-    if (s.assets && s.assets.length > 0) {
-      assetsHtml = '<div class="step-assets">';
-      for (var j = 0; j < s.assets.length; j++) {
-        assetsHtml += renderAsset(s.assets[j]);
-      }
-      assetsHtml += '</div>';
-    }
-    stepsHtml += '<div class="step"><div class="step-head"><div class="step-n">' + (i+1) + '.</div><div class="step-t">' + s.text + '</div></div>' + assetsHtml + '</div>';
+  function startWizard(){
+    state.idx=0; state.answers={};
+    document.getElementById('intro').style.display='none';
+    choices.style.display='none';
+    result.classList.remove('show');
+    wizard.classList.add('show');
+    renderStep();
+    wizard.scrollIntoView({behavior:'smooth',block:'start'});
   }
 
-  var outsHtml = '';
-  for (var k = 0; k < m.outputs.length; k++) {
-    outsHtml += '<div class="out-item">' + m.outputs[k] + '</div>';
+  function renderStep(){
+    const steps=stepsFor();
+    const step=steps[state.idx];
+    qcount.textContent = 'Question '+(state.idx+1)+' of '+steps.length;
+    stepQ.textContent = step.q;
+    const cur=state.answers[step.key];
+    optsEl.innerHTML = step.options.map(o=>{
+      const sel = cur===o.v;
+      return '<button class="opt '+(sel?'sel':'')+'" data-v="'+o.v+'"><span class="tick"></span><span>'+o.t+'</span></button>';
+    }).join('');
+    optsEl.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+      state.answers[step.key]=b.dataset.v;
+      renderStep();
+    }));
+    backBtn.style.visibility = state.idx===0 ? 'hidden':'visible';
+    nextBtn.disabled = !state.answers[step.key];
+    nextBtn.textContent = state.idx===steps.length-1 ? 'Show me what to do' : 'Next';
+  }
+  nextBtn.addEventListener('click',()=>{
+    const steps=stepsFor();
+    if(state.idx<steps.length-1){ state.idx++; renderStep(); }
+    else computeAndShow();
+  });
+  backBtn.addEventListener('click',()=>{ if(state.idx>0){ state.idx--; renderStep(); } });
+  renderStep(); // show the first question immediately on load
+
+  /* ---- work out the size ---- */
+  function sizeLevel(a){
+    if(a.who==='org' || a.eyes==='top') return 'High';
+    if(a.who==='solo' && a.eyes==='manager') return 'Low';
+    return 'Medium';
   }
 
-  var tipHtml = m.tip ? '<div class="tip-box"><p><strong style="color:var(--black)">Tip:</strong> ' + m.tip + '</p></div>' : '';
+  const LABEL={Low:'This is a small project',Medium:'This is a medium project',High:'This is a large project'};
+  const TERM={Low:'Tier 1, light touch. Low complexity and impact.',Medium:'Tier 2, standard. Moderate complexity and impact.',High:'Tier 3, major project. High complexity and impact.'};
+  const FIRST={
+    Low:[
+      'List everyone the project affects, and what they will need from you.',
+      'Write a simple project plan: what you are doing, when, and who is helping.',
+      'Set a quick weekly check-in to keep track of progress.'
+    ],
+    Medium:[
+      'Write a project charter: the one document that says what the project is, why, and who owns it.',
+      'Map out who is affected and how you will keep them informed.',
+      'Start a simple risk list, and agree a regular check-in with the person backing your project.'
+    ],
+    High:[
+      'Find your sponsor (the senior person backing this) and agree who makes the decisions.',
+      'Ask an experienced project lead or the project office to work alongside you.',
+      'Set up a steering group and a clear plan with checkpoints before you build anything.'
+    ]
+  };
+  const KIT={
+    Low:[['Who is involved list','stakeholders affected and how to reach them'],['Simple project plan','what and when'],['RAID log','risks, assumptions, issues, dependencies'],['Status update','a few lines each week'],['Closeout checklist','tie off the basics at the end']],
+    Medium:[['Project charter','the founding document'],['Stakeholder map','who is affected and how to reach them'],['Project plan','tasks, owners, and dates'],['RAID log','risks, assumptions, issues, dependencies'],['Communication plan','what to say, to whom, when'],['RACI','who does what']],
+    High:[['Project charter','the founding document'],['Governance framework','sponsor, steering group, decisions'],['Stakeholder map','who is affected and how to reach them'],['RAID log','risks, assumptions, issues, dependencies'],['Communication plan','what to say, to whom, when'],['Change impact assessment','getting people ready'],['Training plan','building the skills'],['Closeout checklist','tie off and capture benefits']]
+  };
+  const ASK={
+    Low:[
+      'A quick yes from your manager, before you start.',
+      'A few hours from the people involved, while you do the work.'
+    ],
+    Medium:[
+      'A sponsor, a senior person to back you, right at the start.',
+      'A mentor or experienced colleague, early, to look over your plan.',
+      'Time from the affected teams, during the design and testing stages.'
+    ],
+    High:[
+      'An experienced project manager or the project office, before anything else.',
+      'A senior sponsor and a steering group, at the very start.',
+      'Dedicated change support, as soon as the project starts to affect people.'
+    ]
+  };
 
-  panel.innerHTML =
-    '<div class="panel-hdr"><div>' +
-      '<div class="ph-num">' + typeText + ' | ' + m.timing + '</div>' +
-      '<div class="ph-t">' + m.title + '</div></div></div>' +
-    '<div class="panel-body">' +
-      '<div class="sec-t">Why this matters</div>' +
-      '<div class="nb"><p>' + m.why + '</p></div>' +
-      '<div class="sec-t">What to do (step by step with templates and tools)</div>' +
-      stepsHtml +
-      '<div class="sec-t">What you should have when this is done</div>' +
-      outsHtml +
-      tipHtml +
-    '</div>';
-}
+  function ctaRow(){
+    return '<div class="result-cta">'
+      +'<button class="btn btn-primary" data-go="planning">Show me how to start</button>'
+      +'<button class="btn btn-ghost" data-go="templates">Get my templates</button>'
+      +'<button class="btn-text" id="changeAns">Change my answers</button>'
+      +'<button class="btn-text" id="restart">Start over</button>'
+    +'</div>';
+  }
+  function wireResult(){
+    result.classList.add('show');
+    wizard.classList.remove('show');
+    result.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+    document.getElementById('changeAns').addEventListener('click',()=>{
+      result.classList.remove('show'); wizard.classList.add('show');
+      state.idx = stepsFor().length-1; renderStep();
+      wizard.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    document.getElementById('restart').addEventListener('click',()=>{
+      result.classList.remove('show');
+      state.idx=0; state.answers={};
+      wizard.classList.add('show'); renderStep();
+      document.getElementById('start').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    result.scrollIntoView({behavior:'smooth',block:'start'});
+  }
 
-render();
+  function computeAndShow(){
+    const a=state.answers;
+    const level=sizeLevel(a);
+    const needsSupport = level==='High' || (a.exp==='beginner' && level!=='Low');
+    const nudge = needsSupport ? (
+      '<div class="nudge"><div class="nd"><strong>Bring in support before you go further.</strong> '
+      + (level==='High'
+          ? 'For a project this size, standard practice is to lead or co-lead with an experienced project manager or the project office. Loop them in now, while the work is still being shaped, which is when their help counts most.'
+          : 'This project is a step up from your experience so far. Pairing with an experienced colleague, a mentor, or the project office is the norm here, not a setback. Reach out before you build the plan.')
+      + '</div></div>') : '';
+    const steps = FIRST[level].map(s=>'<li>'+s+'</li>').join('');
+    const ask = ASK[level].map(s=>'<li>'+s+'</li>').join('');
+    const kit = KIT[level].map(k=>'<li>'+tlink(k[0])+' <span>('+k[1]+')</span></li>').join('');
+    result.innerHTML =
+      '<div class="verdict '+level.toLowerCase()+'">'
+        +'<div class="tag">Here is where you stand</div>'
+        +'<div class="lvl">'+LABEL[level]+'</div>'
+        +'<div class="aside">Size: '+TERM[level]+'</div>'
+      +'</div>'
+      + nudge
+      +'<div class="firststeps"><h3>What to do first</h3><ol class="steps">'+steps+'</ol></div>'
+      +'<div class="kit" style="background:var(--gold-tint)"><h3>What to ask for, and when</h3><ul class="kitlist">'+ask+'</ul></div>'
+      +'<div class="kit"><h3>Your starter kit</h3><ul class="kitlist">'+kit+'</ul></div>'
+      + ctaRow();
+    wireResult();
+  }
+
+  /* ---- templates ---- */
+  const templates=[
+    ['Get the go ahead','Simple project plan, project charter'],
+    ['Plan it','Simple project plan, RAID log, who does what'],
+    ['Look into it','Notes on how things work today, list of who is affected'],
+    ['Design it','A description of how things should work instead'],
+    ['Build it','A test or pilot plan'],
+    ['Launch it','Go live checklist, messages for people, backup plan'],
+    ['Check it worked','Results check, lessons learned notes'],
+    ['Approvals','A simple decision and approval log'],
+  ];
+  document.getElementById('templateGrid').innerHTML = templates.map(t=>
+    '<div class="card"><span class="pill">'+t[0]+'</span><p style="margin:.6rem 0 .2rem">'+linkList(t[1])+'</p></div>').join('');
+
+  /* ---- advanced full template suite (from the complete edition) ---- */
+  const advTemplates=[
+    ['Initiation','Sponsor Review, Project Charter, Scope Statement, Executive Summary'],
+    ['Planning','Kickoff, Stakeholder All-Hands, Project Plan, RACI, Action &amp; Decision Log'],
+    ['Discovery','Voice of the User, Requirements Tracker, Stakeholder Interview Guide, Impact Assessment'],
+    ['Design','Design Session, Design Signoff Form, Integration Spec, Policy Template'],
+    ['Develop','UAT Test Plan, Technical Review Checklist, SOP Template'],
+    ['Deploy','Cutover Plan, Go-Live Readiness Checklist, Communications Plan'],
+    ['Post-deploy','Project Closure Checklist, Lessons Learned, Post-Implementation Survey'],
+    ['Change (ADKAR)','Impact Assessment Matrix, Training Plan, Training Tracker, Job Aid, Quick Reference'],
+  ];
+  const advGrid = document.getElementById('advTemplateGrid');
+  if(advGrid) advGrid.innerHTML = advTemplates.map(t=>
+    '<div class="card"><span class="pill">'+t[0]+'</span><p style="margin:.6rem 0 .2rem">'+linkList(t[1])+'</p></div>').join('');
+  if(advGrid) advGrid.insertAdjacentHTML('afterend','<p style="margin-top:16px"><a class="tlink" href="'+MAIN_FOLDER+'" target="_blank" rel="noopener">Browse the full template library in Drive &rsaquo;</a></p>');
+
+  /* ---- prompts ---- */
+  const prompts=[
+    ['Write a simple project plan','Start','Act as a friendly project coach. Help me write a simple project plan for a project where I [describe what you are doing] because [the reason]. It affects [who]. Use plain language. Include the goal, who is involved, the main steps, and what could go wrong.'],
+    ['Tell me how big my project is','Start','I am new to running projects. Based on this, tell me if my project is small, medium, or large, and what that means I should do: it involves [just my team / a few teams / the whole organization], affects about [number] people, and [my manager / a director / top leadership] is watching. Keep it simple.'],
+    ['List who I need to keep informed','Plan','For a project where I [describe the change], help me list the people and groups I should keep informed. For each one, suggest what they care about and the easiest way to reach them.'],
+    ['Spot what could go wrong','Plan','I am planning a project to [describe it]. List the most likely things that could go wrong, and for each one, a simple step I can take now to lower the risk.'],
+    ['Write messages for people','Change','Help me explain an upcoming change to [audience]. Write a short, warm message that says what is changing, why, what it means for them, and where to get help.'],
+    ['Make a simple launch checklist','Launch','Create a plain checklist for launching [the thing] on [date]. Include what to do before, on the day, and right after, plus what would tell me to pause and go back.'],
+  ];
+  document.getElementById('promptList').innerHTML = prompts.map((p,i)=>
+    '<div class="prompt"><div class="ptop"><div><span class="ptag">'+p[1]+'</span><h4>'+p[0]+'</h4></div>'
+    +'<button class="copy" data-i="'+i+'">Copy</button></div>'
+    +'<pre id="pp'+i+'">'+p[2].replace(/</g,'&lt;')+'</pre></div>').join('');
+  document.querySelectorAll('.copy').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const text=document.getElementById('pp'+btn.dataset.i).textContent;
+      try{ await navigator.clipboard.writeText(text); }
+      catch(e){ const r=document.createRange(); r.selectNodeContents(document.getElementById('pp'+btn.dataset.i)); const s=getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges(); }
+      btn.textContent='Copied'; btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},1400);
+    });
+  });
+
+})();
 </script>
 </body>
 </html>

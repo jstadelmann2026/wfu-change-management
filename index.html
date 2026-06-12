@@ -508,7 +508,7 @@
     Post_Implementation_Survey:'1hfdRiLt1n5LBNM6su66NKUS0TR-1KXyDCLlIqkxr4WE',
     Meeting_Summary_Template:'18mvwHXNU-g6Key4OA2ZlKYEoWApenE9nCLnkqoJ5wFA',
     RAID_Log_Template:'1ojzkkdpdo4G4pMxfQIG71UVEkrkKoSJjIVpEJwUFgkk',
-    /* Who_Is_Involved_List and Status_Update_Template: paste their Drive IDs here after uploading the two new beginner templates; until then they open the main library folder. */
+    Status_Update_Template:'1ajbc9mHRBY5v76tY3Ei5CV3Hjxi2kEkW17xoIDCzqnA',
     /* Status_Update_Template: paste its Drive ID here after uploading Status_Update_Template.pptx; until then Status update opens the main library folder. */
     SOP_Template:'1z8UKMnijzpYzA-CC1iSRSAir4lJw2J68Ug9GsMbEia4',
     Onboarding_Update_Checklist:'17x-DJCjWsF31YgB5EYGMq5iYxjz0HNfwADMA3fwTvAE',
@@ -567,7 +567,8 @@
     return null;
   }
   const URLMAP={
-    'simple project plan':'https://app.smartsheet.com/sheets/JcGCg7975PfXrPVX2mjc7H4ppMHGmHf24XcgVcC1?view=grid'
+    'simple project plan':'https://app.smartsheet.com/sheets/rgxvpPVpm2xqq2CMxxHxxRjxm5WhGWr7hPHf66p1?view=grid',
+    'who is involved list':'https://docs.google.com/spreadsheets/d/1e8HVHnW1GKnb8o4keIiTWvsqg4g_1tJTFMQaCGLSOCI/edit?gid=744445309#gid=744445309'
   };
   function urlFor(label){ const key=(label||'').toLowerCase().trim(); if(URLMAP[key]) return URLMAP[key]; const id=fileFor(label); return id?(OPEN+id):MAIN_FOLDER; }
   const tlink=(label)=> '<a class="tlink" href="'+urlFor(label)+'" target="_blank" rel="noopener">'+label+'</a>';

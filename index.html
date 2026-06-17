@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Project &amp; Change Management Toolkits — Wake Forest University</title>
+<title>Project Management and Change Management Toolkit — Wake Forest University</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
@@ -197,6 +197,104 @@
   .choices.compact .choice .ct{font-size:15px}
   .choices.compact .choice .cd{font-size:12.5px}
   #wizard:not(.show){display:none}
+
+  /* ===== Leading Change tool (section 6) ===== */
+  .lc{margin-top:24px;max-width:900px}
+  .lc p{max-width:none;margin:0 0 .6rem;color:var(--ink-soft)}
+  .lc-stage{display:flex;align-items:center;gap:10px;margin:34px 0 8px}
+  .lc-stage .sn{font-family:var(--display);font-weight:800;font-size:13px;background:var(--ink);color:#fff;width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
+  .lc-stage .se{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .lc-h{font-family:var(--display);font-weight:800;font-size:21px;margin:0 0 4px;color:var(--ink)}
+  .lc-intro{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;padding:20px 22px;margin:8px 0 18px}
+  .lc-intro p:last-child{margin:0}
+  .lc-mode{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px;margin:6px 0}
+  .lc-mode button{font-family:var(--body);font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;padding:8px 16px;border-radius:999px;cursor:pointer}
+  .lc-mode button.on{background:var(--gold);color:#1A1A1A}
+  .lc-moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .lc-move{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px 16px;display:flex;gap:13px;align-items:flex-start;box-shadow:var(--shadow)}
+  .lc-move .mn{font-family:var(--display);font-weight:800;font-size:24px;color:var(--gold-bright);line-height:1}
+  .lc-move h4{font-size:15.5px;margin:1px 0 4px;font-family:var(--display)}
+  .lc-move p{font-size:13px;color:var(--muted);margin:0}
+  .lc-howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:16px}
+  .lc-howto div{background:var(--gold-tint);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .lc-howto b{font-family:var(--display);display:block;margin-bottom:3px;font-size:14px}
+  .lc-howto span{font-size:13px;color:var(--muted)}
+  .lc-cta{font-family:var(--body);font-weight:700;font-size:14.5px;background:var(--gold);color:#1A1A1A;border:0;border-radius:9px;padding:12px 24px;cursor:pointer;margin-top:8px}
+  .lc-cta:hover{background:var(--gold-bright)}
+  .lc-hint{font-size:13px;color:var(--muted);margin-top:10px;display:inline-block}
+  .lc-q{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold-bright);border-radius:12px;padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .lc-q .qn{font-family:var(--display);color:var(--gold);font-weight:700;font-size:12.5px}
+  .lc-q h4{font-size:16.5px;margin:4px 0 12px;font-family:var(--display)}
+  .lc-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}
+  .lc-opt{font-family:var(--body);font-size:14px;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:9px;padding:11px 13px;cursor:pointer;color:var(--ink);line-height:1.35}
+  .lc-opt:hover{border-color:var(--gold)}
+  .lc-opt.sel{border-color:var(--gold);background:var(--gold-tint);font-weight:700}
+  .lc-result{display:none;margin-top:8px}
+  .lc-banner{border-radius:14px;color:#fff;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:16px}
+  .lc-banner .score{font-size:12.5px;opacity:.9}
+  .lc-banner .lvl{font-family:var(--display);font-weight:800;font-size:24px;margin:3px 0 4px}
+  .lc-banner p{color:rgba(255,255,255,.94);margin:8px 0 0;max-width:70ch}
+  .lc-low{background:linear-gradient(135deg,#3F7A4F,#2F5E3C)}
+  .lc-med{background:linear-gradient(135deg,#B5803A,#8A5E27)}
+  .lc-high{background:linear-gradient(135deg,#1A1A1A,#3A3024)}
+  .lc-cmp{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
+  .lc-cmp span{font-size:12.5px;opacity:.9}
+  .lc-cmp button{font-family:var(--body);font-size:12.5px;font-weight:700;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:6px 13px;cursor:pointer}
+  .lc-cmp button.on{background:#fff;color:#1A1A1A}
+  .lc-hsum{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .lc-stat{flex:1 1 170px;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:13px 15px;box-shadow:var(--shadow)}
+  .lc-stat .hn{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ink);line-height:1}
+  .lc-stat .hl{font-size:12px;color:var(--muted);margin-top:4px}
+  .lc-stat.tot{border-left-color:var(--ink);background:var(--gold-tint)}
+  .lc-phasebar{display:flex;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-top:22px}
+  .lc-phasebar button{font-family:var(--body);font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:11px 14px;cursor:pointer;margin-bottom:-2px}
+  .lc-phasebar button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .lc-phasebar .pn{font-family:var(--display);color:var(--gold);font-size:11.5px;margin-right:5px}
+  .lc-panel{background:var(--paper);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:22px;box-shadow:var(--shadow)}
+  .lc-psum{font-family:var(--display);font-size:15px;color:var(--ink);margin:0 0 16px;padding:13px 15px;background:var(--gold-tint);border-left:4px solid var(--gold);border-radius:6px;font-weight:600}
+  .lc-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .lc-col h5{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:0 0 9px;padding-bottom:6px;border-bottom:1px solid var(--line);font-family:var(--display)}
+  .lc-col ul{margin:0;padding:0;list-style:none}
+  .lc-col li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px;color:var(--ink-soft)}
+  .lc-col li:last-child{border-bottom:0}
+  .lc-col li .meta{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+  .lc-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .lc-tag{font-size:12px;background:var(--gold-tint);border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--ink-soft)}
+  .lc-note{font-size:13px;color:var(--ink-soft);background:var(--gold-tint);border:1px solid var(--line);border-left:3px solid var(--gold-bright);border-radius:7px;padding:12px 14px;margin-top:16px}
+  .lc-mwrap{margin-top:24px}
+  .lc-mtitle{font-family:var(--display);font-weight:800;font-size:17px;margin:0 0 3px}
+  .lc-msub{color:var(--muted);font-size:13px;margin:0 0 12px}
+  .lc-mscroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+  table.lc-mtx{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+  table.lc-mtx th,table.lc-mtx td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:right}
+  table.lc-mtx th:first-child,table.lc-mtx td:first-child{text-align:left}
+  table.lc-mtx thead th{background:var(--ink);color:#fff;font-family:var(--display);font-weight:700;font-size:12px}
+  table.lc-mtx tr.sec td{background:var(--gold-bright);font-family:var(--display);font-weight:700;color:#1A1A1A;text-align:left}
+  table.lc-mtx tr.sub td{background:var(--panel);font-weight:700}
+  table.lc-mtx tr.grand td{background:var(--gold-tint);font-weight:800;font-family:var(--display);border-top:2px solid var(--gold)}
+  table.lc-mtx td.ct,table.lc-mtx th.ct{background:rgba(158,126,56,.08);font-weight:700}
+  .lc-ephase{margin-bottom:22px}
+  .lc-eh{display:flex;align-items:center;gap:10px;margin:0 0 11px}
+  .lc-eh .en{font-family:var(--display);font-weight:800;background:var(--gold);color:#1A1A1A;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+  .lc-eh h4{margin:0;font-size:16.5px;font-family:var(--display)}
+  .lc-steps{list-style:none;margin:0;padding:0}
+  .lc-step{display:flex;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:9px;box-shadow:var(--shadow)}
+  .lc-step .sb{flex:0 0 25px;width:25px;height:25px;border:2px solid var(--gold-bright);border-radius:6px;color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:13px;cursor:pointer;user-select:none}
+  .lc-step.done .sb{background:var(--gold);border-color:var(--gold);color:#1A1A1A}
+  .lc-step.done .st{text-decoration:line-through;color:var(--muted)}
+  .lc-step .sc{flex:1}
+  .lc-step .st{font-size:14px;color:var(--ink-soft)}
+  .lc-step .sm{margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .lc-mtag{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);background:var(--gold-tint);border:1px solid var(--line);border-radius:6px;padding:3px 8px;font-weight:700}
+  .lc-tmpl{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--gold);text-decoration:none;border:1px solid var(--gold-bright);border-radius:7px;padding:4px 10px;background:var(--gold-tint)}
+  .lc-tmpl:hover{background:var(--gold);color:#1A1A1A}
+  .lc-tlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px}
+  .lc-trow{display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink)}
+  .lc-trow:hover{border-color:var(--gold)}
+  .lc-trow .ti{width:32px;height:32px;flex:0 0 32px;border-radius:8px;background:var(--gold-tint);color:var(--gold);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+  .lc-trow .tt{font-size:13.5px;font-weight:700;line-height:1.25}
+  .lc-trow .tt small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+  @media print{.lc-mode,.lc-cta,.lc-cmp,.lc-phasebar,.lc-step .sb{display:none!important}}
 </style>
 </head>
 <body>
@@ -204,7 +302,7 @@
 
   <aside>
     <div class="brand-eyebrow">Wake Forest University</div>
-    <div class="brand-name">Project &amp; Change<br>Management Toolkits</div>
+    <div class="brand-name">Project Management and<br>Change Management Toolkit</div>
     <div class="brand-sub">A practical guide to leading projects and change at Wake Forest, sized to fit whatever you are taking on.</div>
     <div class="topbar-m"><span class="brand-sub" style="margin:0">Menu</span><button class="menu-btn" id="menuBtn">Sections</button></div>
     <nav id="nav">
@@ -230,7 +328,7 @@
     <section class="section show" id="start">
       <div id="intro">
         <div class="eyebrow">Wake Forest University &middot; Pro Humanitate</div>
-        <h1 class="h-xl">Project and Change Management Toolkit</h1>
+        <h1 class="h-xl">Project Management and Change Management Toolkit</h1>
         <p class="lead">These tools help all Wake Forest staff define and run projects, whatever their size. They are grounded in established project and change management practice and provided as editable Google Workspace templates, so you can adapt them to your own work. Use them on technical and non-technical projects, with or without prior experience.</p>
       </div>
 
@@ -388,19 +486,67 @@
     <!-- ===== 6. CHANGE ===== -->
     <section class="section" id="change">
       <div class="eyebrow">Step 6</div>
-      <h2>Leading the change</h2>
-      <p class="lead">Delivering something new is only half the job. The other half is helping people adopt it, which professionals call change management. A simple way to think about it: people move through five stages.</p>
-      <table class="t">
-        <thead><tr><th>Stage</th><th>What it means</th><th>What helps</th></tr></thead>
-        <tbody>
-          <tr><td><strong>1. Aware</strong></td><td>They know a change is coming and why</td><td>Clear, early messages about the why</td></tr>
-          <tr><td><strong>2. Willing</strong></td><td>They want to take part</td><td>Showing what is in it for them</td></tr>
-          <tr><td><strong>3. Know how</strong></td><td>They understand what to do</td><td>Training and clear instructions</td></tr>
-          <tr><td><strong>4. Able</strong></td><td>They can actually do it</td><td>Practice, coaching, and support</td></tr>
-          <tr><td><strong>5. Sticks</strong></td><td>The new way becomes normal</td><td>Encouragement and follow up</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:14px"><em>Project managers call this model ADKAR (Awareness, Desire, Knowledge, Ability, Reinforcement). The plain words above are the same thing.</em></p>
+      <h2>Leading change</h2>
+
+      <div class="lc">
+        <div class="lc-stage"><span class="sn">1</span><span class="se">Understand</span></div>
+        <div class="lc-h">What change management is, and the path you will follow</div>
+        <div class="lc-intro">
+          <p><strong>Projects deliver something new. Change management helps people actually use it.</strong> You can install a system or roll out a new process perfectly and still fall short if people do not adopt it. Change management is the work of bringing people along: helping them understand the change, get ready for it, and stick with it.</p>
+          <p>Good change follows the same path whether your project is small or large. These are the six moves. They line up with the five adoption stages (ADKAR) used elsewhere in this toolkit: the moves are what you do, the stages are what people experience.</p>
+        </div>
+        <div class="lc-moves" id="lc-moves"></div>
+        <div class="lc-howto">
+          <div><b>Assess</b><span>Answer a few questions to find how much change support your project needs.</span></div>
+          <div><b>Plan</b><span>Get the meetings, people, and hours by role and phase.</span></div>
+          <div><b>Execute</b><span>Follow a step-by-step checklist, with the right template at each step.</span></div>
+        </div>
+
+        <div class="lc-stage"><span class="sn">2</span><span class="se">Assess your project</span></div>
+        <div class="lc-h">Tell us about your project</div>
+        <p>There are no wrong answers. Pick the closest fit for each. We use your answers to size the right level of change support, not to grade the project.</p>
+        <div class="lc-mode" role="group" aria-label="Detail level">
+          <button id="lc-liteBtn" class="on" onclick="lcSetMode('lite')">Beginner</button>
+          <button id="lc-advBtn" onclick="lcSetMode('adv')">Advanced</button>
+        </div>
+        <div id="lc-questions"></div>
+        <button class="lc-cta" onclick="lcAssess()">Show my plan</button>
+        <span class="lc-hint" id="lc-qhint"></span>
+
+        <div class="lc-result" id="lc-result">
+          <div class="lc-stage"><span class="sn">3</span><span class="se">Plan</span></div>
+          <div class="lc-h">Your plan: people, meetings, and hours</div>
+          <div class="lc-banner" id="lc-banner">
+            <div class="score" id="lc-score"></div>
+            <div class="lvl" id="lc-lvlTitle"></div>
+            <p id="lc-lvlDesc"></p>
+            <div class="lc-cmp" id="lc-cmp">
+              <span>Compare:</span>
+              <button data-lvl="low" onclick="lcView('low',this)">Low</button>
+              <button data-lvl="med" onclick="lcView('med',this)">Medium</button>
+              <button data-lvl="high" onclick="lcView('high',this)">High</button>
+            </div>
+          </div>
+          <div class="lc-hsum" id="lc-hsum"></div>
+          <div class="lc-phasebar" id="lc-phasebar"></div>
+          <div class="lc-panel" id="lc-panel"></div>
+          <div class="lc-note" id="lc-note"></div>
+          <div class="lc-mwrap">
+            <div class="lc-mtitle">Estimated hours by role and by phase</div>
+            <div class="lc-msub">A starting estimate you can adjust. The Resource and Meeting Plan template has this same grid as an editable spreadsheet.</div>
+            <div class="lc-mscroll"><table class="lc-mtx" id="lc-mtx"></table></div>
+          </div>
+
+          <div class="lc-stage"><span class="sn">4</span><span class="se">Execute</span></div>
+          <div class="lc-h">Do it, step by step</div>
+          <p>Work through each phase in order. Tap a box to check off a step. Each step links the template you need. Beginner shows the essentials; switch to Advanced for the full checklist.</p>
+          <div id="lc-exec"></div>
+          <div class="lc-h" style="font-size:17px;margin-top:26px">Your starter templates</div>
+          <p id="lc-tlede"></p>
+          <div class="lc-tlist" id="lc-tlist"></div>
+          <div class="lc-note">Each link opens the matching file in the shared WFU CM and PM Templates library in Google Drive. Make your own copy before editing so the master template stays clean.</div>
+        </div>
+      </div>
     </section>
 
     <!-- ===== 7. TEMPLATES ===== -->
@@ -534,6 +680,11 @@
     Governance_Framework:'1jLvMfG1hTtargCjYpWK3aO_RBINc8M-4fNmV4hTuEew',
     Executive_Summary_Template:'1YFnckV0DzziKrUqILAPrj5SDN3TBT9crD9kyJl_JBOU',
     Integration_Spec_Template:'1CS6FHXWgZ_kA-iMCNKb4iomm0QGqVYA2bX-OXgjj6LA',
+    /* ---- New Leading Change templates: upload each to the Drive library, then paste its file ID below. Until filled, these links open the library folder. ---- */
+    Resource_Meeting_Plan:'',
+    Change_Network_Guide:'',
+    Resistance_Management_Plan:'',
+    Change_Story_One_Pager:'',
   };
   const norm=(s)=>(s||'').toLowerCase().replace(/&amp;/g,'').replace(/[^a-z0-9]/g,'');
   const FILES={}; Object.keys(RAW_FILES).forEach(k=>{ FILES[norm(k)]=RAW_FILES[k]; });
@@ -559,6 +710,7 @@
     'cutover plan':'Cutover_Plan','go-live readiness checklist':'Go_Live_Readiness_Checklist','project closure checklist':'Project_Closure_Checklist',
     'lessons learned':'Lessons_Learned','post-implementation survey':'Post_Implementation_Survey','training plan':'Training_Plan_Template',
     'training tracker':'Training_Tracker','job aid':'Job_Aid_Template','quick reference':'Quick_Reference_Guide_Template',
+    'resource and meeting plan':'Resource_Meeting_Plan','change network guide':'Change_Network_Guide','resistance management plan':'Resistance_Management_Plan','change story one-pager':'Change_Story_One_Pager',
   };
   function fileFor(label){
     const key=(label||'').toLowerCase().trim();
@@ -819,6 +971,242 @@
       setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},1400);
     });
   });
+
+  /* ===== Leading Change tool (section 6) ===== */
+  (function(){
+    var PHASES=["Discovery & Scope","Design & Planning","Implementation","Post Go-Live & Sustain"];
+    var MOVES=[
+      ["Make the case for change","Be clear on why this is happening and why now. People support what they understand."],
+      ["Engage sponsors and leaders","Line up a visible, active sponsor. Sponsorship is the top predictor of success."],
+      ["Understand the impact","Map who is affected and how much their work changes, so support fits the need."],
+      ["Plan communication and engagement","Decide what to say, to whom, when, and how. Two-way, not just broadcast."],
+      ["Equip and enable people","Give people the training, tools, and support to succeed before and during launch."],
+      ["Reinforce and sustain","Measure adoption, recognize progress, and embed the change so it sticks."]
+    ];
+    var QUESTIONS=[
+      {scored:false,q:"What kind of project is this?",opts:[["System or technology implementation",0],["Process or workflow change",0],["Org, role, or team restructure",0],["Policy or compliance change",0],["Tool or vendor change",0]]},
+      {scored:true,q:"About how many people will this affect?",opts:[["Fewer than 25",1],["25 to 100",2],["100 to 500",3],["More than 500",4]]},
+      {scored:true,q:"How much will it change people's day-to-day work?",opts:[["A little (minor tweaks)",1],["Some (new steps or tools)",2],["A lot (new ways of working)",3],["Completely (transformational)",4]]},
+      {scored:true,q:"How many teams or departments are involved?",opts:[["Just one",1],["Two or three",2],["Four to six",3],["Seven or more",4]]},
+      {scored:true,q:"What is the rough timeline?",opts:[["Under 3 months",1],["3 to 6 months",2],["6 to 12 months",3],["More than a year",4]]},
+      {scored:true,q:"How much resistance or sensitivity do you expect?",opts:[["Low, people want this",1],["Some hesitation",2],["High, it touches roles or habits",3],["Very high, it is contentious",4]]}
+    ];
+    var PLAN={
+      low:{
+        "Discovery & Scope":{sum:"One short conversation to confirm what is changing and who it touches.",meetings:[["Scope alignment session","One 60 to 90 min meeting","Project lead, process owner"]],teams:["Project lead","Process owner"],smes:["1 to 2 process SMEs"],decisions:["Confirm scope and who is affected","Decide if a change plan is needed"]},
+        "Design & Planning":{sum:"Agree the change in one working session and note a simple plan.",meetings:[["Design and planning session","One 60 min meeting","Project lead, process owner"]],teams:["Project lead","Process owner"],smes:["1 process SME"],decisions:["Confirm the future-state process","Decide communication owner"]},
+        "Implementation":{sum:"Light touch. A check-in and a quick review before launch.",meetings:[["Pre-launch review","One 30 to 45 min meeting","Project lead, process owner"]],teams:["Project lead"],smes:["Process owner for review"],decisions:["Confirm readiness to launch"]},
+        "Post Go-Live & Sustain":{sum:"A single follow-up to confirm it stuck.",meetings:[["Adoption check-in","One 30 min meeting, 2 to 4 weeks after launch","Project lead, process owner"]],teams:["Project lead"],smes:["Process owner"],decisions:["Confirm adoption","Capture one or two lessons learned"]}
+      },
+      med:{
+        "Discovery & Scope":{sum:"A focused set of meetings to map who is affected and how much.",meetings:[["Kickoff and scope session","One 90 min meeting","Project team, sponsor"],["Stakeholder mapping workshop","One 60 min meeting","Project lead, change lead, key SMEs"],["Impact discovery sessions","2 to 3 sessions, 60 min each","Change lead, area SMEs"]],teams:["Project lead","Change lead","Functional owner"],smes:["2 to 4 area SMEs","HR or reporting SME as needed"],decisions:["Confirm scope, sponsor, and affected groups","Agree the change approach"]},
+        "Design & Planning":{sum:"Design sessions to shape the change, plus a written change and comms plan.",meetings:[["Design sessions","2 to 4 sessions, 60 to 90 min","Functional owner, SMEs"],["Change and comms planning","One 90 min meeting","Change lead, sponsor"],["Sponsor alignment","One 45 min meeting","Sponsor, project lead"]],teams:["Project lead","Change lead","Functional consultant","Comms owner"],smes:["2 to 4 design SMEs","Training or content SME"],decisions:["Approve future-state design","Approve change and comms plan","Confirm training approach"]},
+        "Implementation":{sum:"Regular cadence, a small change network, training, and UAT.",meetings:[["Weekly project check-in","Weekly, 30 to 45 min","Project team"],["Change network touchpoints","Every 2 weeks, 30 min","Change lead, change agents"],["UAT review and sign-off","1 to 2 sessions","SMEs, functional owner"],["Readiness review","One 60 min meeting before launch","Project team, sponsor"]],teams:["Project lead","Change lead","Functional consultant","Training lead","Small change network"],smes:["UAT SMEs by area","Training SME"],decisions:["UAT entry and exit","Go or no-go for launch","Confirm training complete"]},
+        "Post Go-Live & Sustain":{sum:"Hypercare support, adoption tracking, and a lessons-learned review.",meetings:[["Hypercare standup","2 to 3 times per week for 2 weeks, 15 min","Project team"],["Adoption review","Monthly for 2 to 3 months, 45 min","Change lead, owners"],["Lessons learned","One 60 min meeting","Project team, sponsor"]],teams:["Project lead","Change lead","Process owners"],smes:["Area process owners"],decisions:["Confirm adoption targets met","Hand off to operations","Close the project"]}
+      },
+      high:{
+        "Discovery & Scope":{sum:"Structured discovery across many groups, with governance set up early.",meetings:[["Executive kickoff","One 90 min meeting","Sponsor, steering committee, project leads"],["Stakeholder and impact workshops","4 to 6 workshops, 60 to 90 min","Change lead, area SMEs"],["Current-state discovery by area","1 to 2 per affected area","Functional leads, SMEs"],["Governance setup","One 60 min meeting","PMO, sponsor"]],teams:["Program lead","Change lead","PMO","Functional leads by workstream","Comms team"],smes:["6 or more SMEs across affected areas","HR, security, reporting, and data SMEs"],decisions:["Confirm scope, governance, and steering committee","Agree change strategy and sponsor roadmap"]},
+        "Design & Planning":{sum:"Multiple design workstreams, a full change strategy, and a detailed plan.",meetings:[["Workstream design sessions","Several per workstream, 60 to 120 min","Functional leads, SMEs"],["Change strategy workshop","One half-day","Change lead, sponsor, leaders"],["Comms and engagement planning","2 to 3 sessions","Comms team, change lead"],["Steering committee review","Every 2 to 4 weeks, 60 min","Sponsor, steering committee"],["Sponsor roadmap working session","One 90 min meeting","Sponsor, change lead"]],teams:["Program lead","Change lead","Workstream leads","Comms team","Training team","PMO"],smes:["SME groups per workstream","Training, content, and design SMEs"],decisions:["Approve future-state design per workstream","Approve change strategy and comms plan","Approve training and readiness plan"]},
+        "Implementation":{sum:"Full cadence, an active change agent network, structured UAT, and staged training.",meetings:[["Program standup","Weekly, 45 to 60 min","Program team, workstream leads"],["Steering committee","Every 2 to 4 weeks, 60 min","Sponsor, steering committee"],["Change network meetings","Weekly to biweekly, 45 min","Change lead, change agents"],["UAT cycles and triage","Multiple cycles, daily during testing","SMEs, QA, functional leads"],["Training delivery","Scheduled across groups","Training team, SMEs"],["Go-live readiness review","One half-day before launch","Steering committee, program team"]],teams:["Program lead","Change lead","Workstream leads","QA or test lead","Training team","Comms team","Change agent network"],smes:["UAT SMEs per workstream","Training and floor-support SMEs"],decisions:["UAT entry and exit per cycle","Staged go or no-go decisions","Confirm training and readiness by group"]},
+        "Post Go-Live & Sustain":{sum:"Extended hypercare, adoption measurement, reinforcement, and formal close.",meetings:[["Hypercare command center","Daily for 2 to 4 weeks","Program team, support leads"],["Adoption and benefits review","Monthly for 3 to 6 months","Change lead, sponsors, owners"],["Reinforcement and recognition","Ongoing touchpoints","Change lead, leaders"],["Lessons learned and close","One half-day","Program team, steering committee"]],teams:["Program lead","Change lead","Process and area owners","Support team"],smes:["Area owners and super users"],decisions:["Confirm benefits and adoption","Transition to operations and super users","Formally close the program"]}
+      }
+    };
+    var LEVEL_NOTE={
+      low:"Low impact projects need light, well-timed touchpoints. Do not over-engineer. The biggest risk is forgetting the post-launch check-in.",
+      med:"Medium impact projects need a real change plan and a small change network. The biggest risk is thin sponsorship and skipped training.",
+      high:"High impact projects need governance, dedicated change roles, and active sponsorship from day one. The biggest risk is treating change as an afterthought to the build."
+    };
+    var ROLE_HOURS={
+      low:{
+        "Discovery & Scope":{team:[["Project / Program Lead",4]],sme:[["Process / Area SMEs",4]]},
+        "Design & Planning":{team:[["Project / Program Lead",3]],sme:[["Process / Area SMEs",3]]},
+        "Implementation":{team:[["Project / Program Lead",3]],sme:[["Process / Area SMEs",3]]},
+        "Post Go-Live & Sustain":{team:[["Project / Program Lead",2]],sme:[["Process / Area SMEs",2]]}
+      },
+      med:{
+        "Discovery & Scope":{team:[["Project / Program Lead",6],["Change Lead",8]],sme:[["Process / Area SMEs",16],["Functional SMEs (HR, Security, Reporting)",4]]},
+        "Design & Planning":{team:[["Project / Program Lead",8],["Change Lead",8],["Functional Consultant",8],["Comms Lead",4]],sme:[["Process / Area SMEs",20],["Functional SMEs (HR, Security, Reporting)",5]]},
+        "Implementation":{team:[["Project / Program Lead",12],["Change Lead",10],["Functional Consultant",8],["Training Lead",8],["QA / Test Lead",6]],sme:[["Process / Area SMEs",32],["Functional SMEs (HR, Security, Reporting)",8]]},
+        "Post Go-Live & Sustain":{team:[["Project / Program Lead",6],["Change Lead",8]],sme:[["Process / Area SMEs",16]]}
+      },
+      high:{
+        "Discovery & Scope":{team:[["Program Lead",10],["Change Lead",16],["Functional Consultant",12],["Comms Lead",6]],sme:[["Process / Area SMEs",40],["Functional SMEs (HR, Security, Reporting, Data)",16]]},
+        "Design & Planning":{team:[["Program Lead",16],["Change Lead",20],["Functional Consultant",24],["Comms Lead",12],["Training Lead",10]],sme:[["Process / Area SMEs",60],["Functional SMEs (HR, Security, Reporting, Data)",20]]},
+        "Implementation":{team:[["Program Lead",24],["Change Lead",24],["Functional Consultant",20],["Training Lead",16],["QA / Test Lead",16],["Comms Lead",10]],sme:[["Process / Area SMEs",120],["Functional SMEs (HR, Security, Reporting, Data)",30]]},
+        "Post Go-Live & Sustain":{team:[["Program Lead",12],["Change Lead",16]],sme:[["Process / Area SMEs",40],["Super Users",20]]}
+      }
+    };
+    var LVLMETA={
+      low:{t:"Low impact",cls:"lc-low",d:"This is a contained change. A light, well-timed touch will do. Focus on clear communication and one follow-up to make sure it stuck. Do not over-build."},
+      med:{t:"Medium impact",cls:"lc-med",d:"This is a meaningful change for the people it touches. You will need a real change plan, a small group of change agents, training, and active sponsorship."},
+      high:{t:"High impact",cls:"lc-high",d:"This is a significant, wide-reaching change. Treat change management as a workstream of its own from day one, with governance, dedicated roles, and a visible, active sponsor."}
+    };
+    var RANK={low:0,med:1,high:2};
+    var EXECUTE=[
+      ["Discovery & Scope",[
+        {t:"Write a short change story: why this is happening and why now.",move:"Make the case",tpl:"changestory"},
+        {t:"Confirm your sponsor and ask them to communicate the why in their own words.",move:"Engage sponsors",tpl:"sponsor"},
+        {t:"List who is affected and how much their work changes.",move:"Understand the impact",tpl:"impact"},
+        {t:"Map your key stakeholders and how to engage each one.",move:"Understand the impact",tpl:"stakeholder",min:"med"},
+        {t:"Write a one-page charter so everyone agrees on scope.",move:"Make the case",tpl:"charter",min:"med"}
+      ]],
+      ["Design & Planning",[
+        {t:"Confirm the future-state way of working with your SMEs.",move:"Understand the impact"},
+        {t:"Plan your communications: what to say, to whom, when.",move:"Plan communication",tpl:"comms"},
+        {t:"Plan training so people are ready before launch.",move:"Equip people",tpl:"training"},
+        {t:"Start a RAID log to track risks, issues, and dependencies.",move:"Make the case",tpl:"raid",min:"med"},
+        {t:"Stand up a small change network of trusted people across teams.",move:"Engage sponsors",tpl:"network",min:"high"}
+      ]],
+      ["Implementation",[
+        {t:"Send the launch communications on the schedule you planned.",move:"Plan communication",tpl:"comms"},
+        {t:"Deliver training and publish the job aids.",move:"Equip people",tpl:"training"},
+        {t:"Run UAT with your SMEs and confirm sign-off before go-live.",move:"Understand the impact"},
+        {t:"Work the readiness checklist and confirm you are ready to launch.",move:"Equip people",tpl:"readiness"},
+        {t:"Watch for resistance and address concerns early and openly.",move:"Engage sponsors",tpl:"resistance",min:"med"}
+      ]],
+      ["Post Go-Live & Sustain",[
+        {t:"Provide hypercare: extra support right after launch.",move:"Equip people"},
+        {t:"Track adoption so you know the change actually stuck.",move:"Reinforce and sustain",tpl:"adoption"},
+        {t:"Recognize people and celebrate early wins.",move:"Reinforce and sustain"},
+        {t:"Capture lessons learned and hand off to operations.",move:"Reinforce and sustain"}
+      ]]
+    ];
+    var LC_TEMPLATES={
+      base:[["Change Impact Assessment","Who is affected and how much","impact"],["Communication Plan","What to say and when","comms"],["Change Story One-Pager","Tell the why clearly","changestory"],["Resource & Meeting Plan","Hours by role and phase","resourceplan"]],
+      med:[["Stakeholder Map","Know your audiences","stakeholder"],["Sponsor Roadmap","Keep sponsors active","sponsor"],["Training and Readiness Plan","Equip your people","training"],["Go-Live Readiness Checklist","Confirm you are ready","readiness"],["RAID Log","Track risks and issues","raid"],["Adoption Metrics Tracker","Measure what stuck","adoption"]],
+      high:[["Project Charter","Align scope and sponsor","charter"],["Change Network Guide","Stand up change agents","network"],["Resistance Management Plan","Address pushback early","resistance"]]
+    };
+    /* map tool template keys to the toolkit's Drive library via urlFor(); blank falls back to the library folder */
+    var LC_LABEL={impact:"change impact assessment",stakeholder:"stakeholder map",comms:"communication plan",charter:"project charter",raid:"raid log",readiness:"go-live readiness checklist",training:"training plan",sponsor:"sponsor review",adoption:"post-implementation survey",resourceplan:"resource and meeting plan",network:"change network guide",resistance:"resistance management plan",changestory:"change story one-pager"};
+    function lcUrl(key){ return urlFor(LC_LABEL[key]||""); }
+
+    function rolesIn(level,group){var o=[],seen={};PHASES.forEach(function(p){ROLE_HOURS[level][p][group].forEach(function(r){if(!seen[r[0]]){seen[r[0]]=1;o.push(r[0]);}});});return o;}
+    function hrOf(level,group,role,phase){var a=ROLE_HOURS[level][phase][group];for(var i=0;i<a.length;i++)if(a[i][0]===role)return a[i][1];return 0;}
+    function levelHours(level){var pt=0,sme=0;PHASES.forEach(function(p){ROLE_HOURS[level][p].team.forEach(function(r){pt+=r[1];});ROLE_HOURS[level][p].sme.forEach(function(r){sme+=r[1];});});return{pt:pt,sme:sme,total:pt+sme};}
+
+    var MODE="lite",answers={},viewing=null,phase=0,done={};
+    function $(id){return document.getElementById(id);}
+
+    function renderMoves(){
+      var g=$("lc-moves");g.innerHTML="";
+      MOVES.forEach(function(m,i){var d=document.createElement("div");d.className="lc-move";
+        d.innerHTML='<div class="mn">0'+(i+1)+'</div><div><h4>'+m[0]+'</h4><p>'+m[1]+'</p></div>';g.appendChild(d);});
+    }
+    function renderQuestions(){
+      var c=$("lc-questions");c.innerHTML="";
+      QUESTIONS.forEach(function(qq,i){var div=document.createElement("div");div.className="lc-q";
+        var opts=qq.opts.map(function(o){return '<button class="lc-opt" role="radio" aria-checked="false" onclick="lcPick('+i+','+o[1]+',this)">'+o[0]+'</button>';}).join("");
+        div.innerHTML='<span class="qn">Question '+(i+1)+' of '+QUESTIONS.length+'</span><h4>'+qq.q+'</h4><div class="lc-opts" role="radiogroup">'+opts+'</div>';
+        c.appendChild(div);});
+    }
+    window.lcPick=function(qi,v,el){answers[qi]={v:v,scored:QUESTIONS[qi].scored};
+      var sib=el.parentNode.querySelectorAll(".lc-opt");for(var i=0;i<sib.length;i++){sib[i].classList.remove("sel");sib[i].setAttribute("aria-checked","false");}
+      el.classList.add("sel");el.setAttribute("aria-checked","true");$("lc-qhint").textContent="";};
+
+    window.lcAssess=function(){
+      var n=0;for(var k in answers)n++;
+      if(n<QUESTIONS.length){$("lc-qhint").textContent="Please answer every question to see your plan.";return;}
+      var score=0,max=0;QUESTIONS.forEach(function(qq,i){if(qq.scored){score+=answers[i].v;max+=4;}});
+      var level=score<=9?"low":(score<=14?"med":"high");
+      $("lc-score").textContent="Change intensity score: "+score+" of "+max;
+      lcView(level);
+      renderTemplates(level);
+      $("lc-result").style.display="block";
+      $("lc-result").scrollIntoView({behavior:"smooth",block:"start"});
+    };
+
+    window.lcView=function(level,btn){
+      viewing=level;phase=0;
+      $("lc-banner").className="lc-banner "+LVLMETA[level].cls;
+      $("lc-lvlTitle").textContent=LVLMETA[level].t+" project";
+      $("lc-lvlDesc").textContent=LVLMETA[level].d;
+      var cb=$("lc-cmp").querySelectorAll("button");for(var i=0;i<cb.length;i++)cb[i].classList.toggle("on",cb[i].getAttribute("data-lvl")===level);
+      $("lc-note").textContent=LEVEL_NOTE[level];
+      var h=levelHours(level);
+      $("lc-hsum").innerHTML='<div class="lc-stat"><div class="hn">'+h.pt+'</div><div class="hl">Project team hours (estimated)</div></div>'
+        +'<div class="lc-stat"><div class="hn">'+h.sme+'</div><div class="hl">SME hours (estimated)</div></div>'
+        +'<div class="lc-stat tot"><div class="hn">'+h.total+'</div><div class="hl">Total estimated hours</div></div>';
+      renderPhaseBar();renderPhase();renderMatrix(level);renderExec(level);
+    };
+    function renderPhaseBar(){
+      var bar=$("lc-phasebar");bar.innerHTML="";
+      PHASES.forEach(function(p,i){var b=document.createElement("button");b.className=(i===phase?"on":"");
+        b.innerHTML='<span class="pn">0'+(i+1)+'</span>'+p;b.onclick=function(){phase=i;renderPhaseBar();renderPhase();};bar.appendChild(b);});
+    }
+    function renderPhase(){
+      var d=PLAN[viewing][PHASES[phase]];var adv=MODE==="adv";
+      var ms=(adv?d.meetings:d.meetings.slice(0,2)).map(function(m){return '<li>'+m[0]+'<span class="meta">'+(adv?m[1]+' &bull; ':'')+m[2]+'</span></li>';}).join("");
+      var teams=d.teams.map(function(t){return '<span class="lc-tag">'+t+'</span>';}).join("");
+      var smes=d.smes.map(function(s){return '<span class="lc-tag">'+s+'</span>';}).join("");
+      var advB="";
+      if(adv){var dec=d.decisions.map(function(x){return '<li>'+x+'</li>';}).join("");
+        advB='<div class="lc-grid3" style="margin-top:16px"><div class="lc-col" style="grid-column:1/-1"><h5>Key decisions in this phase</h5><ul>'+dec+'</ul></div></div>';}
+      $("lc-panel").innerHTML='<div class="lc-psum">'+d.sum+'</div><div class="lc-grid3">'
+        +'<div class="lc-col"><h5>Meetings needed</h5><ul>'+ms+'</ul></div>'
+        +'<div class="lc-col"><h5>Project teams</h5><div class="lc-tags">'+teams+'</div></div>'
+        +'<div class="lc-col"><h5>Subject matter experts</h5><div class="lc-tags">'+smes+'</div></div>'
+        +'</div>'+advB;
+    }
+    function renderMatrix(level){
+      var head='<thead><tr><th>Role</th>'+PHASES.map(function(p){return '<th>'+p+'</th>';}).join("")+'<th class="ct">Role total</th></tr></thead>';
+      function section(label,group){
+        var rows='<tr class="sec"><td colspan="'+(PHASES.length+2)+'">'+label+'</td></tr>';
+        var roles=rolesIn(level,group),colSums=PHASES.map(function(){return 0;}),secTotal=0;
+        roles.forEach(function(role){var cells="",rt=0;
+          PHASES.forEach(function(p,pi){var v=hrOf(level,group,role,p);rt+=v;colSums[pi]+=v;cells+='<td>'+(v||"-")+'</td>';});
+          secTotal+=rt;rows+='<tr><td>'+role+'</td>'+cells+'<td class="ct">'+rt+'</td></tr>';});
+        rows+='<tr class="sub"><td>'+(group==="team"?"Project team subtotal":"SME subtotal")+'</td>'+colSums.map(function(s){return '<td>'+s+'</td>';}).join("")+'<td class="ct">'+secTotal+'</td></tr>';
+        return {rows:rows,colSums:colSums,secTotal:secTotal};
+      }
+      var t=section("Project team roles","team"),s=section("Subject matter expert roles","sme");
+      var gc=PHASES.map(function(p,i){return t.colSums[i]+s.colSums[i];});
+      var grand=t.secTotal+s.secTotal;
+      var gr='<tr class="grand"><td>Total hours</td>'+gc.map(function(c){return '<td>'+c+'</td>';}).join("")+'<td class="ct">'+grand+'</td></tr>';
+      $("lc-mtx").innerHTML=head+"<tbody>"+t.rows+s.rows+gr+"</tbody>";
+    }
+    function renderExec(level){
+      var cont=$("lc-exec");cont.innerHTML="";
+      EXECUTE.forEach(function(ph,pi){
+        var steps=ph[1].filter(function(st){return RANK[level]>=RANK[st.min||"low"];});
+        var shown=(MODE==="lite")?steps.slice(0,3):steps;
+        var lis="";
+        shown.forEach(function(st,si){
+          var id=pi+"-"+si;var dn=done[id]?"done":"";
+          var tl=st.tpl?'<a class="lc-tmpl" href="'+lcUrl(st.tpl)+'" target="_blank" rel="noopener">Open template</a>':"";
+          var mt=st.move?'<span class="lc-mtag">'+st.move+'</span>':"";
+          lis+='<li class="lc-step '+dn+'" id="lc-st-'+id+'">'
+            +'<div class="sb" role="checkbox" aria-checked="'+(dn?"true":"false")+'" tabindex="0" onclick="lcToggle(\''+id+'\')" onkeydown="if(event.key===\' \'||event.key===\'Enter\'){event.preventDefault();lcToggle(\''+id+'\')}">'+(dn?"\u2713":si+1)+'</div>'
+            +'<div class="sc"><div class="st">'+st.t+'</div><div class="sm">'+mt+tl+'</div></div></li>';
+        });
+        var more=(MODE==="lite"&&steps.length>shown.length)?'<div class="lc-hint">Switch to Advanced to see '+(steps.length-shown.length)+' more step(s) for this phase.</div>':"";
+        var div=document.createElement("div");div.className="lc-ephase";
+        div.innerHTML='<div class="lc-eh"><span class="en">'+(pi+1)+'</span><h4>'+ph[0]+'</h4></div><ul class="lc-steps">'+lis+'</ul>'+more;
+        cont.appendChild(div);
+      });
+    }
+    window.lcToggle=function(id){done[id]=!done[id];var el=$("lc-st-"+id);if(!el)return;
+      el.classList.toggle("done",done[id]);var box=el.querySelector(".sb");box.setAttribute("aria-checked",done[id]?"true":"false");
+      var num=id.split("-")[1];box.textContent=done[id]?"\u2713":(parseInt(num,10)+1);};
+
+    function renderTemplates(level){
+      var set=LC_TEMPLATES.base.slice();
+      if(level==="med"||level==="high")set=set.concat(LC_TEMPLATES.med);
+      if(level==="high")set=set.concat(LC_TEMPLATES.high);
+      $("lc-tlede").textContent=level==="low"?"For a low impact project, start light. These cover what you need."
+        :level==="med"?"For a medium impact project, build from these core tools."
+        :"For a high impact project, use the full set to run change as its own workstream.";
+      var list=$("lc-tlist");list.innerHTML="";
+      set.forEach(function(t){var a=document.createElement("a");a.className="lc-trow";a.href=lcUrl(t[2]);a.target="_blank";a.rel="noopener";
+        a.innerHTML='<span class="ti">+</span><span class="tt">'+t[0]+'<small>'+t[1]+'</small></span>';list.appendChild(a);});
+    }
+    window.lcSetMode=function(m){MODE=m;
+      $("lc-liteBtn").classList.toggle("on",m==="lite");
+      $("lc-advBtn").classList.toggle("on",m==="adv");
+      if(viewing){renderPhase();renderExec(viewing);}
+    };
+
+    renderMoves();renderQuestions();
+  })();
 
 })();
 </script>

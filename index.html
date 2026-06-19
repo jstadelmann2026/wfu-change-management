@@ -506,11 +506,11 @@
         <div class="lc-h">Tell us about your project</div>
         <p>There are no wrong answers. Pick the closest fit for each. We use your answers to size the right level of change support, not to grade the project.</p>
         <div class="lc-mode" role="group" aria-label="Detail level">
-          <button id="lc-liteBtn" class="on" onclick="lcSetMode('lite')">Beginner</button>
-          <button id="lc-advBtn" onclick="lcSetMode('adv')">Advanced</button>
+          <button type="button" id="lc-liteBtn" class="on" data-act="mode" data-mode="lite">Beginner</button>
+          <button type="button" id="lc-advBtn" data-act="mode" data-mode="adv">Advanced</button>
         </div>
         <div id="lc-questions"></div>
-        <button class="lc-cta" onclick="lcAssess()">Show my plan</button>
+        <button type="button" class="lc-cta" data-act="assess">Show my plan</button>
         <span class="lc-hint" id="lc-qhint"></span>
 
         <div class="lc-result" id="lc-result">
@@ -522,9 +522,9 @@
             <p id="lc-lvlDesc"></p>
             <div class="lc-cmp" id="lc-cmp">
               <span>Compare:</span>
-              <button data-lvl="low" onclick="lcView('low',this)">Low</button>
-              <button data-lvl="med" onclick="lcView('med',this)">Medium</button>
-              <button data-lvl="high" onclick="lcView('high',this)">High</button>
+              <button type="button" data-act="view" data-lvl="low">Low</button>
+              <button type="button" data-act="view" data-lvl="med">Medium</button>
+              <button type="button" data-act="view" data-lvl="high">High</button>
             </div>
           </div>
           <div class="lc-hsum" id="lc-hsum"></div>
@@ -627,64 +627,62 @@
   const OPEN='https://drive.google.com/open?id=';
   const TEMPLATE_FOLDER_URL=MAIN_FOLDER;
   const RAW_FILES={
-    Project_Charter_Template:'1ZePKy7NVeVV1nDmZOXhNJtdWgJwJj95DnsH9IeO4Vpc',
-    Action_Decision_Log:'1Drx3HZk_f2q0LB48PyIOlUcnqm9QCNh-oF2_LkkFlqY',
-    Design_Session_Template:'1RmWMEeXUG7D6vEw1sCgQsah2HRzPSxdsYMI9WpegDnA',
-    Stakeholder_Register_Tool:'1KZdlDVs3gBzObaoC0NqxMda4A1GMda6rCJCaOaoVbqE',
-    Kickoff_Template:'1cqxWyW29KAs3UWAXipXDDEiB6H2arbXoaR0TtMhmLo8',
-    Data_Elements_Tracker:'1rf2YjAnyEajj-55ILSbCjBq6bYtt4gUFGiIfk9S6yaY',
-    Communications_Log:'1MxYeJ7KHzDolNWhHuFyMnG2VrUFJo3hUJ5TNMY7qXGc',
-    Sponsor_Review_Template:'1_Yaimr3BTOh96NgN0eRP9Udp59MgwDGByT1MIkX-c-0',
-    Pre_Design_Voice_of_User_Template:'1cq_MPiJkDDxUACDLuPn6QwGy8yuasaRqxZ7L9jp1sk4',
+    Project_Charter_Template:'1yZZ1wZDigBpCmeTEhBsakRBRxIq_0onPTfbnsNp6HUU',
+    Action_Decision_Log:'1nLIq600nElE46nSd4OV6T0I31huiv6qRUd-A2uDz3Ng',
+    Design_Session_Template:'1R81MId3ThlSuOh201RQPqV40qftIa-x9nqohbC24asg',
+    Kickoff_Template:'16kKTP1TvBdZMVYvcho25eOM41f4V6hPNs9dUwakVpVM',
+    Data_Elements_Tracker:'16-qkMIR9uOQ4CTjRVWQt2IA21L_tz29GWLAkBbVxviI',
+    Communications_Log:'1oQL-RYMeGgNafRtj79wnkNrE3THhjZRzahsXqQyhpEU',
+    Sponsor_Review_Template:'1ptYbHgKOOzrEmD6d0C93aXu16kwdiEdstsMMBvmcA_w',
+    Pre_Design_Voice_of_User_Template:'1jh_WRauV_4R4kQUNm0AlBkFSf1sp1WzdHU-t7MgK6ko',
     Stakeholder_All_Hands_Template:'153B4J16gvuPMo6aLql1zEALBbalfFrHyNhEiPCcJuyM',
-    Stakeholder_Register_Template:'1e8HVHnW1GKnb8o4keIiTWvsqg4g_1tJTFMQaCGLSOCI',
-    Workshop_Agenda_Template:'11cxHl1nAR9ue0HyaGDf7XN4gGCwQW3isNlon19q5MWE',
-    UAT_Test_Plan:'1wUNDGFlVaXoLteVokE5PxfYiMfXzuBgIHGFKayknIVM',
-    Technical_Review_Checklist:'1t72zTL0goUqKqjG7b4AG4Hi1aF6JrGBVDbMKDduo0dk',
-    Training_Content_Audit:'1EGYcoRlkXE18cgkB7tnkooK98cNZ925nQ9-8XDbyUl4',
-    Training_Tracker:'16U6qFp0WSvzDrqFSUU7JMCSryINjYU4rwF2FUUqeCFY',
-    Stakeholder_Interview_Guide:'1l1Drb1vSzITdBB9ZnaGA9MZJ9x3q-VrK6Bv4UZzBpxI',
-    Team_Roster_RACI:'19jg-OzNFh6r4t2u1lVJvboh8k_Jp6dDn0XBJEeQDypA',
-    Training_Plan_Template:'1jvrUpwqPZAgF2r7lv4ywDhh0bTEz_T5pBosII5SF0FQ',
-    Support_Handover_Template:'1AW1UqWK1zPjKOxDVvgEi4iN9EOM4q-lzBap4NGHOUso',
-    RACI_Template:'1o-Eo2ECSw0syMhW15uhGhviEhCnWz9ItM16QwEf7V44',
-    Stakeholder_Impact_Assessment:'1xjOcMlXxHkROCDXZHERghvSWn7l8VZsXUbuGc4a0s94',
-    Project_Closure_Checklist:'15w0tuMLs7YXnAncCCOEDo3FBViqEDNSTDTQs4paKHcw',
-    Quick_Reference_Guide_Template:'16NmhSi9Uu67z5sevpSGVxVldGELVlx1OM6kpTK4Voc8',
-    Post_Implementation_Survey:'1hfdRiLt1n5LBNM6su66NKUS0TR-1KXyDCLlIqkxr4WE',
-    Meeting_Summary_Template:'18mvwHXNU-g6Key4OA2ZlKYEoWApenE9nCLnkqoJ5wFA',
-    RAID_Log_Template:'1ojzkkdpdo4G4pMxfQIG71UVEkrkKoSJjIVpEJwUFgkk',
-    Status_Update_Template:'1ajbc9mHRBY5v76tY3Ei5CV3Hjxi2kEkW17xoIDCzqnA',
-    /* Status_Update_Template: paste its Drive ID here after uploading Status_Update_Template.pptx; until then Status update opens the main library folder. */
-    SOP_Template:'1z8UKMnijzpYzA-CC1iSRSAir4lJw2J68Ug9GsMbEia4',
-    Onboarding_Update_Checklist:'17x-DJCjWsF31YgB5EYGMq5iYxjz0HNfwADMA3fwTvAE',
-    Requirements_Tracker:'192XVQTlVu9SdqbmEdcBaiVJPIa1hxI-BKf8DkcqOC9Q',
-    Scope_Statement_Template:'1qJaPIDIA0uraSuLAJt5rgXWyt8jKg3aCZFeKIvhqpUs',
-    Meeting_Invite_Template:'1NY70OzVAKYHrLaBuEXHzEcfaJ-rF6zrjwV0tGZc5YqM',
-    Meeting_Agenda_Template:'1zf0WZ5jQ3kr2VSh9C2edOyQkAIEWP0wMVhS7pWqgV1Y',
-    Policy_Template:'1Li9JQNaK94023EzHHD9W6MPnKKYY5eIFM0qLSPxfxpk',
-    Project_Plan_Template:'1EUBqEHm1OSZfWNxzgQ68qQ1jyAPrQu2Qd993GBMhohw',
-    Lessons_Learned:'1Ecus1tFBEAZngcN_LVazQ30GlYECOUaIbWEtlYh5oMA',
-    Design_Signoff_Form:'1mcuU3BGDrYXVTjvKHS4Li0qFTwCxObfT9eh5n7GcSVc',
-    Glossary_Template:'17z4-LG0RviBFYocHLTETpbS9TsyzIE4X3RiF9rDPxmU',
-    Go_Live_Readiness_Checklist:'17OJe5Usimrq2O8iel38f2dP6WfqpHxx1-yPMx67rXQ8',
-    Issue_Tracker:'1efwz8Q2mdpyIL0HW0MdKffV0MazKCV_2DUF4p2QMrNw',
-    Cutover_Plan:'1MM46GjIhVj7cV7gdeXl952-MtZMy8kmTHnPRnrCnoBM',
-    Communications_Plan_Template:'1ir1fDrwaaqt8l2iH4jZSB8AOxShlbXTR_VyM_Hp3jgY',
-    Job_Aid_Template:'1pc3JlG5sDs6Eqasnsu08Dwl4gXrPz0UoZvXcYyvGDps',
-    FAQ_Template:'1WXvg4Bsc_7V_0Yjj-L4dswgGzNaPRh85E3M2Fw29m_o',
-    Communications_Template:'1Xhhj61Yriw2rci-nMTtl5OqGJhzGjWck45GJ7-0ssfU',
-    Daily_Standup_Agenda:'1vYT_MjwowiO4y3P_5qvH5vV8iWf9QOQngRlr8GcS-m4',
-    Decision_Log_Template:'12ytKNstq0o8_j1DHjbo2qP5jRlSmAtxvRaPo_YKmUng',
-    Impact_Assessment_Matrix:'1rvj2Kgx-sD1Fqaz5A_x0pr8TgMVD4D1Ikz7Rjhm-vqk',
-    Governance_Framework:'1jLvMfG1hTtargCjYpWK3aO_RBINc8M-4fNmV4hTuEew',
-    Executive_Summary_Template:'1YFnckV0DzziKrUqILAPrj5SDN3TBT9crD9kyJl_JBOU',
-    Integration_Spec_Template:'1CS6FHXWgZ_kA-iMCNKb4iomm0QGqVYA2bX-OXgjj6LA',
+    Stakeholder_Register_Template:'15i0iXUErSZYXbs6-r8i8CZ4QkOrDqZ70PvuHS5C_fz0',
+    Workshop_Agenda_Template:'1vnbURpTkhMRho3egg9K3oNvybxp9DHt4DrkPtt_bwd0',
+    UAT_Test_Plan:'18dyXovobdU64-nw83tL0tfXovvwkdNsNQcbL1hQZKcU',
+    Technical_Review_Checklist:'18XXJZOe2oEtYua1c938RxFv4GHIJyldvJpvereb4BSA',
+    Training_Content_Audit:'1QoGGNB8yNYt5r89NGj1iY4rONtE37bkUz-dLoYtFNic',
+    Training_Tracker:'1H35yXLL3GY-4JyOxAY2Fi49TR6EnX9blKUgEr8qz9DM',
+    Stakeholder_Interview_Guide:'1AWdBfaKUgnG6vYvGh3CAXXfD6qPAy9eO0OYk9WUYGC4',
+    Team_Roster_RACI:'1PQncMPLaxQtBYIvQzzRrg8gc-4s--DgpzWv-7e3et5U',
+    Training_Plan_Template:'1Xe7XSsOdgsbl3mPlvtenKvjmIEFBB5ihJB4VMmBtYSg',
+    Support_Handover_Template:'1ACzaU0zHAAMBBpENQ68s1UXmPfZ14MgjyHGFz-Jx9Nc',
+    RACI_Template:'16mRKXoEpVDTvXR_gRGScLTiAP79N34OrpAU-e5j7EDA',
+    Stakeholder_Impact_Assessment:'1ryttyW5dgWeutPZrXZajrZywCcd0P853ns5K5ELVSeI',
+    Project_Closure_Checklist:'1JOi0zBD2_-0mI8nxfSqDQVqiOOuAqovGi3pBbq-2rgk',
+    Quick_Reference_Guide_Template:'1jjQjCfGewt15x_09F0DeaLIcRSlh1JXtCPQh0zaXt_E',
+    Post_Implementation_Survey:'1MgLVsjTNYRurpqgn-nuff8juQ_7HCn2OoDbLZ1M588s',
+    Meeting_Summary_Template:'13EAbD2PhWigSNKndw7vDUhdGLwOL_lYhyo5m1l7eSMg',
+    RAID_Log_Template:'17vI9hNw1yjFOPseCbI8H2fMk5ACqEz_4Qp-xr_w-BOo',
+    Status_Update_Template:'1ydj_HkiE7NsGNUS4dotmqoYChGCZL0GjuqkyWwImphE',
+    SOP_Template:'1aCP-a3grL8TFoPFGq6zwvYExKclyWgHDEkfr-6sFzhc',
+    Onboarding_Update_Checklist:'1Q6s2CEit3Lz92_vyXOMBjSypHTdxIBqH9l8lvpE-ePo',
+    Requirements_Tracker:'1GLTrPfNkjY2uRdK3w43XjtmFoU5W3OYIYQ7i2D_rVI4',
+    Scope_Statement_Template:'16b3LshIwt2uRAG886MHEEDjH3A5mINJo4s01EWXDgwM',
+    Meeting_Invite_Template:'18vlrwuSlG0GuFJ4AR5EiAz5t8mTohjZAUR7ZXT7ngUM',
+    Meeting_Agenda_Template:'15D7QsQDZM3RIt9p9w596zccMRRCl4u1HZXf0Iehc9zY',
+    Policy_Template:'1SIPxQzDccLD6s7GOM9XMePCCxFS6nHxAb_ijyK49BXQ',
+    Project_Plan_Template:'1PZ3ckppJeepdZAijRz8GtnExY-QmDfDBBDY9L4KzvBc',
+    Lessons_Learned:'1m-as6pel68bp6zSovMSHmHFDxIZzSAE4lsINP65ykH4',
+    Design_Signoff_Form:'1C2q8ICDd3HlmOLI98NwA8v9uh_iSXhOORkqoxGQ6ACc',
+    Glossary_Template:'1kGw_D-_bFW-cktIqt4oazoCrBahl60IrBKgqIYFT2fM',
+    Go_Live_Readiness_Checklist:'1_43OizQ3axHK9CKlPP8GNJmBjoaXp92PV4DtT7x1sFk',
+    Issue_Tracker:'1NzkQieLWq9N7enqhGTbV0xpBQZuvWfon5rj4E6yJgUY',
+    Cutover_Plan:'1gM4vXzAujvHOSSlpe4rrFLDRnwTu8wO8cy6HAxfZKDU',
+    Communications_Plan_Template:'1xjx8LWU3efzN4cXSSgDHGn0imSfkas07uUU5M_0GF5g',
+    Job_Aid_Template:'1hPHddAMpLS7LobPaj6lr7k3NyUTGzLekCaGtrVZKzEc',
+    FAQ_Template:'14JElsZ_zk6iMuEP_ftozzqQJWE2AZo_rSMMTOq9E6Yc',
+    Communications_Template:'1VNyxp_C-NqPeXIztD1h-aTkvOBCYUikaghXQaSZukzI',
+    Daily_Standup_Agenda:'13a6hACcwoFdvDSASmjcY8ic4lf4jPm-PVEVuDjduu6c',
+    Decision_Log_Template:'1jYtejTWZawqsHrEGdJVg-V-8Ecy_0PBvM5e6yKIij0k',
+    Impact_Assessment_Matrix:'1BCpEAHSMEbhZmMYnZo4chUL7s55fuNGszZKqBRQ_YsA',
+    Governance_Framework:'108XPtgEKQUCrIH1borhpoxSGQlR6c4IJKPm3zCy6Uk0',
+    Executive_Summary_Template:'1Uf2Y9k_r8jFq_xulYmFhfeASOZF3zFxREtb_wtTSx7s',
+    Integration_Spec_Template:'17H14qFKL4E_MjKICdOj4J7f22Ml-Y8G61K04UK989Sg',
     /* ---- New Leading Change templates: upload each to the Drive library, then paste its file ID below. Until filled, these links open the library folder. ---- */
-    Resource_Meeting_Plan:'',
-    Change_Network_Guide:'',
-    Resistance_Management_Plan:'',
-    Change_Story_One_Pager:'',
+    Resource_Meeting_Plan:'13mY65t4p7mrfOSvNUY_4ggwAQ0xqiEoIL-oxdNbCKM0',
+    Change_Network_Guide:'1Wmrne2j1vioTEQSGB8vMtP5-Xu2K8V-2FAwmJyQuJq4',
+    Resistance_Management_Plan:'1XzTvzK5rByqELVyTerOQmvyeTNMw_jlBp67Ny11FjE0',
+    Change_Story_One_Pager:'18bcuHdYcGcYoYgTRbsNp0kHLTTYjyYTrjplmyZ40X-k',
   };
   const norm=(s)=>(s||'').toLowerCase().replace(/&amp;/g,'').replace(/[^a-z0-9]/g,'');
   const FILES={}; Object.keys(RAW_FILES).forEach(k=>{ FILES[norm(k)]=RAW_FILES[k]; });
@@ -720,7 +718,7 @@
   }
   const URLMAP={
     'simple project plan':'https://app.smartsheet.com/sheets/rgxvpPVpm2xqq2CMxxHxxRjxm5WhGWr7hPHf66p1?view=grid',
-    'who is involved list':'https://docs.google.com/spreadsheets/d/1e8HVHnW1GKnb8o4keIiTWvsqg4g_1tJTFMQaCGLSOCI/edit?gid=744445309#gid=744445309'
+    'who is involved list':'https://docs.google.com/spreadsheets/d/15i0iXUErSZYXbs6-r8i8CZ4QkOrDqZ70PvuHS5C_fz0/edit'
   };
   function urlFor(label){ const key=(label||'').toLowerCase().trim(); if(URLMAP[key]) return URLMAP[key]; const id=fileFor(label); return id?(OPEN+id):MAIN_FOLDER; }
   const tlink=(label)=> '<a class="tlink" href="'+urlFor(label)+'" target="_blank" rel="noopener">'+label+'</a>';
@@ -1076,46 +1074,46 @@
       med:[["Stakeholder Map","Know your audiences","stakeholder"],["Sponsor Roadmap","Keep sponsors active","sponsor"],["Training and Readiness Plan","Equip your people","training"],["Go-Live Readiness Checklist","Confirm you are ready","readiness"],["RAID Log","Track risks and issues","raid"],["Adoption Metrics Tracker","Measure what stuck","adoption"]],
       high:[["Project Charter","Align scope and sponsor","charter"],["Change Network Guide","Stand up change agents","network"],["Resistance Management Plan","Address pushback early","resistance"]]
     };
-    /* map tool template keys to the toolkit's Drive library via urlFor(); blank falls back to the library folder */
     var LC_LABEL={impact:"change impact assessment",stakeholder:"stakeholder map",comms:"communication plan",charter:"project charter",raid:"raid log",readiness:"go-live readiness checklist",training:"training plan",sponsor:"sponsor review",adoption:"post-implementation survey",resourceplan:"resource and meeting plan",network:"change network guide",resistance:"resistance management plan",changestory:"change story one-pager"};
     function lcUrl(key){ return urlFor(LC_LABEL[key]||""); }
 
     function rolesIn(level,group){var o=[],seen={};PHASES.forEach(function(p){ROLE_HOURS[level][p][group].forEach(function(r){if(!seen[r[0]]){seen[r[0]]=1;o.push(r[0]);}});});return o;}
     function hrOf(level,group,role,phase){var a=ROLE_HOURS[level][phase][group];for(var i=0;i<a.length;i++)if(a[i][0]===role)return a[i][1];return 0;}
     function levelHours(level){var pt=0,sme=0;PHASES.forEach(function(p){ROLE_HOURS[level][p].team.forEach(function(r){pt+=r[1];});ROLE_HOURS[level][p].sme.forEach(function(r){sme+=r[1];});});return{pt:pt,sme:sme,total:pt+sme};}
+    function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;");}
 
     var MODE="lite",answers={},viewing=null,phase=0,done={};
     function $(id){return document.getElementById(id);}
 
     function renderMoves(){
-      var g=$("lc-moves");g.innerHTML="";
+      var g=$("lc-moves");if(!g)return;g.innerHTML="";
       MOVES.forEach(function(m,i){var d=document.createElement("div");d.className="lc-move";
         d.innerHTML='<div class="mn">0'+(i+1)+'</div><div><h4>'+m[0]+'</h4><p>'+m[1]+'</p></div>';g.appendChild(d);});
     }
     function renderQuestions(){
-      var c=$("lc-questions");c.innerHTML="";
+      var c=$("lc-questions");if(!c)return;c.innerHTML="";
       QUESTIONS.forEach(function(qq,i){var div=document.createElement("div");div.className="lc-q";
-        var opts=qq.opts.map(function(o){return '<button class="lc-opt" role="radio" aria-checked="false" onclick="lcPick('+i+','+o[1]+',this)">'+o[0]+'</button>';}).join("");
+        var opts=qq.opts.map(function(o){return '<button type="button" class="lc-opt" data-act="pick" data-q="'+i+'" data-v="'+o[1]+'" role="radio" aria-checked="false">'+o[0]+'</button>';}).join("");
         div.innerHTML='<span class="qn">Question '+(i+1)+' of '+QUESTIONS.length+'</span><h4>'+qq.q+'</h4><div class="lc-opts" role="radiogroup">'+opts+'</div>';
         c.appendChild(div);});
     }
-    window.lcPick=function(qi,v,el){answers[qi]={v:v,scored:QUESTIONS[qi].scored};
+    function pick(qi,v,el){answers[qi]={v:v,scored:QUESTIONS[qi].scored};
       var sib=el.parentNode.querySelectorAll(".lc-opt");for(var i=0;i<sib.length;i++){sib[i].classList.remove("sel");sib[i].setAttribute("aria-checked","false");}
-      el.classList.add("sel");el.setAttribute("aria-checked","true");$("lc-qhint").textContent="";};
+      el.classList.add("sel");el.setAttribute("aria-checked","true");var hint=$("lc-qhint");if(hint)hint.textContent="";}
 
-    window.lcAssess=function(){
+    function assess(){
       var n=0;for(var k in answers)n++;
       if(n<QUESTIONS.length){$("lc-qhint").textContent="Please answer every question to see your plan.";return;}
       var score=0,max=0;QUESTIONS.forEach(function(qq,i){if(qq.scored){score+=answers[i].v;max+=4;}});
       var level=score<=9?"low":(score<=14?"med":"high");
       $("lc-score").textContent="Change intensity score: "+score+" of "+max;
-      lcView(level);
+      view(level);
       renderTemplates(level);
       $("lc-result").style.display="block";
       $("lc-result").scrollIntoView({behavior:"smooth",block:"start"});
-    };
+    }
 
-    window.lcView=function(level,btn){
+    function view(level){
       viewing=level;phase=0;
       $("lc-banner").className="lc-banner "+LVLMETA[level].cls;
       $("lc-lvlTitle").textContent=LVLMETA[level].t+" project";
@@ -1127,11 +1125,12 @@
         +'<div class="lc-stat"><div class="hn">'+h.sme+'</div><div class="hl">SME hours (estimated)</div></div>'
         +'<div class="lc-stat tot"><div class="hn">'+h.total+'</div><div class="hl">Total estimated hours</div></div>';
       renderPhaseBar();renderPhase();renderMatrix(level);renderExec(level);
-    };
+    }
     function renderPhaseBar(){
       var bar=$("lc-phasebar");bar.innerHTML="";
-      PHASES.forEach(function(p,i){var b=document.createElement("button");b.className=(i===phase?"on":"");
-        b.innerHTML='<span class="pn">0'+(i+1)+'</span>'+p;b.onclick=function(){phase=i;renderPhaseBar();renderPhase();};bar.appendChild(b);});
+      PHASES.forEach(function(p,i){var b=document.createElement("button");b.type="button";b.className=(i===phase?"on":"");
+        b.setAttribute("data-act","phase");b.setAttribute("data-i",i);
+        b.innerHTML='<span class="pn">0'+(i+1)+'</span>'+p;bar.appendChild(b);});
     }
     function renderPhase(){
       var d=PLAN[viewing][PHASES[phase]];var adv=MODE==="adv";
@@ -1172,10 +1171,10 @@
         var lis="";
         shown.forEach(function(st,si){
           var id=pi+"-"+si;var dn=done[id]?"done":"";
-          var tl=st.tpl?'<a class="lc-tmpl" href="'+lcUrl(st.tpl)+'" target="_blank" rel="noopener">Open template</a>':"";
+          var tl=st.tpl?'<a class="lc-tmpl" href="'+esc(lcUrl(st.tpl))+'" target="_blank" rel="noopener">Open template</a>':"";
           var mt=st.move?'<span class="lc-mtag">'+st.move+'</span>':"";
           lis+='<li class="lc-step '+dn+'" id="lc-st-'+id+'">'
-            +'<div class="sb" role="checkbox" aria-checked="'+(dn?"true":"false")+'" tabindex="0" onclick="lcToggle(\''+id+'\')" onkeydown="if(event.key===\' \'||event.key===\'Enter\'){event.preventDefault();lcToggle(\''+id+'\')}">'+(dn?"\u2713":si+1)+'</div>'
+            +'<div class="sb" role="checkbox" aria-checked="'+(dn?"true":"false")+'" tabindex="0" data-act="toggle" data-id="'+id+'">'+(dn?"\u2713":si+1)+'</div>'
             +'<div class="sc"><div class="st">'+st.t+'</div><div class="sm">'+mt+tl+'</div></div></li>';
         });
         var more=(MODE==="lite"&&steps.length>shown.length)?'<div class="lc-hint">Switch to Advanced to see '+(steps.length-shown.length)+' more step(s) for this phase.</div>':"";
@@ -1184,9 +1183,9 @@
         cont.appendChild(div);
       });
     }
-    window.lcToggle=function(id){done[id]=!done[id];var el=$("lc-st-"+id);if(!el)return;
+    function toggle(id){done[id]=!done[id];var el=$("lc-st-"+id);if(!el)return;
       el.classList.toggle("done",done[id]);var box=el.querySelector(".sb");box.setAttribute("aria-checked",done[id]?"true":"false");
-      var num=id.split("-")[1];box.textContent=done[id]?"\u2713":(parseInt(num,10)+1);};
+      var num=id.split("-")[1];box.textContent=done[id]?"\u2713":(parseInt(num,10)+1);}
 
     function renderTemplates(level){
       var set=LC_TEMPLATES.base.slice();
@@ -1199,13 +1198,34 @@
       set.forEach(function(t){var a=document.createElement("a");a.className="lc-trow";a.href=lcUrl(t[2]);a.target="_blank";a.rel="noopener";
         a.innerHTML='<span class="ti">+</span><span class="tt">'+t[0]+'<small>'+t[1]+'</small></span>';list.appendChild(a);});
     }
-    window.lcSetMode=function(m){MODE=m;
-      $("lc-liteBtn").classList.toggle("on",m==="lite");
-      $("lc-advBtn").classList.toggle("on",m==="adv");
+    function setMode(m){MODE=m;
+      var lb=$("lc-liteBtn"),ab=$("lc-advBtn");if(lb)lb.classList.toggle("on",m==="lite");if(ab)ab.classList.toggle("on",m==="adv");
       if(viewing){renderPhase();renderExec(viewing);}
-    };
+    }
 
-    renderMoves();renderQuestions();
+    /* one delegated listener handles every interaction (no inline handlers) */
+    function onClick(e){
+      var el=e.target.closest ? e.target.closest("[data-act]") : null; if(!el)return;
+      var act=el.getAttribute("data-act");
+      if(act==="mode") setMode(el.getAttribute("data-mode"));
+      else if(act==="assess") assess();
+      else if(act==="view") view(el.getAttribute("data-lvl"));
+      else if(act==="pick") pick(parseInt(el.getAttribute("data-q"),10),parseInt(el.getAttribute("data-v"),10),el);
+      else if(act==="phase"){ phase=parseInt(el.getAttribute("data-i"),10); renderPhaseBar(); renderPhase(); }
+      else if(act==="toggle") toggle(el.getAttribute("data-id"));
+    }
+    function onKey(e){
+      if(e.key!==" "&&e.key!=="Enter"&&e.key!=="Spacebar")return;
+      var el=e.target.closest?e.target.closest('[data-act="toggle"]'):null; if(!el)return;
+      e.preventDefault(); toggle(el.getAttribute("data-id"));
+    }
+    function init(){
+      var root=document.getElementById("change"); if(!root)return;
+      root.addEventListener("click",onClick);
+      root.addEventListener("keydown",onKey);
+      renderMoves();renderQuestions();
+    }
+    init();
   })();
 
 })();

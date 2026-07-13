@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Management and Change Management Toolkit — Wake Forest University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A1A1A; --ink-soft:#403D38; --gold:#9E7E38; --gold-bright:#C2A24E;
+    --gold-tint:#F4EFE2; --paper:#FFFFFF; --panel:#F6F4EF; --line:#E4DFD4;
+    --muted:#807A6E; --good:#3F7A4F; --warn:#B5803A; --stop:#A3472F;
+    --display:'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --body:'Nunito Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --shadow:0 1px 2px rgba(26,26,26,.05), 0 8px 24px rgba(26,26,26,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1.12;margin:0;letter-spacing:-.01em}
+  p{margin:0 0 .8rem}
+  .wrap{display:block;min-height:100vh}
+
+  aside{background:var(--ink);color:#EDE9DF;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:28px 22px;overflow-y:auto}
+  .brand-eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-bright);font-weight:600}
+  .brand-name{font-family:var(--display);font-size:21px;font-weight:800;margin-top:6px;color:#fff;line-height:1.15}
+  .brand-sub{font-size:12.5px;color:#A9A395;margin-top:8px;line-height:1.4}
+  nav{margin-top:26px;display:flex;flex-direction:column;gap:2px}
+  .nav-label{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#8C8676;margin:18px 0 8px}
+  .nav-item{display:flex;gap:12px;align-items:baseline;width:100%;text-align:left;background:none;border:0;color:#D7D2C6;font-family:var(--body);font-size:14px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background .15s,color .15s}
+  .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+  .nav-item.active{background:var(--gold);color:#1A1A1A;font-weight:600}
+  .nav-item .num{font-family:var(--display);font-size:13px;color:var(--gold-bright);min-width:18px}
+  .nav-item.active .num{color:#1A1A1A}
+  .aside-foot{margin-top:auto;padding-top:22px;font-size:11.5px;color:#8C8676;border-top:1px solid rgba(255,255,255,.08)}
+
+  main{padding:0;max-width:1020px;margin:0 auto}
+  .section{display:none;padding:54px 60px 80px;animation:fade .4s ease}
+  .section.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:14px}
+  .h-xl{font-size:clamp(32px,4vw,46px);letter-spacing:-.025em}
+  .lead{font-size:18px;color:var(--ink-soft);max-width:60ch;margin-top:16px}
+  .sub-note{font-size:15px;color:var(--muted);max-width:60ch;margin-top:10px}
+  .section h2{font-size:30px;margin:0}
+  .section h3{font-size:20px;margin:30px 0 10px}
+  .section p{color:var(--ink-soft);max-width:68ch}
+  .divider{height:1px;background:var(--line);margin:30px 0}
+
+  /* ---- simple intro choice ---- */
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px;max-width:760px}
+  @media(max-width:680px){.choices{grid-template-columns:1fr}}
+  .choice{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:22px 22px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .05s;font-family:var(--body)}
+  .choice:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+  .choice:active{transform:scale(.995)}
+  .choice .ct{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink)}
+  .choice .cd{font-size:14px;color:var(--muted)}
+  .choice.primary{background:var(--ink);border-color:var(--ink)}
+  .choice.primary .ct{color:#fff}
+  .choice.primary .cd{color:#B7B1A4}
+  .choice.primary:hover{border-color:var(--gold)}
+
+  /* ---- Berkeley-style section directory ---- */
+  .mapgrid{grid-template-columns:repeat(3,1fr);max-width:1060px;margin-top:18px}
+  @media(max-width:980px){.mapgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:660px){.mapgrid{grid-template-columns:1fr}}
+  .mapgrid .choice{gap:7px;padding:20px 20px}
+  .mapgrid .choice .cnum{font-family:var(--display);font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.14em}
+  .mapgrid .choice .ct{font-size:17.5px;display:flex;align-items:center;gap:8px}
+  .mapgrid .choice .ct::after{content:"\2192";color:var(--gold);font-size:16px;opacity:0;transform:translateX(-4px);transition:opacity .15s,transform .15s;margin-left:auto}
+  .mapgrid .choice:hover .ct::after{opacity:1;transform:translateX(0)}
+  .mapgrid .choice .cd{font-size:13.5px;line-height:1.45}
+  .map-lead{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:42px 0 4px}
+
+  .quick-links{margin-top:18px;max-width:760px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+  .quick-links button{background:none;border:0;color:var(--gold);font-weight:700;cursor:pointer;font-size:14px;padding:4px 2px;font-family:var(--body)}
+  .quick-links button:hover{text-decoration:underline}
+
+  .gloss-home{margin-top:24px;max-width:760px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:4px 20px}
+  .gloss-home summary{cursor:pointer;font-weight:600;color:var(--ink);padding:14px 0;list-style:none;font-size:15px}
+  .gloss-home summary::-webkit-details-marker{display:none}
+  .gloss-home summary::before{content:"+";color:var(--gold);font-weight:700;margin-right:9px}
+  .gloss-home[open] summary::before{content:"\2013"}
+  .gloss-home dl{padding:0 0 14px;margin:0;columns:2;column-gap:36px}
+  .gloss-home dt{break-inside:avoid}
+  @media(max-width:680px){.gloss-home dl{columns:1}}
+
+  /* ---- mini question flow ---- */
+  .wizard{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px;box-shadow:var(--shadow);max-width:760px;display:none}
+  .wizard.show{display:block}
+  .qcount{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .step-q{font-family:var(--display);font-size:25px;font-weight:800;margin:8px 0 18px}
+  .opts{display:grid;gap:10px}
+  .opt{display:flex;align-items:center;gap:13px;text-align:left;width:100%;background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:15px 17px;font-family:var(--body);font-size:15.5px;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s,transform .05s}
+  .opt:hover{border-color:var(--gold)}
+  .opt:active{transform:scale(.995)}
+  .opt.sel{border-color:var(--gold);background:var(--gold-tint)}
+  .opt .tick{width:20px;height:20px;border-radius:50%;border:2px solid #C8C2B4;flex:none;display:grid;place-items:center}
+  .opt.sel .tick{border-color:var(--gold);background:var(--gold)}
+  .opt.sel .tick::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+  .wiz-controls{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+  .btn{font-family:var(--body);font-weight:600;font-size:14.5px;border-radius:9px;padding:11px 22px;cursor:pointer;border:1.5px solid transparent;transition:background .15s,border-color .15s,opacity .15s}
+  .btn-primary{background:var(--gold);color:#1A1A1A;border-color:var(--gold)}
+  .btn-primary:hover{background:var(--gold-bright);border-color:var(--gold-bright)}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+  .btn-ghost{background:none;color:var(--ink-soft);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--ink-soft)}
+  .btn-text{background:none;border:0;color:var(--gold);font-weight:600;cursor:pointer;font-size:13.5px;padding:6px}
+  .detail-link{margin-top:16px;font-size:13.5px;color:var(--muted)}
+  .detail-link button{background:none;border:0;color:var(--gold);font-weight:600;cursor:pointer;font-size:13.5px;padding:0}
+
+  /* ---- result ---- */
+  .result{margin-top:28px;display:none;max-width:820px}
+  .result.show{display:block;animation:fade .45s ease}
+  .verdict{border-radius:14px;padding:24px 28px;color:#fff;box-shadow:var(--shadow)}
+  .verdict.low{background:linear-gradient(135deg,#3F7A4F,#2F5E3C)}
+  .verdict.medium{background:linear-gradient(135deg,#B5803A,#8A5E27)}
+  .verdict.high{background:linear-gradient(135deg,#1A1A1A,#3A3024)}
+  .verdict .tag{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;font-weight:600}
+  .verdict .lvl{font-family:var(--display);font-size:30px;font-weight:800;margin:5px 0 4px}
+  .verdict .aside{font-size:13px;opacity:.8}
+  .nudge{display:flex;gap:12px;align-items:flex-start;background:#F4E2DC;border:1px solid #E6C8BD;border-radius:12px;padding:16px 18px;margin-top:18px}
+  .nudge .nd{font-size:14.5px;color:#7A3525}
+  .nudge strong{color:#5E2114}
+  .firststeps{margin-top:24px}
+  .firststeps h3{font-size:19px;margin-bottom:10px}
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0}
+  ol.steps li{counter-increment:s;position:relative;padding:12px 0 12px 44px;border-bottom:1px solid var(--line);font-size:15.5px;color:var(--ink-soft)}
+  ol.steps li:last-child{border-bottom:0}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:11px;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#1A1A1A;font-family:var(--display);font-weight:700;display:grid;place-items:center;font-size:14px}
+  .kit{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  .kit h3{font-size:16px;margin-bottom:8px}
+  ul.kitlist{list-style:none;margin:0;padding:0}
+  ul.kitlist li{padding:8px 0 8px 24px;position:relative;font-size:14.5px;color:var(--ink-soft);border-bottom:1px solid var(--line)}
+  ul.kitlist li:last-child{border-bottom:0}
+  ul.kitlist li::before{content:"";position:absolute;left:4px;top:15px;width:8px;height:8px;border-radius:2px;background:var(--gold)}
+  ul.kitlist li span{color:var(--muted);font-size:13px}
+  .result-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+
+  /* ---- content blocks ---- */
+  .tier{border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:20px 24px;margin:14px 0;background:var(--panel)}
+  .tier h4{font-size:18px}
+  .tier .meta{font-size:13px;color:var(--muted);margin:4px 0 10px;font-weight:500}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+  ul.clean{list-style:none;padding:0;margin:.4rem 0}
+  ul.clean li{padding:6px 0 6px 24px;position:relative;color:var(--ink-soft);font-size:14.5px}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+  table.t{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  table.t th{background:var(--ink);color:#fff;text-align:left;padding:11px 14px;font-weight:600}
+  table.t td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top}
+  table.t tr:nth-child(even) td{background:var(--panel)}
+  .pill{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;padding:3px 10px;border-radius:20px;background:var(--gold-tint);color:var(--gold)}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+  a.card{display:block;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+  a.card:hover{border-color:var(--gold);box-shadow:var(--shadow)}
+  .card .open{color:var(--gold);font-weight:700;font-size:12.5px}
+  .tlink{color:var(--gold);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(158,126,56,.35)}
+  .tlink:hover{border-bottom-color:var(--gold)}
+  .card h4{font-size:16px;margin-bottom:6px}
+  .phaseflow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:18px}
+  @media(max-width:860px){.phaseflow{grid-template-columns:repeat(2,1fr)}}
+  .phase{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 12px;text-align:center}
+  .phase .n{width:26px;height:26px;border-radius:50%;background:var(--gold);color:#1A1A1A;font-family:var(--display);font-weight:700;display:grid;place-items:center;margin:0 auto 8px;font-size:13px}
+  .phase .pn{font-weight:600;font-size:14px;margin-bottom:3px;color:var(--ink)}
+  .phase .pd{font-size:11.5px;color:var(--muted);line-height:1.35}
+  .prompt{border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;background:var(--paper)}
+  .prompt .ptop{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:8px}
+  .prompt h4{font-size:16px}
+  .prompt .ptag{font-size:11px;font-weight:600;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+  .prompt pre{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--ink-soft);white-space:pre-wrap;line-height:1.5}
+  .copy{font-family:var(--body);font-size:12.5px;font-weight:600;color:var(--ink);background:var(--gold-tint);border:1px solid var(--line);border-radius:7px;padding:7px 13px;cursor:pointer;white-space:nowrap}
+  .copy:hover{background:var(--gold)}
+  .copy.copied{background:var(--good);color:#fff;border-color:var(--good)}
+  .glossary dt{font-weight:600;color:var(--ink);margin-top:12px;font-size:14.5px}
+  .glossary dd{margin:2px 0 0;color:var(--ink-soft);font-size:14px}
+
+  .topbar-m{display:none}
+  @media(max-width:880px){
+    .wrap{grid-template-columns:1fr}
+    aside{position:relative;height:auto;flex-direction:column}
+    .section{padding:36px 22px 70px}
+    nav{display:none}
+    nav.open{display:flex}
+    .topbar-m{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+    .menu-btn{background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:8px;padding:8px 12px;font-family:var(--body);font-size:13px;cursor:pointer}
+  }
+  :focus-visible{outline:3px solid var(--gold-bright);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
+
+  .wiz-prompt{font-size:18px;font-weight:700;color:var(--ink);margin:6px 0 14px;max-width:60ch}
+  .shortcuts-label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:30px 0 12px}
+  .choices.compact{gap:12px}
+  .choices.compact .choice{padding:14px 16px}
+  .choices.compact .choice .ct{font-size:15px}
+  .choices.compact .choice .cd{font-size:12.5px}
+  #wizard:not(.show){display:none}
+
+  /* ===== Leading Change tool (section 6) ===== */
+  .lc{margin-top:24px;max-width:900px}
+  .lc p{max-width:none;margin:0 0 .6rem;color:var(--ink-soft)}
+  .lc-stage{display:flex;align-items:center;gap:10px;margin:34px 0 8px}
+  .lc-stage .sn{font-family:var(--display);font-weight:800;font-size:13px;background:var(--ink);color:#fff;width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
+  .lc-stage .se{font-family:var(--display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .lc-h{font-family:var(--display);font-weight:800;font-size:21px;margin:0 0 4px;color:var(--ink)}
+  .lc-intro{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;padding:20px 22px;margin:8px 0 18px}
+  .lc-intro p:last-child{margin:0}
+  .lc-mode{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px;margin:6px 0}
+  .lc-mode button{font-family:var(--body);font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;padding:8px 16px;border-radius:999px;cursor:pointer}
+  .lc-mode button.on{background:var(--gold);color:#1A1A1A}
+  .lc-moves{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .lc-move{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px 16px;display:flex;gap:13px;align-items:flex-start;box-shadow:var(--shadow)}
+  .lc-move .mn{font-family:var(--display);font-weight:800;font-size:24px;color:var(--gold-bright);line-height:1}
+  .lc-move h4{font-size:15.5px;margin:1px 0 4px;font-family:var(--display)}
+  .lc-move p{font-size:13px;color:var(--muted);margin:0}
+  .lc-howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:16px}
+  .lc-howto div{background:var(--gold-tint);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .lc-howto b{font-family:var(--display);display:block;margin-bottom:3px;font-size:14px}
+  .lc-howto span{font-size:13px;color:var(--muted)}
+  .lc-cta{font-family:var(--body);font-weight:700;font-size:14.5px;background:var(--gold);color:#1A1A1A;border:0;border-radius:9px;padding:12px 24px;cursor:pointer;margin-top:8px}
+  .lc-cta:hover{background:var(--gold-bright)}
+  .lc-hint{font-size:13px;color:var(--muted);margin-top:10px;display:inline-block}
+  .lc-q{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold-bright);border-radius:12px;padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+  .lc-q .qn{font-family:var(--display);color:var(--gold);font-weight:700;font-size:12.5px}
+  .lc-q h4{font-size:16.5px;margin:4px 0 12px;font-family:var(--display)}
+  .lc-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}
+  .lc-opt{font-family:var(--body);font-size:14px;text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:9px;padding:11px 13px;cursor:pointer;color:var(--ink);line-height:1.35}
+  .lc-opt:hover{border-color:var(--gold)}
+  .lc-opt.sel{border-color:var(--gold);background:var(--gold-tint);font-weight:700}
+  .lc-result{display:none;margin-top:8px}
+  .lc-banner{border-radius:14px;color:#fff;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:16px}
+  .lc-banner .score{font-size:12.5px;opacity:.9}
+  .lc-banner .lvl{font-family:var(--display);font-weight:800;font-size:24px;margin:3px 0 4px}
+  .lc-banner p{color:rgba(255,255,255,.94);margin:8px 0 0;max-width:70ch}
+  .lc-low{background:linear-gradient(135deg,#3F7A4F,#2F5E3C)}
+  .lc-med{background:linear-gradient(135deg,#B5803A,#8A5E27)}
+  .lc-high{background:linear-gradient(135deg,#1A1A1A,#3A3024)}
+  .lc-cmp{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
+  .lc-cmp span{font-size:12.5px;opacity:.9}
+  .lc-cmp button{font-family:var(--body);font-size:12.5px;font-weight:700;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:6px 13px;cursor:pointer}
+  .lc-cmp button.on{background:#fff;color:#1A1A1A}
+  .lc-hsum{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .lc-stat{flex:1 1 170px;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:13px 15px;box-shadow:var(--shadow)}
+  .lc-stat .hn{font-family:var(--display);font-weight:800;font-size:24px;color:var(--ink);line-height:1}
+  .lc-stat .hl{font-size:12px;color:var(--muted);margin-top:4px}
+  .lc-stat.tot{border-left-color:var(--ink);background:var(--gold-tint)}
+  .lc-phasebar{display:flex;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-top:22px}
+  .lc-phasebar button{font-family:var(--body);font-size:13px;font-weight:700;color:var(--muted);background:none;border:0;border-bottom:3px solid transparent;padding:11px 14px;cursor:pointer;margin-bottom:-2px}
+  .lc-phasebar button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .lc-phasebar .pn{font-family:var(--display);color:var(--gold);font-size:11.5px;margin-right:5px}
+  .lc-panel{background:var(--paper);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:22px;box-shadow:var(--shadow)}
+  .lc-psum{font-family:var(--display);font-size:15px;color:var(--ink);margin:0 0 16px;padding:13px 15px;background:var(--gold-tint);border-left:4px solid var(--gold);border-radius:6px;font-weight:600}
+  .lc-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .lc-col h5{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:0 0 9px;padding-bottom:6px;border-bottom:1px solid var(--line);font-family:var(--display)}
+  .lc-col ul{margin:0;padding:0;list-style:none}
+  .lc-col li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px;color:var(--ink-soft)}
+  .lc-col li:last-child{border-bottom:0}
+  .lc-col li .meta{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+  .lc-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .lc-tag{font-size:12px;background:var(--gold-tint);border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--ink-soft)}
+  .lc-note{font-size:13px;color:var(--ink-soft);background:var(--gold-tint);border:1px solid var(--line);border-left:3px solid var(--gold-bright);border-radius:7px;padding:12px 14px;margin-top:16px}
+  .lc-mwrap{margin-top:24px}
+  .lc-mtitle{font-family:var(--display);font-weight:800;font-size:17px;margin:0 0 3px}
+  .lc-msub{color:var(--muted);font-size:13px;margin:0 0 12px}
+  .lc-mscroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+  table.lc-mtx{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+  table.lc-mtx th,table.lc-mtx td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:right}
+  table.lc-mtx th:first-child,table.lc-mtx td:first-child{text-align:left}
+  table.lc-mtx thead th{background:var(--ink);color:#fff;font-family:var(--display);font-weight:700;font-size:12px}
+  table.lc-mtx tr.sec td{background:var(--gold-bright);font-family:var(--display);font-weight:700;color:#1A1A1A;text-align:left}
+  table.lc-mtx tr.sub td{background:var(--panel);font-weight:700}
+  table.lc-mtx tr.grand td{background:var(--gold-tint);font-weight:800;font-family:var(--display);border-top:2px solid var(--gold)}
+  table.lc-mtx td.ct,table.lc-mtx th.ct{background:rgba(158,126,56,.08);font-weight:700}
+  .lc-ephase{margin-bottom:22px}
+  .lc-eh{display:flex;align-items:center;gap:10px;margin:0 0 11px}
+  .lc-eh .en{font-family:var(--display);font-weight:800;background:var(--gold);color:#1A1A1A;width:27px;height:27px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+  .lc-eh h4{margin:0;font-size:16.5px;font-family:var(--display)}
+  .lc-steps{list-style:none;margin:0;padding:0}
+  .lc-step{display:flex;gap:13px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:9px;box-shadow:var(--shadow)}
+  .lc-step .sb{flex:0 0 25px;width:25px;height:25px;border:2px solid var(--gold-bright);border-radius:6px;color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:13px;cursor:pointer;user-select:none}
+  .lc-step.done .sb{background:var(--gold);border-color:var(--gold);color:#1A1A1A}
+  .lc-step.done .st{text-decoration:line-through;color:var(--muted)}
+  .lc-step .sc{flex:1}
+  .lc-step .st{font-size:14px;color:var(--ink-soft)}
+  .lc-step .sm{margin-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .lc-mtag{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);background:var(--gold-tint);border:1px solid var(--line);border-radius:6px;padding:3px 8px;font-weight:700}
+  .lc-tmpl{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--gold);text-decoration:none;border:1px solid var(--gold-bright);border-radius:7px;padding:4px 10px;background:var(--gold-tint)}
+  .lc-tmpl:hover{background:var(--gold);color:#1A1A1A}
+  .lc-tlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px}
+  .lc-trow{display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink)}
+  .lc-trow:hover{border-color:var(--gold)}
+  .lc-trow .ti{width:32px;height:32px;flex:0 0 32px;border-radius:8px;background:var(--gold-tint);color:var(--gold);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+  .lc-trow .tt{font-size:13.5px;font-weight:700;line-height:1.25}
+  .lc-trow .tt small{display:block;color:var(--muted);font-weight:400;font-size:12px}
+  @media print{.lc-mode,.lc-cta,.lc-cmp,.lc-phasebar,.lc-step .sb{display:none!important}}
+  /* ---- beginner support gate ---- */
+  .lc-support{background:var(--gold-tint);border:1.5px solid var(--gold);border-left:5px solid var(--gold);border-radius:12px;padding:22px 24px;margin-top:18px}
+  .lc-support h4{font-family:var(--display);font-size:19px;margin:0 0 8px;color:var(--ink)}
+  .lc-support p{margin:0 0 10px;color:var(--ink-soft);max-width:70ch}
+  .lc-support .supbtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+  .lc-support .supbtns button{background:none;border:1.5px solid var(--gold);color:var(--ink);font-family:var(--body);font-weight:600;font-size:14px;border-radius:8px;padding:9px 14px;cursor:pointer}
+  .lc-support .supbtns button.pri{background:var(--gold);border-color:var(--gold)}
+  .lc-support .supbtns button:hover{border-color:var(--ink-soft)}
+  .verdict.support .lvl{color:var(--ink)}
+  .seek{background:var(--gold-tint);border:1.5px solid var(--gold);border-left:5px solid var(--gold);border-radius:12px;padding:20px 22px;margin-top:16px}
+  .seek h3{margin:0 0 8px;font-size:19px}
+  .seek p{margin:0 0 10px;max-width:68ch}
+  /* ---- home page ---- */
+  .home-hero{max-width:72ch}
+  .home-hero .lead{max-width:64ch}
+  .band{margin-top:46px;padding-top:40px;border-top:1px solid var(--line)}
+  .band .map-lead{margin-top:0}
+  .band h2{margin:6px 0 0}
+  .band p{margin-top:14px}
+  .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .pillrow .tag{font-size:12.5px;font-weight:600;color:var(--gold);background:var(--gold-tint);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
+  .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;max-width:1060px}
+  .navhow .step[data-go]{cursor:pointer;transition:border-color .15s, transform .15s}
+  .navhow .step[data-go]:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .navhow .step[data-go] h4{color:var(--gold)}
+  .capq{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:2px 0 8px}
+  @media(max-width:980px){.cap-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:660px){.cap-grid{grid-template-columns:1fr}}
+  .cap{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .cap .cnum{font-family:var(--display);font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.14em}
+  .cap h4{font-family:var(--display);font-size:17px;margin:8px 0 6px;color:var(--ink)}
+  .cap p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.45;max-width:none}
+  .navhow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;max-width:1060px}
+  @media(max-width:880px){.navhow{grid-template-columns:1fr}}
+  .navhow .step{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:20px}
+  .navhow .step .k{font-family:var(--display);font-weight:800;color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+  .navhow .step h4{font-family:var(--display);font-size:17px;margin:6px 0 6px}
+  .navhow .step p{font-size:13.5px;color:var(--ink-soft);margin:0;max-width:none}
+  .navtip{margin-top:18px;font-size:14px;color:var(--ink-soft);background:var(--gold-tint);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 16px;max-width:72ch}
+
+  /* ===== WFU banner hero (Integrated Budget Initiative style) ===== */
+  .wf-hero{position:relative;margin:0 calc(50% - 50vw) 34px;padding:74px calc(50vw - 50% + 60px) 70px;background-color:#0d0c0b;background-image:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22160%22%20height%3D%2290%22%20viewBox%3D%220%200%20160%2090%22%3E%0A%3Crect%20width%3D%22160%22%20height%3D%2290%22%20fill%3D%22%230d0c0b%22/%3E%0A%3Cg%20fill%3D%22none%22%20stroke%3D%22%238a6f30%22%20stroke-width%3D%222%22%20opacity%3D%220.55%22%3E%0A%3Cpath%20d%3D%22M0%2C90%20C0%2C44%2036%2C44%2040%2C90%22/%3E%0A%3Cpath%20d%3D%22M40%2C90%20C40%2C44%2076%2C44%2080%2C90%22/%3E%0A%3Cpath%20d%3D%22M80%2C90%20C80%2C44%20116%2C44%20120%2C90%22/%3E%0A%3Cpath%20d%3D%22M120%2C90%20C120%2C44%20156%2C44%20160%2C90%22/%3E%0A%3Cpath%20d%3D%22M-40%2C90%20C-40%2C44%20-4%2C44%200%2C90%22/%3E%0A%3Cpath%20d%3D%22M-20%2C45%20C-20%2C-1%2016%2C-1%2020%2C45%22/%3E%0A%3Cpath%20d%3D%22M20%2C45%20C20%2C-1%2056%2C-1%2060%2C45%22/%3E%0A%3Cpath%20d%3D%22M60%2C45%20C60%2C-1%2096%2C-1%20100%2C45%22/%3E%0A%3Cpath%20d%3D%22M100%2C45%20C100%2C-1%20136%2C-1%20140%2C45%22/%3E%0A%3Cpath%20d%3D%22M140%2C45%20C140%2C-1%20176%2C-1%20180%2C45%22/%3E%0A%3C/g%3E%0A%3C/svg%3E');background-size:200px auto;overflow:hidden}
+  .wf-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,12,11,.30),rgba(13,12,11,.72));pointer-events:none}
+  .wf-hero-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center}
+  .wf-lockup{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+  .wf-lockup img{height:38px;width:auto;display:block}
+  .wf-lockup .wl-txt{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.02em;color:#fff;line-height:1.1}
+  .wf-hero .eyebrow{color:var(--gold-bright)}
+  .wf-hero h1{color:#fff;font-size:clamp(34px,4.4vw,52px);letter-spacing:-.025em}
+  .wf-hero .lead{color:#E8E3D6;max-width:64ch;margin-left:auto;margin-right:auto}
+  @media(max-width:680px){.wf-hero{margin:-36px -22px 26px;padding:44px 22px 40px}}
+
+
+  /* ===== Top navigation (Integrated Budget Initiative style) ===== */
+  .wf-topbar{position:sticky;top:0;z-index:60;background:#0d0c0b;color:#fff;display:flex;align-items:center;gap:18px;padding:10px 26px;border-bottom:1px solid rgba(255,255,255,.07)}
+  .wf-topbar .tb-brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .wf-topbar .tb-brand img{height:30px;width:auto;display:block}
+  .wf-topbar .tb-title{font-family:var(--display);font-weight:800;font-size:16.5px;color:#fff;white-space:nowrap}
+  .wf-topbar nav{margin:0 0 0 auto;display:flex;flex-direction:row;align-items:center;gap:2px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .wf-topbar nav::-webkit-scrollbar{display:none}
+  .wf-topbar .nav-item{background:none;border:0;color:#D7D2C6;font-family:var(--body);font-size:13.5px;font-weight:600;padding:9px 11px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+  .wf-topbar .nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+  .wf-topbar .nav-item.active{background:var(--gold);color:#1A1A1A}
+  .wf-topbar .menu-btn{display:none;margin-left:auto;background:var(--gold);color:#1A1A1A;border:0;border-radius:8px;font-family:var(--body);font-weight:700;font-size:13px;padding:8px 14px;cursor:pointer}
+  @media(max-width:940px){
+    .wf-topbar{flex-wrap:wrap}
+    .wf-topbar .menu-btn{display:block}
+    .wf-topbar nav{display:none;flex-basis:100%;flex-direction:column;align-items:stretch;gap:2px;padding:8px 0 4px}
+    .wf-topbar nav.open{display:flex}
+    .wf-topbar .nav-item{text-align:left}
+  }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="wf-topbar">
+    <div class="tb-brand">
+      <img src="data:image/png;base64,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Dd4iqWUTAnMMjmAhiJadKYvonv9YTaAGAJa//0z0m9Lkq4NZUxBDFlPQJcejCM8ztcFzRPIApQZK1iIOXCQbnsQzxPST4yGe/v2/k+787MBf9hrgN6+AT0xMGerExLfIxtf2ZZDAZ3d+4o9++ovY3Ysedk7So2Eerje9JSys23LO+jnXQ6bvBPRD5s4LHus0A7MuqM2Zp2/2WL41nj6W01COAcDmWPvsRAaw48ApAATMO1ccgtQNcrTuWHlst3NnJ56HG/k2Hvq/vPkjx+GBfvbqpzEF0onfmHf2KnZi4j2DErBc3uXe3hEPDx/wUwA/v39K/BS4cW81vVdfwKOPF8KXwO99tKPPAezt3dbh4a6A/U3ZHVPAnJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJj4ATJJ8Scm3i6uDgIHsFxO79NXccU68GJo+tQqM/GdMr1RJybeEsZB4CWA3sXe0VF5f965uM/h4YPpPXuJvb06RaaOMz3cPRBQA+wUWCe+YyanpImJt5J9XImklU0AqRwePuDTX3sfeZ0LiTu7uzr8Lp7MxMQLmK52JybeHq6Ue6dS72XuvuDrV13vN6XfKTud+B6Y3rATE28nV96bU1R4Mc85iU3LNTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTHxNfj/A9cUcxwWvACkAAAAAElFTkSuQmCC" alt="Wake Forest University">
+      <span class="tb-title">Project &amp; Change Management Toolkit</span>
+    </div>
+    <button class="menu-btn" id="menuBtn">Menu</button>
+    <nav id="nav">
+      <button class="nav-item active" data-sec="home">Home</button>
+      <button class="nav-item" data-sec="start">Start here</button>
+      <button class="nav-item" data-sec="sizing">Size it up</button>
+      <button class="nav-item" data-sec="governance">Governance</button>
+      <button class="nav-item" data-sec="roles">Roles</button>
+      <button class="nav-item" data-sec="planning">Lifecycle</button>
+      <button class="nav-item" data-sec="change">Leading change</button>
+      <button class="nav-item" data-sec="templates">Templates</button>
+      <button class="nav-item" data-sec="prompts">AI prompts</button>
+      <button class="nav-item" data-sec="advanced">Advanced</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===== 0. HOME ===== -->
+    <section class="section show" id="home">
+      <div class="wf-hero">
+        <div class="wf-hero-inner">
+          <div class="eyebrow">Wake Forest University &middot; Pro Humanitate</div>
+          <h1 class="h-xl">Change comes from within</h1>
+          <p class="lead">Wake Forest has an ambitious strategic roadmap. Delivering on it means scaling how we run projects, lead change, and build readiness across the university, so the people closest to the work can carry it forward. This toolkit puts that capability in reach for everyone, in plain steps, whether it is your first project or your fiftieth.</p>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="map-lead">Why this matters</div>
+        <h2>A roadmap this ambitious needs more hands that can lead it</h2>
+        <p>The university is pursuing many strategic priorities at once, and most of them touch the same people, the same data, and the same systems. That is more change than any one central team can carry alone. Scaling delivery means growing a shared way of working that any staff member can pick up: a common language, a repeatable method, and templates that make good practice the easy path.</p>
+        <p>The aim is straightforward: the right work, done well, the same reliable way every time, with the people who own the work equipped to lead it.</p>
+        <div class="pillrow">
+          <span class="tag">Focus on the right work</span>
+          <span class="tag">Deliver it well</span>
+          <span class="tag">Bring the community along</span>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="map-lead">What this builds</div>
+        <h2>The capabilities we are scaling</h2>
+        <p style="max-width:70ch;margin-bottom:6px">Five capabilities, in the order a leader actually asks about them: what we should do, when and why, how we deliver it, how we know it is working, and who we bring along.</p>
+        <div class="cap-grid">
+          <div class="cap"><div class="cnum">01</div><h4>Strategic Focus &amp; Alignment</h4><div class="capq">The What</div><p>Ensures initiatives directly support the 2034 Plan and institutional priorities, so effort goes to the work that matters most.</p></div>
+          <div class="cap"><div class="cnum">02</div><h4>Data-driven Decision-making</h4><div class="capq">The When &amp; Why</div><p>Establishes a process for prioritizing initiatives and allocating resources, and promotes data-driven decisions in how projects are executed.</p></div>
+          <div class="cap"><div class="cnum">03</div><h4>Delivery Excellence</h4><div class="capq">The How</div><p>Provides the structure, methods, and governance needed to deliver complex initiatives successfully.</p></div>
+          <div class="cap"><div class="cnum">04</div><h4>Insight &amp; Accountability</h4><div class="capq">The Scorecard</div><p>Gives leadership clear visibility into progress, resources, risks, and outcomes.</p></div>
+          <div class="cap"><div class="cnum">05</div><h4>Engagement &amp; Adoption</h4><div class="capq">The Who</div><p>Builds buy-in across the community to sustain change and achieve lasting impact. Readiness and assessment live here, as part of leading change.</p></div>
+        </div>
+      </div>
+
+      <div class="band">
+        <div class="map-lead">About this toolkit</div>
+        <h2>The Project and Change Management Toolkit</h2>
+        <p>These tools help all Wake Forest staff define and run projects, whatever their size. They are grounded in established project and change management practice and provided as editable Google Workspace templates, so you can adapt them to your own work. Use them on technical and non-technical projects, with or without prior experience.</p>
+        <p>The toolkit meets you at your level. If you are new, it gives you a guided path and a small starter kit so you are never staring at a blank page. As you take on bigger or more complex work, it opens up the advanced method, with the full set of templates and the governance, dependency, and readiness tools that larger initiatives call for.</p>
+
+        <h3>How to use this site</h3>
+        <p>You do not need to read it end to end. There are three ways in, depending on what you need today.</p>
+        <div class="navhow">
+          <div class="step" data-go="start" role="button" tabindex="0"><div class="k">If you are new</div><h4>Start here &rsaquo;</h4><p>Answer three quick questions and we will tailor your first steps, the help to line up, and your starter templates.</p></div>
+          <div class="step" data-go="templates" role="button" tabindex="0"><div class="k">If you know what you need</div><h4>Go to Templates and tools &rsaquo;</h4><p>Jump straight to the ready-to-use files and pull the one you want. Each opens with a short how-to.</p></div>
+          <div class="step" data-go="governance" role="button" tabindex="0"><div class="k">If you want to go deeper</div><h4>Use the top navigation &rsaquo;</h4><p>Open governance, roles, the lifecycle, or leading change one at a time — or click here to begin with governance. Take only what your project needs.</p></div>
+        </div>
+        <p class="navtip">Tip: the top navigation runs left to right in the order a project unfolds &mdash; begin with Start here and Size it up, set up with Governance, Roles, and the Lifecycle, then do the work with Leading change, Templates, and the AI prompts. Move only as far right as your project calls for. You will not need every section on every project, and that is by design.</p>
+
+        <div class="choices" style="margin-top:30px">
+          <button class="choice primary" data-go="start"><span class="ct">Start here</span><span class="cd">Answer three questions and get your tailored first steps and starter kit.</span></button>
+          <button class="choice" data-go="templates"><span class="ct">Browse templates and tools</span><span class="cd">Go straight to the ready-to-use Google Workspace files.</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 1. START ===== -->
+    <section class="section" id="start">
+      <div id="intro">
+        <div class="eyebrow">Wake Forest University &middot; Pro Humanitate</div>
+        <h1 class="h-xl">Project Management and Change Management Toolkit</h1>
+        <p class="lead">These tools help all Wake Forest staff define and run projects, whatever their size. They are grounded in established project and change management practice and provided as editable Google Workspace templates, so you can adapt them to your own work. Use them on technical and non-technical projects, with or without prior experience.</p>
+      </div>
+
+      <div class="eyebrow" style="margin-top:40px;margin-bottom:10px">Start here</div>
+      <h3 class="wiz-prompt">New to running a project, or not sure where to begin? Answer three quick questions and we will tailor your first steps, the help to line up, and your starter templates.</h3>
+      <div class="wizard show" id="wizard">
+        <div class="qcount" id="qcount"></div>
+        <div class="step-q" id="stepQ"></div>
+        <div class="opts" id="opts"></div>
+        <div class="wiz-controls">
+          <button class="btn btn-ghost" id="backBtn">Back</button>
+          <button class="btn btn-primary" id="nextBtn" disabled>Next</button>
+        </div>
+        <div class="detail-link" id="detailLink" style="display:none"></div>
+      </div>
+
+      <div class="result" id="result"></div>
+
+      <div class="map-lead" style="margin-top:50px">Explore the toolkit</div>
+      <div class="choices mapgrid" id="choices">
+        <button class="choice" data-go="sizing"><span class="cnum">01</span><span class="ct">Size up your project</span><span class="cd">Match the planning, governance, and rigor to the size and complexity of the work.</span></button>
+        <button class="choice" data-go="governance"><span class="cnum">02</span><span class="ct">Governance and approvals</span><span class="cd">Who gives the go ahead, who you report to, and how often.</span></button>
+        <button class="choice" data-go="roles"><span class="cnum">03</span><span class="ct">Roles and responsibilities</span><span class="cd">Who does what, from sponsor and project lead to stakeholders.</span></button>
+        <button class="choice" data-go="planning"><span class="cnum">04</span><span class="ct">The project lifecycle</span><span class="cd">The stages every project moves through, from kickoff to close.</span></button>
+        <button class="choice" data-go="change"><span class="cnum">05</span><span class="ct">Leading change</span><span class="cd">Help people get ready, willing, and able for what is changing.</span></button>
+        <button class="choice" data-go="templates"><span class="cnum">06</span><span class="ct">Templates and tools</span><span class="cd">Ready to use documents you can fill in, in editable Google Workspace formats.</span></button>
+        <button class="choice" data-go="prompts"><span class="cnum">07</span><span class="ct">AI prompt library</span><span class="cd">Prompts to draft plans, communications, and updates with AI.</span></button>
+        <button class="choice" data-go="advanced"><span class="cnum">08</span><span class="ct">Advanced toolkit</span><span class="cd">Deeper templates and reference material for experienced leads.</span></button>
+      </div>
+
+
+      <details class="gloss-home">
+        <summary>New to these words? Open the plain-English glossary</summary>
+        <dl class="glossary">
+          <dt>Project lead</dt><dd>You, most likely. The person running the project day to day.</dd>
+          <dt>Sponsor</dt><dd>The senior person who backs your project, finds the money, and clears roadblocks. Your go-to when you are stuck.</dd>
+          <dt>Stakeholder</dt><dd>Anyone affected by the project or who cares how it turns out.</dd>
+          <dt>Scope</dt><dd>What the project will and will not cover. Writing it down keeps the project from quietly growing.</dd>
+          <dt>Charter</dt><dd>A one page document that says what you are doing, why, and who is involved. It gets the project the go ahead.</dd>
+          <dt>Milestone</dt><dd>A meaningful checkpoint, like "design approved" or "go live."</dd>
+          <dt>Steering group</dt><dd>A small group of leaders who approve the big decisions.</dd>
+          <dt>RACI</dt><dd>A simple chart of who does each task: who is Responsible, Accountable, Consulted, and Informed.</dd>
+          <dt>RAID log</dt><dd>A running list of Risks, Assumptions, Issues, and Dependencies. A fancy name for "things to keep an eye on."</dd>
+          <dt>ADKAR</dt><dd>The five stages people go through to accept a change: Awareness, Desire, Knowledge, Ability, Reinforcement.</dd>
+          <dt>PMO</dt><dd>Project Management Office. The central team that sets the standards and can support bigger projects.</dd>
+          <dt>Stage gate</dt><dd>A checkpoint between stages where someone confirms it is OK to keep going.</dd>
+        </dl>
+      </details>
+
+    </section>
+
+    <!-- ===== 2. SIZING ===== -->
+    <section class="section" id="sizing">
+      <div class="eyebrow">Step 2</div>
+      <h2>Size up your project</h2>
+      <p class="lead">Experienced teams right-size their approach: they match the level of planning, governance, and rigor to the size and complexity of the work. We group projects into three tiers, so you apply just enough structure and never more than the job needs. Knowing your tier also gives everyone a common language for the work.</p>
+
+      <div class="tier">
+        <h4>Tier 1 · Small <span class="pill">light touch</span></h4>
+        <div class="meta">Well suited to a first-time lead, a coordinator, or anyone new to running projects</div>
+        <div class="grid2">
+          <div><strong>This sounds like you if</strong>
+            <ul class="clean"><li>It mostly involves you and your close team</li><li>Fewer than about 25 people are affected</li><li>Only your manager is watching</li><li>Nothing major is being rebuilt</li></ul></div>
+          <div><strong>What you need</strong>
+            <ul class="clean"><li>A short list of who is involved</li><li>A simple project plan</li><li>A quick weekly update</li><li>A closeout checklist at the end</li></ul></div>
+        </div>
+      </div>
+      <div class="tier">
+        <h4>Tier 2 · Medium <span class="pill">standard</span></h4>
+        <div class="meta">Best run by someone with a project or two behind them, or with a mentor alongside</div>
+        <div class="grid2">
+          <div><strong>This sounds like you if</strong>
+            <ul class="clean"><li>A few teams or departments are involved</li><li>Roughly 25 to 500 people are affected</li><li>A director or senior leader is watching</li><li>Some ways of working will change</li></ul></div>
+          <div><strong>What you need</strong>
+            <ul class="clean"><li>A full project plan and charter</li><li>A plan for keeping people informed</li><li>A risk list</li><li>A simple group that approves decisions</li></ul></div>
+        </div>
+      </div>
+      <div class="tier">
+        <h4>Tier 3 · Large <span class="pill">major project</span></h4>
+        <div class="meta">Standard practice is to lead or co-lead with an experienced project manager or the project office</div>
+        <div class="grid2">
+          <div><strong>This sounds like you if</strong>
+            <ul class="clean"><li>It reaches across the whole organization</li><li>500 or more people are affected</li><li>Top leadership is watching</li><li>Technology, process, and people all change</li></ul></div>
+          <div><strong>What you need</strong>
+            <ul class="clean"><li>A senior sponsor and a steering group</li><li>Experienced project and change support</li><li>A clear plan with checkpoints</li><li>A way to track the benefits afterward</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. GOVERNANCE ===== -->
+    <section class="section" id="governance">
+      <div class="eyebrow">Step 3</div>
+      <h2>Governance: who decides and approves</h2>
+      <p class="lead">Governance is simply who gives the go-ahead, who you report to, and how often. The larger the project, the more formal it becomes. Match it to your tier.</p>
+      <table class="t">
+        <thead><tr><th>If your project is</th><th>You need</th><th>You report to</th><th>How often</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Small</strong></td><td>One person who backs it, plus a simple update</td><td>Your manager</td><td>Monthly, or when something changes</td></tr>
+          <tr><td><strong>Medium</strong></td><td>A backer plus a small group that approves decisions</td><td>A director or senior leader</td><td>Every two to four weeks</td></tr>
+          <tr><td><strong>Large</strong></td><td>A senior steering group and formal checkpoints</td><td>Top leadership</td><td>Monthly with leadership, weekly with the team</td></tr>
+        </tbody>
+      </table>
+      <h3>Plain words for common roles</h3>
+      <div class="grid2">
+        <div class="card"><h4>Sponsor</h4><p style="margin:0">The senior person who backs the project, secures the money, and clears roadblocks.</p></div>
+        <div class="card"><h4>Steering group</h4><p style="margin:0">A small group of leaders who approve big decisions and keep the project on track.</p></div>
+        <div class="card"><h4>Project lead</h4><p style="margin:0">You, most likely. The person running the project day to day.</p></div>
+        <div class="card"><h4>Checkpoint</h4><p style="margin:0">A moment between stages where someone confirms it is OK to keep going.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== 4. ROLES ===== -->
+    <section class="section" id="roles">
+      <div class="eyebrow">Step 4</div>
+      <h2>Roles and responsibilities</h2>
+      <p class="lead">These jobs show up on almost every project. On a small one, the same person often wears several hats. That is fine, just make sure each job is covered.</p>
+      <table class="t">
+        <thead><tr><th>Job</th><th>What they look after</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sponsor</strong></td><td>Backs the project, finds the money, removes blockers</td></tr>
+          <tr><td><strong>Project lead</strong></td><td>Runs the project day to day, tracks progress, keeps people updated</td></tr>
+          <tr><td><strong>Steering group</strong></td><td>Approves big decisions and changes</td></tr>
+          <tr><td><strong>Business owner</strong></td><td>The person who will live with the result and cares it works</td></tr>
+          <tr><td><strong>Change lead</strong></td><td>Helps people get ready for and accept the change</td></tr>
+          <tr><td><strong>Experts</strong></td><td>People who know the detail and help figure out how things should work</td></tr>
+        </tbody>
+      </table>
+      <h3>A simple way to share out the work</h3>
+      <p>For each task, decide who actually does it, who signs off on it (just one person), who you should ask for input, and who simply needs to be kept in the loop. Project managers call this a RACI chart, but you do not need the jargon to use the idea.</p>
+    </section>
+
+    <!-- ===== 5. PLANNING ===== -->
+    <section class="section" id="planning">
+      <div class="eyebrow">Step 5</div>
+      <h2>The project lifecycle</h2>
+      <p class="lead">Almost every project, large or small, moves through these seven stages in order. You will not need every one on a small project, but it helps to see the whole path.</p>
+      <div class="phaseflow">
+        <div class="phase"><div class="n">1</div><div class="pn">Get the go ahead</div><div class="pd">Agree what you are doing and why, and get it approved.</div></div>
+        <div class="phase"><div class="n">2</div><div class="pn">Plan it</div><div class="pd">Line up the team and make a simple plan.</div></div>
+        <div class="phase"><div class="n">3</div><div class="pn">Look into it</div><div class="pd">Understand how things work today.</div></div>
+        <div class="phase"><div class="n">4</div><div class="pn">Design it</div><div class="pd">Decide how things should work instead.</div></div>
+        <div class="phase"><div class="n">5</div><div class="pn">Build it</div><div class="pd">Make it and test it on a small scale first.</div></div>
+        <div class="phase"><div class="n">6</div><div class="pn">Launch it</div><div class="pd">Go live, and help people through the switch.</div></div>
+        <div class="phase"><div class="n">7</div><div class="pn">Check it worked</div><div class="pd">See if it delivered, and note what to do better.</div></div>
+      </div>
+      <h3>What to do first, every time</h3>
+      <ul class="clean">
+        <li>Write down what you are doing and why, on one page. Get someone senior to agree to it.</li>
+        <li>List who is involved and who is affected.</li>
+        <li>Set a regular check-in so progress and problems surface early.</li>
+        <li>Use the templates in section 7 for each step. The questions in section 1 tell you which ones you need.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 6. CHANGE ===== -->
+    <section class="section" id="change">
+      <div class="eyebrow">Step 6</div>
+      <h2>Leading change</h2>
+
+      <div class="lc">
+        <div class="lc-stage"><span class="sn">1</span><span class="se">Understand</span></div>
+        <div class="lc-h">What change management is, and the path you will follow</div>
+        <div class="lc-intro">
+          <p><strong>Projects deliver something new. Change management helps people actually use it.</strong> You can install a system or roll out a new process perfectly and still fall short if people do not adopt it. Change management is the work of bringing people along: helping them understand the change, get ready for it, and stick with it.</p>
+          <p>Good change follows the same path whether your project is small or large. These are the six moves. They line up with the five adoption stages (ADKAR) used elsewhere in this toolkit: the moves are what you do, the stages are what people experience.</p>
+        </div>
+        <div class="lc-moves" id="lc-moves"></div>
+        <div class="lc-howto">
+          <div><b>Assess</b><span>Answer a few questions to find how much change support your project needs.</span></div>
+          <div><b>Plan</b><span>Get the meetings, people, and hours by role and phase.</span></div>
+          <div><b>Execute</b><span>Follow a step-by-step checklist, with the right template at each step.</span></div>
+        </div>
+
+        <div class="lc-stage"><span class="sn">2</span><span class="se">Assess your project</span></div>
+        <div class="lc-h">Tell us about your project</div>
+        <p>There are no wrong answers. Pick the closest fit for each. We use your answers to size the right level of change support, not to grade the project.</p>
+        <div class="lc-mode" role="group" aria-label="Detail level">
+          <button type="button" id="lc-liteBtn" class="on" data-act="mode" data-mode="lite">Beginner</button>
+          <button type="button" id="lc-advBtn" data-act="mode" data-mode="adv">Advanced</button>
+        </div>
+        <div id="lc-questions"></div>
+        <button type="button" class="lc-cta" data-act="assess">Show my plan</button>
+        <span class="lc-hint" id="lc-qhint"></span>
+
+        <div class="lc-result" id="lc-result">
+          <div class="lc-stage"><span class="sn">3</span><span class="se">Plan</span></div>
+          <div class="lc-h">Your plan: people, meetings, and hours</div>
+          <div class="lc-banner" id="lc-banner">
+            <div class="score" id="lc-score"></div>
+            <div class="lvl" id="lc-lvlTitle"></div>
+            <p id="lc-lvlDesc"></p>
+            <div class="lc-cmp" id="lc-cmp">
+              <span>Compare:</span>
+              <button type="button" data-act="view" data-lvl="low">Low</button>
+              <button type="button" data-act="view" data-lvl="med">Medium</button>
+              <button type="button" data-act="view" data-lvl="high">High</button>
+            </div>
+          </div>
+          <div class="lc-support" id="lc-support" style="display:none"></div>
+          <div id="lc-detail">
+          <div class="lc-hsum" id="lc-hsum"></div>
+          <div class="lc-phasebar" id="lc-phasebar"></div>
+          <div class="lc-panel" id="lc-panel"></div>
+          <div class="lc-note" id="lc-note"></div>
+          <div class="lc-mwrap">
+            <div class="lc-mtitle">Estimated hours by role and by phase</div>
+            <div class="lc-msub">A starting estimate you can adjust. The Resource and Meeting Plan template has this same grid as an editable spreadsheet.</div>
+            <div class="lc-mscroll"><table class="lc-mtx" id="lc-mtx"></table></div>
+          </div>
+
+          <div class="lc-stage"><span class="sn">4</span><span class="se">Execute</span></div>
+          <div class="lc-h">Do it, step by step</div>
+          <p>Work through each phase in order. Tap a box to check off a step. Each step links the template you need. Beginner shows the essentials; switch to Advanced for the full checklist.</p>
+          <div id="lc-exec"></div>
+          <div class="lc-h" style="font-size:17px;margin-top:26px">Your starter templates</div>
+          <p id="lc-tlede"></p>
+          <div class="lc-tlist" id="lc-tlist"></div>
+          <div class="lc-note">Each link opens the matching file in the shared WFU CM and PM Templates library in Google Drive. Make your own copy before editing so the master template stays clean.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 7. TEMPLATES ===== -->
+    <section class="section" id="templates">
+      <div class="eyebrow">Step 7</div>
+      <h2>Templates &amp; tools</h2>
+      <p class="lead">Ready to use documents, grouped by the step they belong to. Open one, fill in the blanks, and you are done.</p>
+      <div class="grid2" id="templateGrid"></div>
+      <p style="margin-top:20px"><em>Each template links to its file in the shared WFU CM and PM Templates library in Google Drive.</em></p>
+    </section>
+
+    <!-- ===== 8. PROMPTS ===== -->
+    <section class="section" id="prompts">
+      <div class="eyebrow">Step 8 · A favorite</div>
+      <h2>AI prompt library</h2>
+      <p class="lead">Copy one of these into an AI assistant and fill in the parts in brackets. It turns a blank page into a first draft in seconds.</p>
+      <div id="promptList"></div>
+    </section>
+
+    <!-- ===== 9. ADVANCED ===== -->
+    <section class="section" id="advanced">
+      <div class="eyebrow">Step 9 · Advanced toolkit</div>
+      <h2>The advanced toolkit</h2>
+      <p class="lead">For seasoned leads running medium and large projects. This is the deeper, click-through edition: classify the work, pick a governance model, walk the milestones, and pull the full template suite for every phase.</p>
+
+      <h3>Classify the work, then run its playbook</h3>
+      <p>Most initiatives are one dominant type. Your type sets the baseline deliverables and governance.</p>
+      <div class="grid2">
+        <div class="tier" style="margin:8px 0"><h4>Technical / system</h4><div class="meta">New or changed app, integration, platform, or infrastructure</div>Heavier discovery, a formal design, and a careful, tested cutover. Architecture review and a change advisory board approve the build and release.</div>
+        <div class="tier" style="margin:8px 0"><h4>Policy</h4><div class="meta">A new or revised rule people must follow</div>Legal and risk review is a mandatory gate, and attestation and rollout matter as much as the wording.</div>
+        <div class="tier" style="margin:8px 0"><h4>Process</h4><div class="meta">A redesigned set of steps, hand-offs, and controls</div>Map the current state, design the future state, and pilot before you scale. SOPs and training carry the change.</div>
+        <div class="tier" style="margin:8px 0"><h4>Org / team structure</h4><div class="meta">A change to structure, reporting lines, or where work sits</div>Confidential stakeholder work, legal or works-council consultation, and careful sequencing of announcements.</div>
+      </div>
+
+      <h3>Governance model selector</h3>
+      <table class="t">
+        <thead><tr><th>If the work is</th><th>Use</th><th>Who decides</th></tr></thead>
+        <tbody>
+          <tr><td>Small, personal, or a quick task</td><td><strong>Light</strong></td><td>Do it well and lightly, do not drown it in governance</td></tr>
+          <tr><td>Several teams or a shared process</td><td><strong>Medium</strong></td><td>A small steering group, one lead per affected team</td></tr>
+          <tr><td>Enterprise-wide or multi-division</td><td><strong>Full</strong></td><td>Executive sponsor, steering committee, PMO oversight, stage gates</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Full template suite, by phase</h3>
+      <div class="grid2" id="advTemplateGrid"></div>
+
+      <h3>Change management (ADKAR) kit</h3>
+      <p>Run the people track in parallel: case for change and communications (Awareness), sponsor roadmap and stakeholder impact assessment (Desire), training plan and content audit (Knowledge), training tracker and job aids (Ability), and adoption survey and lessons learned (Reinforcement).</p>
+
+      <h3>Glossary and acronyms</h3>
+      <dl class="glossary">
+        <dt>Charter</dt><dd>The one document that authorizes a project and names its purpose, scope, sponsor, and budget.</dd>
+        <dt>Sponsor</dt><dd>The senior person who backs the project and owns its success.</dd>
+        <dt>RAID log</dt><dd>A running list of Risks, Assumptions, Issues, and Dependencies.</dd>
+        <dt>RACI</dt><dd>Responsible, Accountable, Consulted, Informed. A chart of who does what on each task.</dd>
+        <dt>ADKAR</dt><dd>Awareness, Desire, Knowledge, Ability, Reinforcement. A model for guiding people through change.</dd>
+        <dt>OCM</dt><dd>Organizational Change Management. The discipline of preparing and supporting people through a change.</dd>
+        <dt>UAT</dt><dd>User Acceptance Testing. Checking the build does what users actually need before go live.</dd>
+        <dt>PMO</dt><dd>Project Management Office. The central team that sets project standards and supports big efforts.</dd>
+        <dt>Stage gate</dt><dd>A checkpoint between stages where someone approves the project to continue.</dd>
+      </dl>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =====================================================================
+     TEMPLATE LINKS — wired to the WFU CM and PM Templates library in Drive.
+     Each template opens its exact Google Doc; anything unmatched falls back
+     to the main library folder. Update IDs here if files move.
+     ===================================================================== */
+  const MAIN_FOLDER='https://drive.google.com/drive/folders/1mohJ0zLf-mCIDryfIryKCbJryLdXsEKV';
+  const OPEN='https://drive.google.com/open?id=';
+  const TEMPLATE_FOLDER_URL=MAIN_FOLDER;
+  const RAW_FILES={
+    Project_Charter_Template:'1yZZ1wZDigBpCmeTEhBsakRBRxIq_0onPTfbnsNp6HUU',
+    Action_Decision_Log:'1nLIq600nElE46nSd4OV6T0I31huiv6qRUd-A2uDz3Ng',
+    Design_Session_Template:'1R81MId3ThlSuOh201RQPqV40qftIa-x9nqohbC24asg',
+    Kickoff_Template:'16kKTP1TvBdZMVYvcho25eOM41f4V6hPNs9dUwakVpVM',
+    Data_Elements_Tracker:'16-qkMIR9uOQ4CTjRVWQt2IA21L_tz29GWLAkBbVxviI',
+    Communications_Log:'1oQL-RYMeGgNafRtj79wnkNrE3THhjZRzahsXqQyhpEU',
+    Sponsor_Review_Template:'1ptYbHgKOOzrEmD6d0C93aXu16kwdiEdstsMMBvmcA_w',
+    Pre_Design_Voice_of_User_Template:'1jh_WRauV_4R4kQUNm0AlBkFSf1sp1WzdHU-t7MgK6ko',
+    Stakeholder_All_Hands_Template:'153B4J16gvuPMo6aLql1zEALBbalfFrHyNhEiPCcJuyM',
+    Stakeholder_Register_Template:'15i0iXUErSZYXbs6-r8i8CZ4QkOrDqZ70PvuHS5C_fz0',
+    Workshop_Agenda_Template:'1vnbURpTkhMRho3egg9K3oNvybxp9DHt4DrkPtt_bwd0',
+    UAT_Test_Plan:'18dyXovobdU64-nw83tL0tfXovvwkdNsNQcbL1hQZKcU',
+    Technical_Review_Checklist:'18XXJZOe2oEtYua1c938RxFv4GHIJyldvJpvereb4BSA',
+    Training_Content_Audit:'1QoGGNB8yNYt5r89NGj1iY4rONtE37bkUz-dLoYtFNic',
+    Training_Tracker:'1H35yXLL3GY-4JyOxAY2Fi49TR6EnX9blKUgEr8qz9DM',
+    Stakeholder_Interview_Guide:'1AWdBfaKUgnG6vYvGh3CAXXfD6qPAy9eO0OYk9WUYGC4',
+    Team_Roster_RACI:'1PQncMPLaxQtBYIvQzzRrg8gc-4s--DgpzWv-7e3et5U',
+    Training_Plan_Template:'1Xe7XSsOdgsbl3mPlvtenKvjmIEFBB5ihJB4VMmBtYSg',
+    Support_Handover_Template:'1ACzaU0zHAAMBBpENQ68s1UXmPfZ14MgjyHGFz-Jx9Nc',
+    RACI_Template:'16mRKXoEpVDTvXR_gRGScLTiAP79N34OrpAU-e5j7EDA',
+    Stakeholder_Impact_Assessment:'1ryttyW5dgWeutPZrXZajrZywCcd0P853ns5K5ELVSeI',
+    Project_Closure_Checklist:'1JOi0zBD2_-0mI8nxfSqDQVqiOOuAqovGi3pBbq-2rgk',
+    Quick_Reference_Guide_Template:'1jjQjCfGewt15x_09F0DeaLIcRSlh1JXtCPQh0zaXt_E',
+    Post_Implementation_Survey:'1MgLVsjTNYRurpqgn-nuff8juQ_7HCn2OoDbLZ1M588s',
+    Meeting_Summary_Template:'13EAbD2PhWigSNKndw7vDUhdGLwOL_lYhyo5m1l7eSMg',
+    RAID_Log_Template:'17vI9hNw1yjFOPseCbI8H2fMk5ACqEz_4Qp-xr_w-BOo',
+    Status_Update_Template:'1ydj_HkiE7NsGNUS4dotmqoYChGCZL0GjuqkyWwImphE',
+    SOP_Template:'1aCP-a3grL8TFoPFGq6zwvYExKclyWgHDEkfr-6sFzhc',
+    Onboarding_Update_Checklist:'1Q6s2CEit3Lz92_vyXOMBjSypHTdxIBqH9l8lvpE-ePo',
+    Requirements_Tracker:'1GLTrPfNkjY2uRdK3w43XjtmFoU5W3OYIYQ7i2D_rVI4',
+    Scope_Statement_Template:'16b3LshIwt2uRAG886MHEEDjH3A5mINJo4s01EWXDgwM',
+    Meeting_Invite_Template:'18vlrwuSlG0GuFJ4AR5EiAz5t8mTohjZAUR7ZXT7ngUM',
+    Meeting_Agenda_Template:'15D7QsQDZM3RIt9p9w596zccMRRCl4u1HZXf0Iehc9zY',
+    Policy_Template:'1SIPxQzDccLD6s7GOM9XMePCCxFS6nHxAb_ijyK49BXQ',
+    Project_Plan_Template:'1PZ3ckppJeepdZAijRz8GtnExY-QmDfDBBDY9L4KzvBc',
+    Lessons_Learned:'1m-as6pel68bp6zSovMSHmHFDxIZzSAE4lsINP65ykH4',
+    Design_Signoff_Form:'1C2q8ICDd3HlmOLI98NwA8v9uh_iSXhOORkqoxGQ6ACc',
+    Glossary_Template:'1kGw_D-_bFW-cktIqt4oazoCrBahl60IrBKgqIYFT2fM',
+    Go_Live_Readiness_Checklist:'1_43OizQ3axHK9CKlPP8GNJmBjoaXp92PV4DtT7x1sFk',
+    Issue_Tracker:'1NzkQieLWq9N7enqhGTbV0xpBQZuvWfon5rj4E6yJgUY',
+    Cutover_Plan:'1gM4vXzAujvHOSSlpe4rrFLDRnwTu8wO8cy6HAxfZKDU',
+    Communications_Plan_Template:'1xjx8LWU3efzN4cXSSgDHGn0imSfkas07uUU5M_0GF5g',
+    Job_Aid_Template:'1hPHddAMpLS7LobPaj6lr7k3NyUTGzLekCaGtrVZKzEc',
+    FAQ_Template:'14JElsZ_zk6iMuEP_ftozzqQJWE2AZo_rSMMTOq9E6Yc',
+    Communications_Template:'1VNyxp_C-NqPeXIztD1h-aTkvOBCYUikaghXQaSZukzI',
+    Daily_Standup_Agenda:'13a6hACcwoFdvDSASmjcY8ic4lf4jPm-PVEVuDjduu6c',
+    Decision_Log_Template:'1jYtejTWZawqsHrEGdJVg-V-8Ecy_0PBvM5e6yKIij0k',
+    Impact_Assessment_Matrix:'1BCpEAHSMEbhZmMYnZo4chUL7s55fuNGszZKqBRQ_YsA',
+    Governance_Framework:'108XPtgEKQUCrIH1borhpoxSGQlR6c4IJKPm3zCy6Uk0',
+    Executive_Summary_Template:'1Uf2Y9k_r8jFq_xulYmFhfeASOZF3zFxREtb_wtTSx7s',
+    Integration_Spec_Template:'17H14qFKL4E_MjKICdOj4J7f22Ml-Y8G61K04UK989Sg',
+    /* ---- New Leading Change templates: upload each to the Drive library, then paste its file ID below. Until filled, these links open the library folder. ---- */
+    Resource_Meeting_Plan:'13mY65t4p7mrfOSvNUY_4ggwAQ0xqiEoIL-oxdNbCKM0',
+    Change_Network_Guide:'1Wmrne2j1vioTEQSGB8vMtP5-Xu2K8V-2FAwmJyQuJq4',
+    Resistance_Management_Plan:'1XzTvzK5rByqELVyTerOQmvyeTNMw_jlBp67Ny11FjE0',
+    Change_Story_One_Pager:'18bcuHdYcGcYoYgTRbsNp0kHLTTYjyYTrjplmyZ40X-k',
+    Current_State_Assessment:'1YfQUZh0a5X3Z3rwWQ7vOHr0y5tuYRUprLfFG1Ahg7xY',  /* paste Drive ID after uploading Current_State_Assessment.docx; until then this opens the library folder */
+    Future_State_Design:'1mHK_keR0M_leaVtoqW5EgHTNjlFm4MYuBV-Low6PUVo',       /* paste Drive ID after uploading Future_State_Design.docx; until then this opens the library folder */
+    /* ---- Executive & change-network decks: upload each PPT to the Drive library, then paste its file ID. Empty = opens the library folder. ---- */
+    Sponsor_Briefing_Deck:'1jXrZRgfO7VliodFXhAoUNzvgKPbumyj6dV8sr8C-VEo',
+    Executive_Roadshow_Deck:'1wMgelKVSKYUfDlA4gAg_lBM7eKvsTjsYBatVbeWbRjk',
+    Change_Agent_Kickoff_Deck:'15q6KxCgOaw4vvhn_3jNk7JIHZBwZiXBy7aQflnT89ZM',
+    Communication_Awareness_Plan:'1ehUeSpkdQiPl7CCr82BINJ6XipUsADpHdyHzVLrjZTo',
+    Resource_Demand_Map:'1lm6hO_UANETRPxitH_2TKveJW2YvdX7PNUPFDzUQC60',
+  };
+  const norm=(s)=>(s||'').toLowerCase().replace(/&amp;/g,'').replace(/[^a-z0-9]/g,'');
+  const FILES={}; Object.keys(RAW_FILES).forEach(k=>{ FILES[norm(k)]=RAW_FILES[k]; });
+  // friendly names used across the toolkit -> the real file to open
+  const ALIAS={
+    'simple checklist':'Project_Closure_Checklist','closeout checklist':'Project_Closure_Checklist','one page plan':'Project_Plan_Template','status update':'Status_Update_Template',
+    'status template':'Status_Update_Template','list of who is affected':'Stakeholder_Register_Template',
+    'project charter':'Project_Charter_Template','full plan and charter':'Project_Charter_Template','simple project plan':'Project_Plan_Template',
+    'risk list':'Issue_Tracker','raid log':'RAID_Log_Template','risk and issue tracking':'Issue_Tracker','stakeholder map':'Stakeholder_Register_Template',
+    'who is involved':'Stakeholder_Register_Template','project plan':'Project_Plan_Template','raci':'RACI_Template','governance framework':'Governance_Framework','change impact assessment':'Impact_Assessment_Matrix','training plan':'Training_Plan_Template',
+    'communication plan':'Communications_Plan_Template','communications plan':'Communications_Plan_Template','messages for people':'Communications_Plan_Template',
+    'simple approval group':'Governance_Framework','steering group set up':'Governance_Framework','change plan':'Impact_Assessment_Matrix',
+    'benefits tracking':'Post_Implementation_Survey','who does what':'Team_Roster_RACI','a simple decision and approval log':'Action_Decision_Log',
+    'a test or pilot plan':'UAT_Test_Plan','go live checklist':'Go_Live_Readiness_Checklist','backup plan':'Cutover_Plan',
+    'results check':'Post_Implementation_Survey','lessons learned notes':'Lessons_Learned','project charter':'Project_Charter_Template',
+    'sponsor review':'Sponsor_Review_Template','scope statement':'Scope_Statement_Template','executive summary':'Executive_Summary_Template',
+    'kickoff':'Kickoff_Template','stakeholder all-hands':'Stakeholder_All_Hands_Template','project plan':'Project_Plan_Template',
+    'raci':'RACI_Template','action &amp; decision log':'Action_Decision_Log','action & decision log':'Action_Decision_Log',
+    'voice of the user':'Pre_Design_Voice_of_User_Template','requirements tracker':'Requirements_Tracker','stakeholder interview guide':'Stakeholder_Interview_Guide',
+    'impact assessment':'Stakeholder_Impact_Assessment','impact assessment matrix':'Impact_Assessment_Matrix','design session':'Design_Session_Template',
+    'design signoff form':'Design_Signoff_Form','integration spec':'Integration_Spec_Template','policy template':'Policy_Template',
+    'uat test plan':'UAT_Test_Plan','technical review checklist':'Technical_Review_Checklist','sop template':'SOP_Template',
+    'cutover plan':'Cutover_Plan','go-live readiness checklist':'Go_Live_Readiness_Checklist','project closure checklist':'Project_Closure_Checklist',
+    'lessons learned':'Lessons_Learned','post-implementation survey':'Post_Implementation_Survey','training plan':'Training_Plan_Template',
+    'training tracker':'Training_Tracker','job aid':'Job_Aid_Template','quick reference':'Quick_Reference_Guide_Template',
+    'resource and meeting plan':'Resource_Meeting_Plan','change network guide':'Change_Network_Guide','resistance management plan':'Resistance_Management_Plan','change story one-pager':'Change_Story_One_Pager',
+    'notes on how things work today':'Current_State_Assessment','a description of how things should work instead':'Future_State_Design',
+    'sponsor briefing deck':'Sponsor_Briefing_Deck','executive roadshow deck':'Executive_Roadshow_Deck',
+    'change agent kickoff deck':'Change_Agent_Kickoff_Deck','communication awareness plan':'Communication_Awareness_Plan',
+    'resource demand map':'Resource_Demand_Map',
+  };
+  function fileFor(label){
+    const key=(label||'').toLowerCase().trim();
+    if(ALIAS[key]) return RAW_FILES[ALIAS[key]];
+    const n=norm(label); if(FILES[n]) return FILES[n];
+    return null;
+  }
+  const URLMAP={
+    'simple project plan':'https://app.smartsheet.com/sheets/rgxvpPVpm2xqq2CMxxHxxRjxm5WhGWr7hPHf66p1?view=grid',
+    'who is involved list':'https://docs.google.com/spreadsheets/d/15i0iXUErSZYXbs6-r8i8CZ4QkOrDqZ70PvuHS5C_fz0/edit'
+  };
+  function urlFor(label){ const key=(label||'').toLowerCase().trim(); if(URLMAP[key]) return URLMAP[key]; const id=fileFor(label); return id?(OPEN+id):MAIN_FOLDER; }
+  const tlink=(label)=> '<a class="tlink" href="'+urlFor(label)+'" target="_blank" rel="noopener">'+label+'</a>';
+  // turn a comma-separated list of template names into individual links
+  const linkList=(str)=> str.split(',').map(s=>s.trim()).filter(Boolean).map(s=>tlink(s)).join(', ');
+
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const sections = Array.from(document.querySelectorAll('.section'));
+  function show(secId){
+    sections.forEach(s=>s.classList.toggle('show', s.id===secId));
+    navItems.forEach(n=>n.classList.toggle('active', n.dataset.sec===secId));
+    window.scrollTo({top:0});
+    document.getElementById('nav').classList.remove('open');
+  }
+  navItems.forEach(n=>n.addEventListener('click',()=>show(n.dataset.sec)));
+  document.querySelectorAll('#home [data-go]').forEach(b=>{b.addEventListener('click',()=>show(b.dataset.go));b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(b.dataset.go);}});});
+  const menuBtn=document.getElementById('menuBtn');
+  if(menuBtn) menuBtn.addEventListener('click',()=>document.getElementById('nav').classList.toggle('open'));
+
+  /* ---- question sets: both paths run sizing ---- */
+  const simpleSteps = [
+    { key:'who', q:'How big is the project?',
+      options:[
+        {v:'solo', t:'Small. Mainly me and my close team'},
+        {v:'teams', t:'Medium. A few teams or departments'},
+        {v:'org', t:'Big. Lots of people across the university'},
+      ]},
+    { key:'eyes', q:'Who needs to know about it?',
+      options:[
+        {v:'manager', t:'Just my manager'},
+        {v:'leader', t:'A director or senior leader'},
+        {v:'top', t:'Top university leadership'},
+      ]},
+    { key:'exp', q:'Have you led a project like this before?',
+      options:[
+        {v:'beginner', t:'No, this is my first'},
+        {v:'intermediate', t:'A little'},
+        {v:'advanced', t:'Yes, I do this regularly'},
+      ]},
+  ];
+
+  const state = { idx:0, answers:{} };
+  const stepsFor = ()=> simpleSteps;
+
+  const choices = document.getElementById('choices');
+  const wizard = document.getElementById('wizard');
+  const result = document.getElementById('result');
+  const qcount = document.getElementById('qcount');
+  const stepQ = document.getElementById('stepQ');
+  const optsEl = document.getElementById('opts');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const detailLink = document.getElementById('detailLink');
+  if(detailLink) detailLink.style.display='none';
+
+  choices.querySelectorAll('.choice').forEach(c=>{
+    c.addEventListener('click',()=>{
+      if(c.dataset.go){ show(c.dataset.go); return; }
+      startWizard();
+    });
+  });
+
+  function startWizard(){
+    state.idx=0; state.answers={};
+    document.getElementById('intro').style.display='none';
+    choices.style.display='none';
+    result.classList.remove('show');
+    wizard.classList.add('show');
+    renderStep();
+    wizard.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function renderStep(){
+    const steps=stepsFor();
+    const step=steps[state.idx];
+    qcount.textContent = 'Question '+(state.idx+1)+' of '+steps.length;
+    stepQ.textContent = step.q;
+    const cur=state.answers[step.key];
+    optsEl.innerHTML = step.options.map(o=>{
+      const sel = cur===o.v;
+      return '<button class="opt '+(sel?'sel':'')+'" data-v="'+o.v+'"><span class="tick"></span><span>'+o.t+'</span></button>';
+    }).join('');
+    optsEl.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+      state.answers[step.key]=b.dataset.v;
+      renderStep();
+    }));
+    backBtn.style.visibility = state.idx===0 ? 'hidden':'visible';
+    nextBtn.disabled = !state.answers[step.key];
+    nextBtn.textContent = state.idx===steps.length-1 ? 'Show me what to do' : 'Next';
+  }
+  nextBtn.addEventListener('click',()=>{
+    const steps=stepsFor();
+    if(state.idx<steps.length-1){ state.idx++; renderStep(); }
+    else computeAndShow();
+  });
+  backBtn.addEventListener('click',()=>{ if(state.idx>0){ state.idx--; renderStep(); } });
+  renderStep(); // show the first question immediately on load
+
+  /* ---- work out the size ---- */
+  function sizeLevel(a){
+    if(a.who==='org' || a.eyes==='top') return 'High';
+    if(a.who==='solo' && a.eyes==='manager') return 'Low';
+    return 'Medium';
+  }
+
+  const LABEL={Low:'This is a small project',Medium:'This is a medium project',High:'This is a large project'};
+  const TERM={Low:'Tier 1, light touch. Low complexity and impact.',Medium:'Tier 2, standard. Moderate complexity and impact.',High:'Tier 3, major project. High complexity and impact.'};
+  const FIRST={
+    Low:[
+      'List everyone the project affects, and what they will need from you.',
+      'Write a simple project plan: what you are doing, when, and who is helping.',
+      'Set a quick weekly check-in to keep track of progress.'
+    ],
+    Medium:[
+      'Write a project charter: the one document that says what the project is, why, and who owns it.',
+      'Map out who is affected and how you will keep them informed.',
+      'Start a simple risk list, and agree a regular check-in with the person backing your project.'
+    ],
+    High:[
+      'Find your sponsor (the senior person backing this) and agree who makes the decisions.',
+      'Ask an experienced project lead or the project office to work alongside you.',
+      'Set up a steering group and a clear plan with checkpoints before you build anything.'
+    ]
+  };
+  const KIT={
+    Low:[['Who is involved list','stakeholders affected and how to reach them'],['Simple project plan','what and when'],['RAID log','risks, assumptions, issues, dependencies'],['Status update','a few lines each week'],['Closeout checklist','tie off the basics at the end']],
+    Medium:[['Project charter','the founding document'],['Stakeholder map','who is affected and how to reach them'],['Project plan','tasks, owners, and dates'],['RAID log','risks, assumptions, issues, dependencies'],['Communication plan','what to say, to whom, when'],['RACI','who does what']],
+    High:[['Project charter','the founding document'],['Governance framework','sponsor, steering group, decisions'],['Stakeholder map','who is affected and how to reach them'],['RAID log','risks, assumptions, issues, dependencies'],['Communication plan','what to say, to whom, when'],['Change impact assessment','getting people ready'],['Training plan','building the skills'],['Closeout checklist','tie off and capture benefits']]
+  };
+  const ASK={
+    Low:[
+      'A quick yes from your manager, before you start.',
+      'A few hours from the people involved, while you do the work.'
+    ],
+    Medium:[
+      'A sponsor, a senior person to back you, right at the start.',
+      'A mentor or experienced colleague, early, to look over your plan.',
+      'Time from the affected teams, during the design and testing stages.'
+    ],
+    High:[
+      'An experienced project manager or the project office, before anything else.',
+      'A senior sponsor and a steering group, at the very start.',
+      'Dedicated change support, as soon as the project starts to affect people.'
+    ]
+  };
+
+  function ctaRow(){
+    return '<div class="result-cta">'
+      +'<button class="btn btn-primary" data-go="planning">Show me how to start</button>'
+      +'<button class="btn btn-ghost" data-go="templates">Get my templates</button>'
+      +'<button class="btn-text" id="changeAns">Change my answers</button>'
+      +'<button class="btn-text" id="restart">Start over</button>'
+    +'</div>';
+  }
+  function wireResult(){
+    result.classList.add('show');
+    wizard.classList.remove('show');
+    result.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+    document.getElementById('changeAns').addEventListener('click',()=>{
+      result.classList.remove('show'); wizard.classList.add('show');
+      state.idx = stepsFor().length-1; renderStep();
+      wizard.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    document.getElementById('restart').addEventListener('click',()=>{
+      result.classList.remove('show');
+      state.idx=0; state.answers={};
+      wizard.classList.add('show'); renderStep();
+      document.getElementById('start').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    result.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function computeAndShow(){
+    const a=state.answers;
+    const level=sizeLevel(a);
+    if(a.exp==='beginner' && level!=='Low'){
+      result.innerHTML =
+        '<div class="verdict support">'
+          +'<div class="tag">Here is where you stand</div>'
+          +'<div class="lvl">'+LABEL[level]+'</div>'
+          +'<div class="aside">Size: '+TERM[level]+'</div>'
+        +'</div>'
+        +'<div class="seek"><h3>Bring in your manager before you go further</h3>'
+          +'<p>This is a '+(level==='High'?'large':'medium')+' project, and it is more than a first project should carry alone. A beginner should not run work at this level without support.</p>'
+          +'<p>Talk to your manager now and ask them to line up an experienced project lead, or the project office, to lead or co-lead with you. That is the normal way to handle a project this size, not a setback. Once that support is in place, come back and walk the full plan together.</p>'
+        +'</div>'
+        + ctaRow();
+      wireResult();
+      return;
+    }
+    const needsSupport = level==='High';
+    const nudge = needsSupport ? (
+      '<div class="nudge"><div class="nd"><strong>Bring in support before you go further.</strong> '
+      + (level==='High'
+          ? 'For a project this size, standard practice is to lead or co-lead with an experienced project manager or the project office. Loop them in now, while the work is still being shaped, which is when their help counts most.'
+          : 'This project is a step up from your experience so far. Pairing with an experienced colleague, a mentor, or the project office is the norm here, not a setback. Reach out before you build the plan.')
+      + '</div></div>') : '';
+    const steps = FIRST[level].map(s=>'<li>'+s+'</li>').join('');
+    const ask = ASK[level].map(s=>'<li>'+s+'</li>').join('');
+    const kit = KIT[level].map(k=>'<li>'+tlink(k[0])+' <span>('+k[1]+')</span></li>').join('');
+    result.innerHTML =
+      '<div class="verdict '+level.toLowerCase()+'">'
+        +'<div class="tag">Here is where you stand</div>'
+        +'<div class="lvl">'+LABEL[level]+'</div>'
+        +'<div class="aside">Size: '+TERM[level]+'</div>'
+      +'</div>'
+      + nudge
+      +'<div class="firststeps"><h3>What to do first</h3><ol class="steps">'+steps+'</ol></div>'
+      +'<div class="kit" style="background:var(--gold-tint)"><h3>What to ask for, and when</h3><ul class="kitlist">'+ask+'</ul></div>'
+      +'<div class="kit"><h3>Your starter kit</h3><ul class="kitlist">'+kit+'</ul></div>'
+      + ctaRow();
+    wireResult();
+  }
+
+  /* ---- templates ---- */
+  const templates=[
+    ['Get the go ahead','Simple project plan, project charter'],
+    ['Plan it','Simple project plan, RAID log, who does what'],
+    ['Look into it','Notes on how things work today, list of who is affected'],
+    ['Design it','A description of how things should work instead'],
+    ['Build it','A test or pilot plan'],
+    ['Launch it','Go live checklist, messages for people, backup plan'],
+    ['Check it worked','Results check, lessons learned notes'],
+    ['Approvals','A simple decision and approval log'],
+  ];
+  document.getElementById('templateGrid').innerHTML = templates.map(t=>
+    '<div class="card"><span class="pill">'+t[0]+'</span><p style="margin:.6rem 0 .2rem">'+linkList(t[1])+'</p></div>').join('');
+
+  /* ---- advanced full template suite (from the complete edition) ---- */
+  const advTemplates=[
+    ['Initiation','Sponsor Review, Project Charter, Scope Statement, Executive Summary'],
+    ['Planning','Kickoff, Stakeholder All-Hands, Project Plan, RACI, Action &amp; Decision Log, Resource Demand Map'],
+    ['Discovery','Voice of the User, Requirements Tracker, Stakeholder Interview Guide, Impact Assessment'],
+    ['Design','Design Session, Design Signoff Form, Integration Spec, Policy Template'],
+    ['Develop','UAT Test Plan, Technical Review Checklist, SOP Template'],
+    ['Deploy','Cutover Plan, Go-Live Readiness Checklist, Communications Plan'],
+    ['Post-deploy','Project Closure Checklist, Lessons Learned, Post-Implementation Survey'],
+    ['Change (ADKAR)','Impact Assessment Matrix, Training Plan, Training Tracker, Job Aid, Quick Reference'],
+  ];
+  const advGrid = document.getElementById('advTemplateGrid');
+  if(advGrid) advGrid.innerHTML = advTemplates.map(t=>
+    '<div class="card"><span class="pill">'+t[0]+'</span><p style="margin:.6rem 0 .2rem">'+linkList(t[1])+'</p></div>').join('');
+  if(advGrid) advGrid.insertAdjacentHTML('afterend','<p style="margin-top:16px"><a class="tlink" href="'+MAIN_FOLDER+'" target="_blank" rel="noopener">Browse the full template library in Drive &rsaquo;</a></p>');
+
+  /* ---- prompts ---- */
+  const prompts=[
+    ['Write a simple project plan','Start','Act as a friendly project coach. Help me write a simple project plan for a project where I [describe what you are doing] because [the reason]. It affects [who]. Use plain language. Include the goal, who is involved, the main steps, and what could go wrong.'],
+    ['Tell me how big my project is','Start','I am new to running projects. Based on this, tell me if my project is small, medium, or large, and what that means I should do: it involves [just my team / a few teams / the whole organization], affects about [number] people, and [my manager / a director / top leadership] is watching. Keep it simple.'],
+    ['List who I need to keep informed','Plan','For a project where I [describe the change], help me list the people and groups I should keep informed. For each one, suggest what they care about and the easiest way to reach them.'],
+    ['Spot what could go wrong','Plan','I am planning a project to [describe it]. List the most likely things that could go wrong, and for each one, a simple step I can take now to lower the risk.'],
+    ['Write messages for people','Change','Help me explain an upcoming change to [audience]. Write a short, warm message that says what is changing, why, what it means for them, and where to get help.'],
+    ['Make a simple launch checklist','Launch','Create a plain checklist for launching [the thing] on [date]. Include what to do before, on the day, and right after, plus what would tell me to pause and go back.'],
+  ];
+  document.getElementById('promptList').innerHTML = prompts.map((p,i)=>
+    '<div class="prompt"><div class="ptop"><div><span class="ptag">'+p[1]+'</span><h4>'+p[0]+'</h4></div>'
+    +'<button class="copy" data-i="'+i+'">Copy</button></div>'
+    +'<pre id="pp'+i+'">'+p[2].replace(/</g,'&lt;')+'</pre></div>').join('');
+  document.querySelectorAll('.copy').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const text=document.getElementById('pp'+btn.dataset.i).textContent;
+      try{ await navigator.clipboard.writeText(text); }
+      catch(e){ const r=document.createRange(); r.selectNodeContents(document.getElementById('pp'+btn.dataset.i)); const s=getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges(); }
+      btn.textContent='Copied'; btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},1400);
+    });
+  });
+
+  /* ===== Leading Change tool (section 6) ===== */
+  (function(){
+    var PHASES=["Discovery & Scope","Design & Planning","Implementation","Post Go-Live & Sustain"];
+    var MOVES=[
+      ["Make the case for change","Be clear on why this is happening and why now. People support what they understand."],
+      ["Engage sponsors and leaders","Line up a visible, active sponsor. Sponsorship is the top predictor of success."],
+      ["Understand the impact","Map who is affected and how much their work changes, so support fits the need."],
+      ["Plan communication and engagement","Decide what to say, to whom, when, and how. Two-way, not just broadcast."],
+      ["Equip and enable people","Give people the training, tools, and support to succeed before and during launch."],
+      ["Reinforce and sustain","Measure adoption, recognize progress, and embed the change so it sticks."]
+    ];
+    var QUESTIONS=[
+      {scored:false,q:"What kind of project is this?",opts:[["System or technology implementation",0],["Process or workflow change",0],["Org, role, or team restructure",0],["Policy or compliance change",0],["Tool or vendor change",0]]},
+      {scored:true,q:"About how many people will this affect?",opts:[["Fewer than 25",1],["25 to 100",2],["100 to 500",3],["More than 500",4]]},
+      {scored:true,q:"How much will it change people's day-to-day work?",opts:[["A little (minor tweaks)",1],["Some (new steps or tools)",2],["A lot (new ways of working)",3],["Completely (transformational)",4]]},
+      {scored:true,q:"How many teams or departments are involved?",opts:[["Just one",1],["Two or three",2],["Four to six",3],["Seven or more",4]]},
+      {scored:true,q:"What is the rough timeline?",opts:[["Under 3 months",1],["3 to 6 months",2],["6 to 12 months",3],["More than a year",4]]},
+      {scored:true,q:"How much resistance or sensitivity do you expect?",opts:[["Low, people want this",1],["Some hesitation",2],["High, it touches roles or habits",3],["Very high, it is contentious",4]]}
+    ];
+    var PLAN={
+      low:{
+        "Discovery & Scope":{sum:"One short conversation to confirm what is changing and who it touches.",meetings:[["Scope alignment session","One 60 to 90 min meeting","Project lead, process owner"]],teams:["Project lead","Process owner"],smes:["1 to 2 process SMEs"],decisions:["Confirm scope and who is affected","Decide if a change plan is needed"]},
+        "Design & Planning":{sum:"Agree the change in one working session and note a simple plan.",meetings:[["Design and planning session","One 60 min meeting","Project lead, process owner"]],teams:["Project lead","Process owner"],smes:["1 process SME"],decisions:["Confirm the future-state process","Decide communication owner"]},
+        "Implementation":{sum:"Light touch. A check-in and a quick review before launch.",meetings:[["Pre-launch review","One 30 to 45 min meeting","Project lead, process owner"]],teams:["Project lead"],smes:["Process owner for review"],decisions:["Confirm readiness to launch"]},
+        "Post Go-Live & Sustain":{sum:"A single follow-up to confirm it stuck.",meetings:[["Adoption check-in","One 30 min meeting, 2 to 4 weeks after launch","Project lead, process owner"]],teams:["Project lead"],smes:["Process owner"],decisions:["Confirm adoption","Capture one or two lessons learned"]}
+      },
+      med:{
+        "Discovery & Scope":{sum:"A focused set of meetings to map who is affected and how much.",meetings:[["Kickoff and scope session","One 90 min meeting","Project team, sponsor"],["Stakeholder mapping workshop","One 60 min meeting","Project lead, change lead, key SMEs"],["Impact discovery sessions","2 to 3 sessions, 60 min each","Change lead, area SMEs"]],teams:["Project lead","Change lead","Functional owner"],smes:["2 to 4 area SMEs","HR or reporting SME as needed"],decisions:["Confirm scope, sponsor, and affected groups","Agree the change approach"]},
+        "Design & Planning":{sum:"Design sessions to shape the change, plus a written change and comms plan.",meetings:[["Design sessions","2 to 4 sessions, 60 to 90 min","Functional owner, SMEs"],["Change and comms planning","One 90 min meeting","Change lead, sponsor"],["Sponsor alignment","One 45 min meeting","Sponsor, project lead"]],teams:["Project lead","Change lead","Functional consultant","Comms owner"],smes:["2 to 4 design SMEs","Training or content SME"],decisions:["Approve future-state design","Approve change and comms plan","Confirm training approach"]},
+        "Implementation":{sum:"Regular cadence, a small change network, training, and UAT.",meetings:[["Weekly project check-in","Weekly, 30 to 45 min","Project team"],["Change network touchpoints","Every 2 weeks, 30 min","Change lead, change agents"],["UAT review and sign-off","1 to 2 sessions","SMEs, functional owner"],["Readiness review","One 60 min meeting before launch","Project team, sponsor"]],teams:["Project lead","Change lead","Functional consultant","Training lead","Small change network"],smes:["UAT SMEs by area","Training SME"],decisions:["UAT entry and exit","Go or no-go for launch","Confirm training complete"]},
+        "Post Go-Live & Sustain":{sum:"Hypercare support, adoption tracking, and a lessons-learned review.",meetings:[["Hypercare standup","2 to 3 times per week for 2 weeks, 15 min","Project team"],["Adoption review","Monthly for 2 to 3 months, 45 min","Change lead, owners"],["Lessons learned","One 60 min meeting","Project team, sponsor"]],teams:["Project lead","Change lead","Process owners"],smes:["Area process owners"],decisions:["Confirm adoption targets met","Hand off to operations","Close the project"]}
+      },
+      high:{
+        "Discovery & Scope":{sum:"Structured discovery across many groups, with governance set up early.",meetings:[["Executive kickoff","One 90 min meeting","Sponsor, steering committee, project leads"],["Stakeholder and impact workshops","4 to 6 workshops, 60 to 90 min","Change lead, area SMEs"],["Current-state discovery by area","1 to 2 per affected area","Functional leads, SMEs"],["Governance setup","One 60 min meeting","PMO, sponsor"]],teams:["Program lead","Change lead","PMO","Functional leads by workstream","Comms team"],smes:["6 or more SMEs across affected areas","HR, security, reporting, and data SMEs"],decisions:["Confirm scope, governance, and steering committee","Agree change strategy and sponsor roadmap"]},
+        "Design & Planning":{sum:"Multiple design workstreams, a full change strategy, and a detailed plan.",meetings:[["Workstream design sessions","Several per workstream, 60 to 120 min","Functional leads, SMEs"],["Change strategy workshop","One half-day","Change lead, sponsor, leaders"],["Comms and engagement planning","2 to 3 sessions","Comms team, change lead"],["Steering committee review","Every 2 to 4 weeks, 60 min","Sponsor, steering committee"],["Sponsor roadmap working session","One 90 min meeting","Sponsor, change lead"]],teams:["Program lead","Change lead","Workstream leads","Comms team","Training team","PMO"],smes:["SME groups per workstream","Training, content, and design SMEs"],decisions:["Approve future-state design per workstream","Approve change strategy and comms plan","Approve training and readiness plan"]},
+        "Implementation":{sum:"Full cadence, an active change agent network, structured UAT, and staged training.",meetings:[["Program standup","Weekly, 45 to 60 min","Program team, workstream leads"],["Steering committee","Every 2 to 4 weeks, 60 min","Sponsor, steering committee"],["Change network meetings","Weekly to biweekly, 45 min","Change lead, change agents"],["UAT cycles and triage","Multiple cycles, daily during testing","SMEs, QA, functional leads"],["Training delivery","Scheduled across groups","Training team, SMEs"],["Go-live readiness review","One half-day before launch","Steering committee, program team"]],teams:["Program lead","Change lead","Workstream leads","QA or test lead","Training team","Comms team","Change agent network"],smes:["UAT SMEs per workstream","Training and floor-support SMEs"],decisions:["UAT entry and exit per cycle","Staged go or no-go decisions","Confirm training and readiness by group"]},
+        "Post Go-Live & Sustain":{sum:"Extended hypercare, adoption measurement, reinforcement, and formal close.",meetings:[["Hypercare command center","Daily for 2 to 4 weeks","Program team, support leads"],["Adoption and benefits review","Monthly for 3 to 6 months","Change lead, sponsors, owners"],["Reinforcement and recognition","Ongoing touchpoints","Change lead, leaders"],["Lessons learned and close","One half-day","Program team, steering committee"]],teams:["Program lead","Change lead","Process and area owners","Support team"],smes:["Area owners and super users"],decisions:["Confirm benefits and adoption","Transition to operations and super users","Formally close the program"]}
+      }
+    };
+    var LEVEL_NOTE={
+      low:"Low impact projects need light, well-timed touchpoints. Do not over-engineer. The biggest risk is forgetting the post-launch check-in.",
+      med:"Medium impact projects need a real change plan and a small change network. The biggest risk is thin sponsorship and skipped training.",
+      high:"High impact projects need governance, dedicated change roles, and active sponsorship from day one. The biggest risk is treating change as an afterthought to the build."
+    };
+    var ROLE_HOURS={
+      low:{
+        "Discovery & Scope":{team:[["Project / Program Lead",4]],sme:[["Process / Area SMEs",4]]},
+        "Design & Planning":{team:[["Project / Program Lead",3]],sme:[["Process / Area SMEs",3]]},
+        "Implementation":{team:[["Project / Program Lead",3]],sme:[["Process / Area SMEs",3]]},
+        "Post Go-Live & Sustain":{team:[["Project / Program Lead",2]],sme:[["Process / Area SMEs",2]]}
+      },
+      med:{
+        "Discovery & Scope":{team:[["Project / Program Lead",6],["Change Lead",8]],sme:[["Process / Area SMEs",16],["Functional SMEs (HR, Security, Reporting)",4]]},
+        "Design & Planning":{team:[["Project / Program Lead",8],["Change Lead",8],["Functional Consultant",8],["Comms Lead",4]],sme:[["Process / Area SMEs",20],["Functional SMEs (HR, Security, Reporting)",5]]},
+        "Implementation":{team:[["Project / Program Lead",12],["Change Lead",10],["Functional Consultant",8],["Training Lead",8],["QA / Test Lead",6]],sme:[["Process / Area SMEs",32],["Functional SMEs (HR, Security, Reporting)",8]]},
+        "Post Go-Live & Sustain":{team:[["Project / Program Lead",6],["Change Lead",8]],sme:[["Process / Area SMEs",16]]}
+      },
+      high:{
+        "Discovery & Scope":{team:[["Program Lead",10],["Change Lead",16],["Functional Consultant",12],["Comms Lead",6]],sme:[["Process / Area SMEs",40],["Functional SMEs (HR, Security, Reporting, Data)",16]]},
+        "Design & Planning":{team:[["Program Lead",16],["Change Lead",20],["Functional Consultant",24],["Comms Lead",12],["Training Lead",10]],sme:[["Process / Area SMEs",60],["Functional SMEs (HR, Security, Reporting, Data)",20]]},
+        "Implementation":{team:[["Program Lead",24],["Change Lead",24],["Functional Consultant",20],["Training Lead",16],["QA / Test Lead",16],["Comms Lead",10]],sme:[["Process / Area SMEs",120],["Functional SMEs (HR, Security, Reporting, Data)",30]]},
+        "Post Go-Live & Sustain":{team:[["Program Lead",12],["Change Lead",16]],sme:[["Process / Area SMEs",40],["Super Users",20]]}
+      }
+    };
+    var LVLMETA={
+      low:{t:"Low impact",cls:"lc-low",d:"This is a contained change. A light, well-timed touch will do. Focus on clear communication and one follow-up to make sure it stuck. Do not over-build."},
+      med:{t:"Medium impact",cls:"lc-med",d:"This is a meaningful change for the people it touches. You will need a real change plan, a small group of change agents, training, and active sponsorship."},
+      high:{t:"High impact",cls:"lc-high",d:"This is a significant, wide-reaching change. Treat change management as a workstream of its own from day one, with governance, dedicated roles, and a visible, active sponsor."}
+    };
+    var RANK={low:0,med:1,high:2};
+    var EXECUTE=[
+      ["Discovery & Scope",[
+        {t:"Write a short change story: why this is happening and why now.",move:"Make the case",tpl:"changestory"},
+        {t:"Confirm your sponsor and ask them to communicate the why in their own words.",move:"Engage sponsors",tpl:"sponsor"},
+        {t:"List who is affected and how much their work changes.",move:"Understand the impact",tpl:"impact"},
+        {t:"Map your key stakeholders and how to engage each one.",move:"Understand the impact",tpl:"stakeholder",min:"med"},
+        {t:"Write a one-page charter so everyone agrees on scope.",move:"Make the case",tpl:"charter",min:"med"}
+      ]],
+      ["Design & Planning",[
+        {t:"Confirm the future-state way of working with your SMEs.",move:"Understand the impact"},
+        {t:"Plan your communications: what to say, to whom, when.",move:"Plan communication",tpl:"comms"},
+        {t:"Plan training so people are ready before launch.",move:"Equip people",tpl:"training"},
+        {t:"Start a RAID log to track risks, issues, and dependencies.",move:"Make the case",tpl:"raid",min:"med"},
+        {t:"Stand up a small change network of trusted people across teams.",move:"Engage sponsors",tpl:"network",min:"high"}
+      ]],
+      ["Implementation",[
+        {t:"Send the launch communications on the schedule you planned.",move:"Plan communication",tpl:"comms"},
+        {t:"Deliver training and publish the job aids.",move:"Equip people",tpl:"training"},
+        {t:"Run UAT with your SMEs and confirm sign-off before go-live.",move:"Understand the impact"},
+        {t:"Work the readiness checklist and confirm you are ready to launch.",move:"Equip people",tpl:"readiness"},
+        {t:"Watch for resistance and address concerns early and openly.",move:"Engage sponsors",tpl:"resistance",min:"med"}
+      ]],
+      ["Post Go-Live & Sustain",[
+        {t:"Provide hypercare: extra support right after launch.",move:"Equip people"},
+        {t:"Track adoption so you know the change actually stuck.",move:"Reinforce and sustain",tpl:"adoption"},
+        {t:"Recognize people and celebrate early wins.",move:"Reinforce and sustain"},
+        {t:"Capture lessons learned and hand off to operations.",move:"Reinforce and sustain"}
+      ]]
+    ];
+    var LC_TEMPLATES={
+      base:[["Change Impact Assessment","Who is affected and how much","impact"],["Communication Plan","What to say and when","comms"],["Change Story One-Pager","Tell the why clearly","changestory"],["Resource & Meeting Plan","Hours by role and phase","resourceplan"]],
+      med:[["Stakeholder Map","Know your audiences","stakeholder"],["Sponsor Roadmap","Keep sponsors active","sponsor"],["Training and Readiness Plan","Equip your people","training"],["Go-Live Readiness Checklist","Confirm you are ready","readiness"],["RAID Log","Track risks and issues","raid"],["Adoption Metrics Tracker","Measure what stuck","adoption"]],
+      high:[["Project Charter","Align scope and sponsor","charter"],["Change Network Guide","Stand up change agents","network"],["Resistance Management Plan","Address pushback early","resistance"]]
+    };
+    var LC_LABEL={impact:"change impact assessment",stakeholder:"stakeholder map",comms:"communication plan",charter:"project charter",raid:"raid log",readiness:"go-live readiness checklist",training:"training plan",sponsor:"sponsor review",adoption:"post-implementation survey",resourceplan:"resource and meeting plan",network:"change network guide",resistance:"resistance management plan",changestory:"change story one-pager"};
+    LC_LABEL.sponsordeck="sponsor briefing deck";LC_LABEL.roadshow="executive roadshow deck";LC_LABEL.cakickoff="change agent kickoff deck";LC_LABEL.commsdeck="communication awareness plan";
+    LC_TEMPLATES.med=LC_TEMPLATES.med.concat([["Sponsor Briefing Deck","Brief fellow executives, agenda included","sponsordeck"],["Communication & Awareness Plan","Audiences, messages, and the calendar","commsdeck"]]);
+    LC_TEMPLATES.high=LC_TEMPLATES.high.concat([["Executive Roadshow Deck","Brief the President & Provost","roadshow"],["Change Agent Network Kickoff","Agenda and kickoff for your change agents","cakickoff"],["Resource Demand Map","Who you need, when, across the fiscal year","resmap"]]);LC_LABEL.resmap="resource demand map";
+    function lcUrl(key){ return urlFor(LC_LABEL[key]||""); }
+
+    function rolesIn(level,group){var o=[],seen={};PHASES.forEach(function(p){ROLE_HOURS[level][p][group].forEach(function(r){if(!seen[r[0]]){seen[r[0]]=1;o.push(r[0]);}});});return o;}
+    function hrOf(level,group,role,phase){var a=ROLE_HOURS[level][phase][group];for(var i=0;i<a.length;i++)if(a[i][0]===role)return a[i][1];return 0;}
+    function levelHours(level){var pt=0,sme=0;PHASES.forEach(function(p){ROLE_HOURS[level][p].team.forEach(function(r){pt+=r[1];});ROLE_HOURS[level][p].sme.forEach(function(r){sme+=r[1];});});return{pt:pt,sme:sme,total:pt+sme};}
+    function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;");}
+
+    var MODE="lite",answers={},viewing=null,phase=0,done={};
+    function $(id){return document.getElementById(id);}
+
+    function renderMoves(){
+      var g=$("lc-moves");if(!g)return;g.innerHTML="";
+      MOVES.forEach(function(m,i){var d=document.createElement("div");d.className="lc-move";
+        d.innerHTML='<div class="mn">0'+(i+1)+'</div><div><h4>'+m[0]+'</h4><p>'+m[1]+'</p></div>';g.appendChild(d);});
+    }
+    function renderQuestions(){
+      var c=$("lc-questions");if(!c)return;c.innerHTML="";
+      QUESTIONS.forEach(function(qq,i){var div=document.createElement("div");div.className="lc-q";
+        var opts=qq.opts.map(function(o){return '<button type="button" class="lc-opt" data-act="pick" data-q="'+i+'" data-v="'+o[1]+'" role="radio" aria-checked="false">'+o[0]+'</button>';}).join("");
+        div.innerHTML='<span class="qn">Question '+(i+1)+' of '+QUESTIONS.length+'</span><h4>'+qq.q+'</h4><div class="lc-opts" role="radiogroup">'+opts+'</div>';
+        c.appendChild(div);});
+    }
+    function pick(qi,v,el){answers[qi]={v:v,scored:QUESTIONS[qi].scored};
+      var sib=el.parentNode.querySelectorAll(".lc-opt");for(var i=0;i<sib.length;i++){sib[i].classList.remove("sel");sib[i].setAttribute("aria-checked","false");}
+      el.classList.add("sel");el.setAttribute("aria-checked","true");var hint=$("lc-qhint");if(hint)hint.textContent="";}
+
+    function assess(){
+      var n=0;for(var k in answers)n++;
+      if(n<QUESTIONS.length){$("lc-qhint").textContent="Please answer every question to see your plan.";return;}
+      var score=0,max=0;QUESTIONS.forEach(function(qq,i){if(qq.scored){score+=answers[i].v;max+=4;}});
+      var level=score<=9?"low":(score<=14?"med":"high");
+      $("lc-score").textContent="Change intensity score: "+score+" of "+max;
+      view(level);
+      renderTemplates(level);
+      $("lc-result").style.display="block";
+      $("lc-result").scrollIntoView({behavior:"smooth",block:"start"});
+    }
+
+    function view(level){
+      viewing=level;phase=0;
+      $("lc-banner").className="lc-banner "+LVLMETA[level].cls;
+      $("lc-lvlTitle").textContent=LVLMETA[level].t+" project";
+      $("lc-lvlDesc").textContent=LVLMETA[level].d;
+      var cb=$("lc-cmp").querySelectorAll("button");for(var i=0;i<cb.length;i++)cb[i].classList.toggle("on",cb[i].getAttribute("data-lvl")===level);
+      $("lc-note").textContent=LEVEL_NOTE[level];
+      var h=levelHours(level);
+      $("lc-hsum").innerHTML='<div class="lc-stat"><div class="hn">'+h.pt+'</div><div class="hl">Project team hours (estimated)</div></div>'
+        +'<div class="lc-stat"><div class="hn">'+h.sme+'</div><div class="hl">SME hours (estimated)</div></div>'
+        +'<div class="lc-stat tot"><div class="hn">'+h.total+'</div><div class="hl">Total estimated hours</div></div>';
+      renderPhaseBar();renderPhase();renderMatrix(level);renderExec(level);
+      applyGate();
+    }
+    function applyGate(){
+      var sup=$("lc-support"),det=$("lc-detail");if(!sup||!det)return;
+      var gated=(MODE==="lite"&&viewing&&viewing!=="low");
+      if(gated){
+        var meta=LVLMETA[viewing];
+        sup.innerHTML='<h4>This needs manager support before you go further</h4>'
+          +'<p>Your answers point to a '+meta.t.toLowerCase()+' change. That is more than a beginner should run alone. A change at this level should not be handled by a beginner without experienced support.</p>'
+          +'<p>Talk to your manager now and ask for an experienced change or project lead, or the project office, to lead or co-lead with you. That is the norm at this level, not a setback.</p>'
+          +'<div class="supbtns">'
+            +'<button type="button" class="pri" data-act="mode" data-mode="adv">I have experienced support, show the full plan</button>'
+            +'<button type="button" data-act="view" data-lvl="low">See the Low plan instead</button>'
+          +'</div>';
+        sup.style.display="block";det.style.display="none";
+      } else { sup.style.display="none";det.style.display="block"; }
+    }
+    function renderPhaseBar(){
+      var bar=$("lc-phasebar");bar.innerHTML="";
+      PHASES.forEach(function(p,i){var b=document.createElement("button");b.type="button";b.className=(i===phase?"on":"");
+        b.setAttribute("data-act","phase");b.setAttribute("data-i",i);
+        b.innerHTML='<span class="pn">0'+(i+1)+'</span>'+p;bar.appendChild(b);});
+    }
+    function renderPhase(){
+      var d=PLAN[viewing][PHASES[phase]];var adv=MODE==="adv";
+      var ms=(adv?d.meetings:d.meetings.slice(0,2)).map(function(m){return '<li>'+m[0]+'<span class="meta">'+(adv?m[1]+' &bull; ':'')+m[2]+'</span></li>';}).join("");
+      var teams=d.teams.map(function(t){return '<span class="lc-tag">'+t+'</span>';}).join("");
+      var smes=d.smes.map(function(s){return '<span class="lc-tag">'+s+'</span>';}).join("");
+      var advB="";
+      if(adv){var dec=d.decisions.map(function(x){return '<li>'+x+'</li>';}).join("");
+        advB='<div class="lc-grid3" style="margin-top:16px"><div class="lc-col" style="grid-column:1/-1"><h5>Key decisions in this phase</h5><ul>'+dec+'</ul></div></div>';}
+      $("lc-panel").innerHTML='<div class="lc-psum">'+d.sum+'</div><div class="lc-grid3">'
+        +'<div class="lc-col"><h5>Meetings needed</h5><ul>'+ms+'</ul></div>'
+        +'<div class="lc-col"><h5>Project teams</h5><div class="lc-tags">'+teams+'</div></div>'
+        +'<div class="lc-col"><h5>Subject matter experts</h5><div class="lc-tags">'+smes+'</div></div>'
+        +'</div>'+advB;
+    }
+    function renderMatrix(level){
+      var head='<thead><tr><th>Role</th>'+PHASES.map(function(p){return '<th>'+p+'</th>';}).join("")+'<th class="ct">Role total</th></tr></thead>';
+      function section(label,group){
+        var rows='<tr class="sec"><td colspan="'+(PHASES.length+2)+'">'+label+'</td></tr>';
+        var roles=rolesIn(level,group),colSums=PHASES.map(function(){return 0;}),secTotal=0;
+        roles.forEach(function(role){var cells="",rt=0;
+          PHASES.forEach(function(p,pi){var v=hrOf(level,group,role,p);rt+=v;colSums[pi]+=v;cells+='<td>'+(v||"-")+'</td>';});
+          secTotal+=rt;rows+='<tr><td>'+role+'</td>'+cells+'<td class="ct">'+rt+'</td></tr>';});
+        rows+='<tr class="sub"><td>'+(group==="team"?"Project team subtotal":"SME subtotal")+'</td>'+colSums.map(function(s){return '<td>'+s+'</td>';}).join("")+'<td class="ct">'+secTotal+'</td></tr>';
+        return {rows:rows,colSums:colSums,secTotal:secTotal};
+      }
+      var t=section("Project team roles","team"),s=section("Subject matter expert roles","sme");
+      var gc=PHASES.map(function(p,i){return t.colSums[i]+s.colSums[i];});
+      var grand=t.secTotal+s.secTotal;
+      var gr='<tr class="grand"><td>Total hours</td>'+gc.map(function(c){return '<td>'+c+'</td>';}).join("")+'<td class="ct">'+grand+'</td></tr>';
+      $("lc-mtx").innerHTML=head+"<tbody>"+t.rows+s.rows+gr+"</tbody>";
+    }
+    function renderExec(level){
+      var cont=$("lc-exec");cont.innerHTML="";
+      EXECUTE.forEach(function(ph,pi){
+        var steps=ph[1].filter(function(st){return RANK[level]>=RANK[st.min||"low"];});
+        var shown=(MODE==="lite")?steps.slice(0,3):steps;
+        var lis="";
+        shown.forEach(function(st,si){
+          var id=pi+"-"+si;var dn=done[id]?"done":"";
+          var tl=st.tpl?'<a class="lc-tmpl" href="'+esc(lcUrl(st.tpl))+'" target="_blank" rel="noopener">Open template</a>':"";
+          var mt=st.move?'<span class="lc-mtag">'+st.move+'</span>':"";
+          lis+='<li class="lc-step '+dn+'" id="lc-st-'+id+'">'
+            +'<div class="sb" role="checkbox" aria-checked="'+(dn?"true":"false")+'" tabindex="0" data-act="toggle" data-id="'+id+'">'+(dn?"\u2713":si+1)+'</div>'
+            +'<div class="sc"><div class="st">'+st.t+'</div><div class="sm">'+mt+tl+'</div></div></li>';
+        });
+        var more=(MODE==="lite"&&steps.length>shown.length)?'<div class="lc-hint">Switch to Advanced to see '+(steps.length-shown.length)+' more step(s) for this phase.</div>':"";
+        var div=document.createElement("div");div.className="lc-ephase";
+        div.innerHTML='<div class="lc-eh"><span class="en">'+(pi+1)+'</span><h4>'+ph[0]+'</h4></div><ul class="lc-steps">'+lis+'</ul>'+more;
+        cont.appendChild(div);
+      });
+    }
+    function toggle(id){done[id]=!done[id];var el=$("lc-st-"+id);if(!el)return;
+      el.classList.toggle("done",done[id]);var box=el.querySelector(".sb");box.setAttribute("aria-checked",done[id]?"true":"false");
+      var num=id.split("-")[1];box.textContent=done[id]?"\u2713":(parseInt(num,10)+1);}
+
+    function renderTemplates(level){
+      var set=LC_TEMPLATES.base.slice();
+      if(level==="med"||level==="high")set=set.concat(LC_TEMPLATES.med);
+      if(level==="high")set=set.concat(LC_TEMPLATES.high);
+      $("lc-tlede").textContent=level==="low"?"For a low impact project, start light. These cover what you need."
+        :level==="med"?"For a medium impact project, build from these core tools."
+        :"For a high impact project, use the full set to run change as its own workstream.";
+      var list=$("lc-tlist");list.innerHTML="";
+      set.forEach(function(t){var a=document.createElement("a");a.className="lc-trow";a.href=lcUrl(t[2]);a.target="_blank";a.rel="noopener";
+        a.innerHTML='<span class="ti">+</span><span class="tt">'+t[0]+'<small>'+t[1]+'</small></span>';list.appendChild(a);});
+    }
+    function setMode(m){MODE=m;
+      var lb=$("lc-liteBtn"),ab=$("lc-advBtn");if(lb)lb.classList.toggle("on",m==="lite");if(ab)ab.classList.toggle("on",m==="adv");
+      if(viewing){renderPhase();renderExec(viewing);applyGate();}
+    }
+
+    /* one delegated listener handles every interaction (no inline handlers) */
+    function onClick(e){
+      var el=e.target.closest ? e.target.closest("[data-act]") : null; if(!el)return;
+      var act=el.getAttribute("data-act");
+      if(act==="mode") setMode(el.getAttribute("data-mode"));
+      else if(act==="assess") assess();
+      else if(act==="view") view(el.getAttribute("data-lvl"));
+      else if(act==="pick") pick(parseInt(el.getAttribute("data-q"),10),parseInt(el.getAttribute("data-v"),10),el);
+      else if(act==="phase"){ phase=parseInt(el.getAttribute("data-i"),10); renderPhaseBar(); renderPhase(); }
+      else if(act==="toggle") toggle(el.getAttribute("data-id"));
+    }
+    function onKey(e){
+      if(e.key!==" "&&e.key!=="Enter"&&e.key!=="Spacebar")return;
+      var el=e.target.closest?e.target.closest('[data-act="toggle"]'):null; if(!el)return;
+      e.preventDefault(); toggle(el.getAttribute("data-id"));
+    }
+    function init(){
+      var root=document.getElementById("change"); if(!root)return;
+      root.addEventListener("click",onClick);
+      root.addEventListener("keydown",onKey);
+      renderMoves();renderQuestions();
+    }
+    init();
+  })();
+
+})();
+</script>
+</body>
+</html>
